@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('https://uploads-ssl.webflow.com/64d3dd9edfb41666c35b15b6/64d3dd9edfb41666c35b15e1_PPNeueMontreal-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('https://uploads-ssl.webflow.com/64d3dd9edfb41666c35b15b6/64d3dd9edfb41666c35b15e2_PPNeueMontreal-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.font-montreal {
+  font-family: 'Neue Montreal', sans-serif;
+}
