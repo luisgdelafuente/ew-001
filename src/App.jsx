@@ -4,6 +4,7 @@ import { WebsiteAnalyzer } from './websiteAnalyzer';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
+import { createCheckoutSession, redirectToCheckout } from './services/stripe';
 
 const LANGUAGES = [
   { code: 'es', name: 'Español' },
@@ -20,6 +21,12 @@ const VideoIcon = () => (
   </svg>
 );
 
+const CheckIcon = () => (
+  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+  </svg>
+);
+
 const openai = new OpenAI({
   apiKey: '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',
   dangerouslyAllowBrowser: true
@@ -30,7 +37,7 @@ function App() {
   const [companyUrl, setCompanyUrl] = useState('');
   const [activity, setActivity] = useState('');
   const [language, setLanguage] = useState('es');
-  const [videoCount, setVideoCount] = useState(5);
+  const [videoCount, setVideoCount] = useState(3);
   const [loading, setLoading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [videoScripts, setVideoScripts] = useState([]);
@@ -38,9 +45,13 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [error, setError] = useState('');
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
 
   const t = translations[language];
   const prompts = getSystemPrompts(language);
+  const VIDEO_PRICE = 99; // Price per video in euros
 
   const showModal = (message) => {
     setModalMessage(message);
@@ -97,7 +108,7 @@ function App() {
 
     setError('');
     setLoading(true);
-    showModal(t.processing.generatingScripts);
+    showModal(t.processing.generatingScripts(videoCount));
 
     try {
       const response = await openai.chat.completions.create({
@@ -167,7 +178,14 @@ Format each video as:
         throw new Error(t.errors.invalidResponse);
       }
 
-      setVideoScripts(scripts.slice(0, videoCount));
+      // Add unique IDs to each video script
+      const scriptsWithIds = scripts.slice(0, videoCount).map((script, index) => ({
+        ...script,
+        id: `video-${Date.now()}-${index}`
+      }));
+
+      setVideoScripts(scriptsWithIds);
+      setSelectedVideos([]);
       setStep(2);
       setError('');
     } catch (error) {
@@ -187,7 +205,61 @@ Format each video as:
   const handleBack = () => {
     setStep(1);
     setError('');
+    setSelectedVideos([]);
+    setShowCheckout(false);
   };
+
+  const toggleVideoSelection = (index) => {
+    setSelectedVideos(prev => {
+      if (prev.includes(index)) {
+        return prev.filter(i => i !== index);
+      } else {
+        return [...prev, index];
+      }
+    });
+  };
+
+  const handleOrderVideos = () => {
+    if (selectedVideos.length === 0) {
+      setError(t.errors.noVideosSelected);
+      return;
+    }
+    setShowCheckout(true);
+  };
+
+  const handlePurchase = async () => {
+    if (selectedVideos.length === 0) {
+      setError(t.errors.noVideosSelected);
+      return;
+    }
+
+    try {
+      setProcessingPayment(true);
+      showModal(t.checkout.processingPayment);
+
+      // Get the selected video objects
+      const selectedVideoObjects = selectedVideos.map(index => videoScripts[index]);
+
+      // Create a checkout session with Stripe
+      const session = await createCheckoutSession(selectedVideoObjects, companyName);
+      
+      // Redirect to Stripe Checkout
+      await redirectToCheckout(session.id);
+      
+      // Note: The user will be redirected to Stripe's checkout page,
+      // so the code below may not execute immediately
+      
+      hideModal();
+      setProcessingPayment(false);
+    } catch (error) {
+      console.error('Payment error:', error);
+      hideModal();
+      setProcessingPayment(false);
+      setError(t.errors.paymentFailed);
+    }
+  };
+
+  const totalPrice = selectedVideos.length * VIDEO_PRICE;
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal">
@@ -308,8 +380,8 @@ Format each video as:
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors"
                     style={{ color: 'white', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                   >
-                    {[...Array(10)].map((_, i) => (
-                      <option key={i + 1} value={i + 1} style={{ color: 'black' }}>{i + 1}</option>
+                    {[...Array(8)].map((_, i) => (
+                      <option key={i + 3} value={i + 3} style={{ color: 'black' }}>{i + 3}</option>
                     ))}
                   </select>
                 </div>
@@ -333,23 +405,39 @@ Format each video as:
             </div>
           )}
 
-          {step === 2 && videoScripts.length > 0 && (
+          {step === 2 && videoScripts.length > 0 && !showCheckout && (
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
               <div className="max-w-2xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl font-medium mb-6">
                   {t.videoScripts.title}
                 </h2>
+                {error && (
+                  <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
                 <div className="space-y-6 mb-8">
                   {videoScripts.map((script, index) => (
                     <div
                       key={index}
-                      className="group bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 hover:border-[#7B7EF4] transition-colors"
+                      className={`group bg-white/5 rounded-xl p-4 sm:p-6 border transition-colors ${
+                        selectedVideos.includes(index) 
+                          ? 'border-[#7B7EF4] bg-white/10' 
+                          : 'border-white/10 hover:bg-white/10 hover:border-[#7B7EF4]'
+                      }`}
+                      onClick={() => toggleVideoSelection(index)}
                     >
                       <div className="flex items-start gap-4">
-                        <div className="mt-1">
-                          <VideoIcon />
+                        <div className="mt-1 flex items-center">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${
+                            selectedVideos.includes(index) 
+                              ? 'bg-[#7B7EF4] border-[#7B7EF4]' 
+                              : 'border-white/30'
+                          }`}>
+                            {selectedVideos.includes(index) && <CheckIcon />}
+                          </div>
                         </div>
-                        <div>
+                        <div className="flex-1">
                           <h3 className="text-lg sm:text-xl font-medium mb-3 group-hover:text-[#7B7EF4] transition-colors">{script.title}</h3>
                           <p className="text-gray-400">{script.description}</p>
                           <p className="text-gray-400 mt-2">
@@ -361,12 +449,93 @@ Format each video as:
                     </div>
                   ))}
                 </div>
-                <button
-                  onClick={handleBack}
-                  className="w-full bg-white/5 text-white py-3 px-4 rounded-xl hover:bg-white/10 hover:border-[#7B7EF4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
-                >
-                  {t.videoScripts.backButton}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={handleBack}
+                    className="w-full bg-white/5 text-white py-3 px-4 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
+                  >
+                    {t.videoScripts.backButton}
+                  </button>
+                  <button
+                    onClick={handleOrderVideos}
+                    className="w-full bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium"
+                    disabled={selectedVideos.length === 0}
+                  >
+                    {t.videoScripts.orderButton} ({selectedVideos.length})
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {step === 2 && showCheckout && (
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
+              <div className="max-w-2xl mx-auto">
+                <h2 className="text-2xl sm:text-3xl font-medium mb-6">
+                  {t.checkout.title}
+                </h2>
+                {error && (
+                  <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
+                <div className="space-y-6 mb-8">
+                  {selectedVideos.map((videoIndex) => {
+                    const script = videoScripts[videoIndex];
+                    return (
+                      <div key={videoIndex} className="bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-medium mb-2">{script.title}</h3>
+                            <p className="text-gray-400 text-sm">{script.duration}s • {script.type === 'direct' ? t.videoTypes.direct : t.videoTypes.indirect}</p>
+                          </div>
+                          <div className="text-lg font-medium">{VIDEO_PRICE}€</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  
+                  <div className="bg-white/10 rounded-xl p-4 sm:p-6 border border-white/10">
+                    <div className="flex justify-between items-center">
+                      <div className="text-xl font-medium">{t.checkout.total}</div>
+                      <div className="text-xl font-medium">{totalPrice}€</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={() => setShowCheckout(false)}
+                    className="w-full bg-white/5 text-white py-3 px-4 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
+                    disabled={processingPayment}
+                  >
+                    {t.checkout.backButton}
+                  </button>
+                  <button
+                    onClick={handlePurchase}
+                    className="w-full bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium"
+                    disabled={processingPayment}
+                  >
+                    {processingPayment ? (
+                      <div className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        {t.checkout.processing}
+                      </div>
+                    ) : (
+                      <>
+                        <span className="flex items-center justify-center">
+                          <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 3h16a1 1 0 011 1v1.18c0 .68-.37 1.3-.94 1.63l-8 4.5a1.98 1.98 0 01-1.95 0l-8-4.5A2 2 0 011 5.18V4a1 1 0 011-1zm0 4.8V20a1 1 0 001 1h14a1 1 0 001-1V7.8l-7.06 4a4 4 0 01-3.88 0L2 7.8z" />
+                          </svg>
+                          {t.checkout.purchaseButton}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           )}
