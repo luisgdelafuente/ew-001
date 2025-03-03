@@ -48,10 +48,6 @@ export const translations = {
       processing: "Procesando pago...",
       processingPayment: "Preparando el pago. Serás redirigido a la página de pago seguro..."
     },
-    roadmap: {
-      step1: "Información de la empresa",
-      step2: "Propuestas de guiones"
-    },
     errors: {
       websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
       scriptGeneration: "Error al generar propuestas de video. Por favor, inténtalo de nuevo.",
@@ -110,10 +106,6 @@ export const translations = {
       purchaseSuccess: "Purchase successful! We'll contact you soon.",
       processing: "Processing payment...",
       processingPayment: "Preparing payment. You'll be redirected to the secure payment page..."
-    },
-    roadmap: {
-      step1: "Company Information",
-      step2: "Script Proposals"
     },
     errors: {
       websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
@@ -174,10 +166,6 @@ export const translations = {
       processing: "Traitement du paiement...",
       processingPayment: "Préparation du paiement. Vous serez redirigé vers la page de paiement sécurisée..."
     },
-    roadmap: {
-      step1: "Informations de l'entreprise",
-      step2: "Propositions de scénarios"
-    },
     errors: {
       websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
       scriptGeneration: "Erreur lors de la génération des propositions vidéo. Veuillez réessayer.",
@@ -236,10 +224,6 @@ export const translations = {
       purchaseSuccess: "Kauf erfolgreich! Wir werden Sie bald kontaktieren.",
       processing: "Zahlung wird verarbeitet...",
       processingPayment: "Zahlung wird vorbereitet. Sie werden zur sicheren Zahlungsseite weitergeleitet..."
-    },
-    roadmap: {
-      step1: "Unternehmensinformationen",
-      step2: "Drehbuchvorschläge"
     },
     errors: {
       websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
@@ -300,10 +284,6 @@ export const translations = {
       processing: "Elaborazione del pagamento...",
       processingPayment: "Preparazione del pagamento. Sarai reindirizzato alla pagina di pagamento sicuro..."
     },
-    roadmap: {
-      step1: "Informazioni aziendali",
-      step2: "Proposte di sceneggiatura"
-    },
     errors: {
       websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
       scriptGeneration: "Errore durante la generazione delle proposte video. Riprova.",
@@ -362,10 +342,6 @@ export const translations = {
       purchaseSuccess: "Compra realizada com sucesso! Entraremos em contato em breve.",
       processing: "Processando pagamento...",
       processingPayment: "Preparando o pagamento. Você será redirecionado para a página de pagamento seguro..."
-    },
-    roadmap: {
-      step1: "Informações da empresa",
-      step2: "Propostas de roteiros"
     },
     errors: {
       websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",

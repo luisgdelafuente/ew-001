@@ -215,39 +215,6 @@ Format each video as:
             </h1>
           </div>
           
-          {/* Roadmap Block */}
-          <div className="mb-8">
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center flex-1">
-                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${step === 1 ? 'bg-[#7B7EF4]' : 'bg-white/20'} mr-3`}>
-                    <span className="text-white font-medium">1</span>
-                  </div>
-                  <div className="text-sm">
-                    <p className={`font-medium ${step === 1 ? 'text-white' : 'text-gray-400'}`}>
-                      {t.roadmap?.step1 || "Información de la empresa"}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex-1 h-1 mx-4 bg-white/10">
-                  <div className={`h-1 ${step === 2 ? 'bg-[#7B7EF4]' : 'bg-white/10'}`} style={{ width: step === 2 ? '100%' : '0%', transition: 'width 0.5s ease-in-out' }}></div>
-                </div>
-                
-                <div className="flex items-center flex-1">
-                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${step === 2 ? 'bg-[#7B7EF4]' : 'bg-white/20'} mr-3`}>
-                    <span className="text-white font-medium">2</span>
-                  </div>
-                  <div className="text-sm">
-                    <p className={`font-medium ${step === 2 ? 'text-white' : 'text-gray-400'}`}>
-                      {t.roadmap?.step2 || "Propuestas de guiones"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
           {step === 1 && (
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
               <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
