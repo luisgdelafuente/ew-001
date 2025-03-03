@@ -20,8 +20,9 @@ const VideoIcon = () => (
   </svg>
 );
 
+// Initialize OpenAI with the provided API key
 const openai = new OpenAI({
-  apiKey: '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',
+  apiKey: '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',
   dangerouslyAllowBrowser: true
 });
 
@@ -70,7 +71,7 @@ function App() {
     showModal(t.processing.analyzingWebsite);
 
     try {
-      const analyzer = new WebsiteAnalyzer(openai.apiKey, language);
+      const analyzer = new WebsiteAnalyzer('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', language);
       const content = await analyzer.extractMainContent(url);
       const analysis = await analyzer.analyzeContent(content);
       
@@ -101,7 +102,7 @@ function App() {
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo",
         messages: [{
           role: "system",
           content: `You are a professional video marketing scriptwriter specializing in short-form video content. Your task is to create engaging video concepts that follow these strict guidelines:

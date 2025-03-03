@@ -150,7 +150,7 @@ export class WebsiteAnalyzer {
       const prompts = getSystemPrompts(this.language);
       
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo", // Using a more widely available model
         messages: [{
           role: "system",
           content: prompts.websiteAnalysis
