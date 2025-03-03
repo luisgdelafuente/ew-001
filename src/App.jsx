@@ -204,16 +204,47 @@ Format each video as:
       
       <div className="relative z-10 px-4 py-8 md:py-12">
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-2">
-              <div className="text-[#7B7EF4] transition-colors">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M4 8h12v8H4zm14 2l3-2v8l-3-2m-4-9H3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2v-2l3 2a1 1 0 001-1V8a1 1 0 00-1-1l-3 2V7a2 2 0 00-2-2z"/>
-                </svg>
+          <div className="mb-8">
+            <img 
+              src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
+              alt="Epica Logo" 
+              className="h-12 mb-4"
+            />
+            <h1 className="text-lg sm:text-xl font-medium pl-1">
+              {t.title}
+            </h1>
+          </div>
+          
+          {/* Roadmap Block */}
+          <div className="mb-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center flex-1">
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${step === 1 ? 'bg-[#7B7EF4]' : 'bg-white/20'} mr-3`}>
+                    <span className="text-white font-medium">1</span>
+                  </div>
+                  <div className="text-sm">
+                    <p className={`font-medium ${step === 1 ? 'text-white' : 'text-gray-400'}`}>
+                      {t.roadmap?.step1 || "Información de la empresa"}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex-1 h-1 mx-4 bg-white/10">
+                  <div className={`h-1 ${step === 2 ? 'bg-[#7B7EF4]' : 'bg-white/10'}`} style={{ width: step === 2 ? '100%' : '0%', transition: 'width 0.5s ease-in-out' }}></div>
+                </div>
+                
+                <div className="flex items-center flex-1">
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full ${step === 2 ? 'bg-[#7B7EF4]' : 'bg-white/20'} mr-3`}>
+                    <span className="text-white font-medium">2</span>
+                  </div>
+                  <div className="text-sm">
+                    <p className={`font-medium ${step === 2 ? 'text-white' : 'text-gray-400'}`}>
+                      {t.roadmap?.step2 || "Propuestas de guiones"}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-medium">
-                {t.title}
-              </h1>
             </div>
           </div>
           
@@ -381,6 +412,11 @@ Format each video as:
               </div>
             </div>
           )}
+          
+          <div className="flex justify-between mt-6 text-xs text-gray-400">
+            <div>© 2025 Epica Works | contact: hello@epicaworks.com</div>
+            <div>v.0.0.2</div>
+          </div>
         </div>
       </div>
     </div>
