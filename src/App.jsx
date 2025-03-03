@@ -102,7 +102,7 @@ function App() {
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [{
           role: "system",
           content: `You are a professional video marketing scriptwriter specializing in short-form video content. Your task is to create engaging video concepts that follow these strict guidelines:

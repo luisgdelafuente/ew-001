@@ -150,7 +150,7 @@ export class WebsiteAnalyzer {
       const prompts = getSystemPrompts(this.language);
       
       const response = await this.openai.chat.completions.create({
-        model: "gpt-3.5-turbo", // Using a more widely available model
+        model: "gpt-4", // Using GPT-4 for better analysis
         messages: [{
           role: "system",
           content: prompts.websiteAnalysis
@@ -158,19 +158,19 @@ export class WebsiteAnalyzer {
           role: "user",
           content: `Analyze this website content and extract:
 1. The company name (if found)
-2. A concise summary (2-3 sentences) of the company's main activity
+2. A detailed description (4-6 sentences) of the company's main activity, target audience, value proposition, and what makes them unique in their industry.
 
 Format the response as:
 {
   "companyName": "Found company name or empty string if not found",
-  "activity": "Company activity summary"
+  "activity": "Detailed company activity description that covers their business model, services/products, target audience, and unique selling points"
 }
 
 Website content to analyze:
-${content.substring(0, 2000)}`
+${content.substring(0, 4000)}`
         }],
         temperature: 0.3,
-        max_tokens: 250,
+        max_tokens: 500, // Increased token limit for more detailed responses
         presence_penalty: 0,
         frequency_penalty: 0
       });
@@ -187,7 +187,7 @@ ${content.substring(0, 2000)}`
         
         result = {
           companyName: companyMatch ? companyMatch[1].trim() : '',
-          activity: activityMatch ? activityMatch[1].trim() : text.substring(0, 200)
+          activity: activityMatch ? activityMatch[1].trim() : text.substring(0, 400) // Increased length for more detailed description
         };
       }
 
