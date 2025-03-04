@@ -4,6 +4,7 @@ import { WebsiteAnalyzer } from './websiteAnalyzer';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
+import BackgroundIcons from './components/BackgroundIcons';
 
 const LANGUAGES = [
   { code: 'es', name: 'Español' },
@@ -200,18 +201,20 @@ Format each video as:
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal">
       <LoadingModal isOpen={modalOpen} message={modalMessage} />
       
+      <BackgroundIcons />
+      
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
       <div className="relative z-10 px-4 py-8 md:py-12">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8">
-            <a href="https://epicaworks.com" target="_blank" rel="noopener noreferrer">
-              <img 
-                src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
-                alt="Epica Logo" 
-                className="h-12 mb-4"
-              />
-            </a>
+            <img 
+              src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
+              alt="Epica Logo" 
+              className="h-12 mb-4"
+              onClick={() => window.open('https://epicaworks.com', '_blank', 'noopener,noreferrer')}
+              style={{ cursor: 'pointer' }}
+            />
             <h1 className="text-lg sm:text-xl font-medium pl-1">
               {t.title}
             </h1>
