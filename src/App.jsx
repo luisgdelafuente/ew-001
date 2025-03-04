@@ -205,11 +205,13 @@ Format each video as:
       <div className="relative z-10 px-4 py-8 md:py-12">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8">
-            <img 
-              src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
-              alt="Epica Logo" 
-              className="h-12 mb-4"
-            />
+            <a href="https://epicaworks.com" target="_blank" rel="noopener noreferrer">
+              <img 
+                src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
+                alt="Epica Logo" 
+                className="h-12 mb-4"
+              />
+            </a>
             <h1 className="text-lg sm:text-xl font-medium pl-1">
               {t.title}
             </h1>
@@ -381,7 +383,7 @@ Format each video as:
           )}
           
           <div className="flex justify-between mt-6 text-xs text-gray-400">
-            <div>© 2025 Epica Works | contact: hello@epicaworks.com</div>
+            <div>© 2025 <a href="https://epicaworks.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | contact: hello@epicaworks.com</div>
             <div>v.0.0.2</div>
           </div>
         </div>
