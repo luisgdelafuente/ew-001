@@ -1,10 +1,11 @@
 import OpenAI from 'openai';
 import { getSystemPrompts } from './prompts';
+import { config } from './config';
 
 export class WebsiteAnalyzer {
-  constructor(apiKey, language = 'en') {
+  constructor(language = 'en') {
     this.openai = new OpenAI({
-      apiKey,
+      apiKey: config.openai.apiKey,
       dangerouslyAllowBrowser: true
     });
     this.language = language;
@@ -170,7 +171,7 @@ Website content to analyze:
 ${content.substring(0, 4000)}`
         }],
         temperature: 0.3,
-        max_tokens: 500, // Increased token limit for more detailed responses
+        max_tokens: 500,
         presence_penalty: 0,
         frequency_penalty: 0
       });
@@ -180,18 +181,16 @@ ${content.substring(0, 4000)}`
         result = JSON.parse(response.choices[0].message.content);
       } catch (error) {
         console.error('Failed to parse OpenAI response:', error);
-        // Try to extract information from non-JSON response
         const text = response.choices[0].message.content;
         const companyMatch = text.match(/company.*?name.*?:?\s*"?([^"\n]+)"?/i);
         const activityMatch = text.match(/activity.*?:?\s*"?([^"\n]+)"?/i);
         
         result = {
           companyName: companyMatch ? companyMatch[1].trim() : '',
-          activity: activityMatch ? activityMatch[1].trim() : text.substring(0, 400) // Increased length for more detailed description
+          activity: activityMatch ? activityMatch[1].trim() : text.substring(0, 400)
         };
       }
 
-      // Validate and clean the result
       return {
         companyName: (result.companyName || '').trim(),
         activity: (result.activity || '').trim()
