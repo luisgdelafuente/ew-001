@@ -1,6 +1,38 @@
 export const translations = {
   es: {
     title: "Asistente de guiones de video",
+    header: {
+      backButton: "Volver",
+      visitEpica: "Visitar Epica Works",
+      contact: "Contacto"
+    },
+    landing: {
+      hero: {
+        title: "Transforma tu Negocio con Guiones de Video Impulsados por IA",
+        subtitle: "Crea guiones de video profesionales y atractivos adaptados a tu negocio en minutos usando tecnología de IA avanzada.",
+        cta: "Comenzar"
+      },
+      features: [
+        {
+          title: "Guiones Impulsados por IA",
+          description: "Genera guiones de video profesionales usando tecnología de IA avanzada adaptada a las necesidades de tu negocio.",
+          icon: 'video'
+        },
+        {
+          title: "Múltiples Idiomas",
+          description: "Crea contenido en 6 idiomas diferentes para llegar a una audiencia global de manera efectiva.",
+          icon: 'language'
+        },
+        {
+          title: "Contenido Personalizado",
+          description: "Obtén guiones de video personalizados que coincidan con la voz de tu marca y objetivos comerciales.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contacto"
+    },
     companyName: {
       label: "Nombre de la Empresa",
       placeholder: "Introduce el nombre de tu empresa"
@@ -39,15 +71,6 @@ export const translations = {
       analyzingWebsite: "Analizando página web...",
       generatingScripts: (count) => `Generando ${count} propuestas de video...`
     },
-    checkout: {
-      title: "Tu pedido de vídeos",
-      total: "Total",
-      backButton: "VOLVER",
-      purchaseButton: "COMPRAR",
-      purchaseSuccess: "¡Compra realizada con éxito! Nos pondremos en contacto contigo pronto.",
-      processing: "Procesando pago...",
-      processingPayment: "Preparando el pago. Serás redirigido a la página de pago seguro..."
-    },
     errors: {
       websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
       scriptGeneration: "Error al generar propuestas de video. Por favor, inténtalo de nuevo.",
@@ -60,6 +83,38 @@ export const translations = {
   },
   en: {
     title: "Video Script Assistant",
+    header: {
+      backButton: "Back",
+      visitEpica: "Visit Epica Works",
+      contact: "Contact"
+    },
+    landing: {
+      hero: {
+        title: "Transform Your Business with AI-Powered Video Scripts",
+        subtitle: "Create engaging, professional video scripts tailored to your business in minutes using advanced AI technology.",
+        cta: "Get Started"
+      },
+      features: [
+        {
+          title: "AI-Powered Scripts",
+          description: "Generate professional video scripts using advanced AI technology tailored to your business needs.",
+          icon: 'video'
+        },
+        {
+          title: "Multiple Languages",
+          description: "Create content in 6 different languages to reach a global audience effectively.",
+          icon: 'language'
+        },
+        {
+          title: "Custom Content",
+          description: "Get personalized video scripts that match your brand voice and business objectives.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contact"
+    },
     companyName: {
       label: "Company Name",
       placeholder: "Enter your company name"
@@ -98,15 +153,6 @@ export const translations = {
       analyzingWebsite: "Analyzing webpage...",
       generatingScripts: (count) => `Generating ${count} video proposals...`
     },
-    checkout: {
-      title: "Your video order",
-      total: "Total",
-      backButton: "BACK",
-      purchaseButton: "PURCHASE",
-      purchaseSuccess: "Purchase successful! We'll contact you soon.",
-      processing: "Processing payment...",
-      processingPayment: "Preparing payment. You'll be redirected to the secure payment page..."
-    },
     errors: {
       websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
       scriptGeneration: "Error generating video proposals. Please try again.",
@@ -119,6 +165,38 @@ export const translations = {
   },
   fr: {
     title: "Assistant de scénarios vidéo",
+    header: {
+      backButton: "Retour",
+      visitEpica: "Visiter Epica Works",
+      contact: "Contact"
+    },
+    landing: {
+      hero: {
+        title: "Transformez votre entreprise avec des scripts vidéo alimentés par l'IA",
+        subtitle: "Créez des scripts vidéo professionnels et engageants adaptés à votre entreprise en quelques minutes grâce à la technologie IA avancée.",
+        cta: "Commencer"
+      },
+      features: [
+        {
+          title: "Scripts alimentés par l'IA",
+          description: "Générez des scripts vidéo professionnels en utilisant la technologie IA avancée adaptée aux besoins de votre entreprise.",
+          icon: 'video'
+        },
+        {
+          title: "Langues multiples",
+          description: "Créez du contenu en 6 langues différentes pour atteindre efficacement une audience mondiale.",
+          icon: 'language'
+        },
+        {
+          title: "Contenu personnalisé",
+          description: "Obtenez des scripts vidéo personnalisés qui correspondent à la voix de votre marque et à vos objectifs commerciaux.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contact"
+    },
     companyName: {
       label: "Nom de l'entreprise",
       placeholder: "Entrez le nom de votre entreprise"
@@ -126,7 +204,7 @@ export const translations = {
     websiteUrl: {
       label: "Site web de l'entreprise ou du produit",
       placeholder: "www.exemple.com",
-      analyzeButton: "Analyser web",
+      analyzeButton: "Analyser le web",
       analyzing: "Analyse de la page web..."
     },
     activity: {
@@ -141,7 +219,7 @@ export const translations = {
       label: "Langue"
     },
     generateScripts: {
-      button: "GÉNÉRER DES PROPOSITIONS",
+      button: "GÉNÉRER DES PROPOSITIONS VIDÉO",
       analyzing: "Génération des titres et briefings pour vos vidéos..."
     },
     videoScripts: {
@@ -155,16 +233,7 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse de la page web...",
-      generatingScripts: (count) => `Génération de ${count} propositions de vidéo...`
-    },
-    checkout: {
-      title: "Votre commande de vidéos",
-      total: "Total",
-      backButton: "RETOUR",
-      purchaseButton: "ACHETER",
-      purchaseSuccess: "Achat réussi ! Nous vous contacterons bientôt.",
-      processing: "Traitement du paiement...",
-      processingPayment: "Préparation du paiement. Vous serez redirigé vers la page de paiement sécurisée..."
+      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`
     },
     errors: {
       websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
@@ -177,16 +246,48 @@ export const translations = {
     }
   },
   de: {
-    title: "Video-Drehbuch-Assistent",
+    title: "Video-Skript-Assistent",
+    header: {
+      backButton: "Zurück",
+      visitEpica: "Epica Works besuchen",
+      contact: "Kontakt"
+    },
+    landing: {
+      hero: {
+        title: "Transformieren Sie Ihr Unternehmen mit KI-gestützten Video-Skripten",
+        subtitle: "Erstellen Sie professionelle und ansprechende Video-Skripte für Ihr Unternehmen in Minuten mit fortschrittlicher KI-Technologie.",
+        cta: "Loslegen"
+      },
+      features: [
+        {
+          title: "KI-gestützte Skripte",
+          description: "Generieren Sie professionelle Video-Skripte mit fortschrittlicher KI-Technologie, die auf die Bedürfnisse Ihres Unternehmens zugeschnitten ist.",
+          icon: 'video'
+        },
+        {
+          title: "Mehrere Sprachen",
+          description: "Erstellen Sie Inhalte in 6 verschiedenen Sprachen, um ein globales Publikum effektiv zu erreichen.",
+          icon: 'language'
+        },
+        {
+          title: "Maßgeschneiderter Inhalt",
+          description: "Erhalten Sie personalisierte Video-Skripte, die zu Ihrer Markenstimme und Ihren Geschäftszielen passen.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "Kontakt"
+    },
     companyName: {
       label: "Firmenname",
       placeholder: "Geben Sie Ihren Firmennamen ein"
     },
     websiteUrl: {
-      label: "Unternehmens- oder Produktwebsite",
-      placeholder: "www.beispiel.com",
+      label: "Unternehmens- oder Produkt-Website",
+      placeholder: "www.beispiel.de",
       analyzeButton: "Web analysieren",
-      analyzing: "Webseite wird analysiert..."
+      analyzing: "Analyse der Webseite..."
     },
     activity: {
       label: "Aktivität",
@@ -200,7 +301,7 @@ export const translations = {
       label: "Sprache"
     },
     generateScripts: {
-      button: "VORSCHLÄGE GENERIEREN",
+      button: "VIDEO-VORSCHLÄGE GENERIEREN",
       analyzing: "Generiere Titel und Briefings für Ihre Videos..."
     },
     videoScripts: {
@@ -213,21 +314,12 @@ export const translations = {
       indirect: "Indirekter Fokus"
     },
     processing: {
-      analyzingWebsite: "Webseite wird analysiert...",
+      analyzingWebsite: "Analyse der Webseite...",
       generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`
-    },
-    checkout: {
-      title: "Ihre Videobestellung",
-      total: "Gesamtsumme",
-      backButton: "ZURÜCK",
-      purchaseButton: "KAUFEN",
-      purchaseSuccess: "Kauf erfolgreich! Wir werden Sie bald kontaktieren.",
-      processing: "Zahlung wird verarbeitet...",
-      processingPayment: "Zahlung wird vorbereitet. Sie werden zur sicheren Zahlungsseite weitergeleitet..."
     },
     errors: {
       websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
-      scriptGeneration: "Fehler beim Generieren der Video-Vorschläge. Bitte versuchen Sie es erneut.",
+      scriptGeneration: "Fehler bei der Generierung der Video-Vorschläge. Bitte versuchen Sie es erneut.",
       noUrl: "Bitte geben Sie eine gültige URL ein.",
       missingInfo: "Bitte vervollständigen Sie den Firmennamen und die Aktivität.",
       invalidResponse: "Fehler im Antwortformat. Bitte versuchen Sie es erneut.",
@@ -236,14 +328,46 @@ export const translations = {
     }
   },
   it: {
-    title: "Assistente per sceneggiature video",
+    title: "Assistente per script video",
+    header: {
+      backButton: "Indietro",
+      visitEpica: "Visita Epica Works",
+      contact: "Contatto"
+    },
+    landing: {
+      hero: {
+        title: "Trasforma la tua azienda con script video basati su IA",
+        subtitle: "Crea script video professionali e coinvolgenti su misura per la tua azienda in pochi minuti utilizzando la tecnologia IA avanzata.",
+        cta: "Inizia ora"
+      },
+      features: [
+        {
+          title: "Script basati su IA",
+          description: "Genera script video professionali utilizzando la tecnologia IA avanzata adattata alle esigenze della tua azienda.",
+          icon: 'video'
+        },
+        {
+          title: "Lingue multiple",
+          description: "Crea contenuti in 6 lingue diverse per raggiungere efficacemente un pubblico globale.",
+          icon: 'language'
+        },
+        {
+          title: "Contenuto personalizzato",
+          description: "Ottieni script video personalizzati che si adattano alla voce del tuo brand e agli obiettivi aziendali.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contatto"
+    },
     companyName: {
       label: "Nome dell'azienda",
       placeholder: "Inserisci il nome della tua azienda"
     },
     websiteUrl: {
       label: "Sito web aziendale o del prodotto",
-      placeholder: "www.esempio.com",
+      placeholder: "www.esempio.it",
       analyzeButton: "Analizza web",
       analyzing: "Analisi della pagina web..."
     },
@@ -259,7 +383,7 @@ export const translations = {
       label: "Lingua"
     },
     generateScripts: {
-      button: "GENERA PROPOSTE",
+      button: "GENERA PROPOSTE VIDEO",
       analyzing: "Generazione di titoli e briefing per i tuoi video..."
     },
     videoScripts: {
@@ -275,15 +399,6 @@ export const translations = {
       analyzingWebsite: "Analisi della pagina web...",
       generatingScripts: (count) => `Generazione di ${count} proposte video...`
     },
-    checkout: {
-      title: "Il tuo ordine di video",
-      total: "Totale",
-      backButton: "INDIETRO",
-      purchaseButton: "ACQUISTA",
-      purchaseSuccess: "Acquisto completato con successo! Ti contatteremo presto.",
-      processing: "Elaborazione del pagamento...",
-      processingPayment: "Preparazione del pagamento. Sarai reindirizzato alla pagina di pagamento sicuro..."
-    },
     errors: {
       websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
       scriptGeneration: "Errore durante la generazione delle proposte video. Riprova.",
@@ -291,18 +406,50 @@ export const translations = {
       missingInfo: "Completa il nome dell'azienda e l'attività.",
       invalidResponse: "Errore nel formato della risposta. Riprova.",
       noVideosSelected: "Seleziona almeno un video per continuare.",
-      paymentFailed: "Elaborazione del pagamento fallita. Riprova."
+      paymentFailed: "Errore durante l'elaborazione del pagamento. Riprova."
     }
   },
   pt: {
     title: "Assistente de roteiros de vídeo",
+    header: {
+      backButton: "Voltar",
+      visitEpica: "Visitar Epica Works",
+      contact: "Contato"
+    },
+    landing: {
+      hero: {
+        title: "Transforme seu negócio com roteiros de vídeo alimentados por IA",
+        subtitle: "Crie roteiros de vídeo profissionais e envolventes adaptados ao seu negócio em minutos usando tecnologia avançada de IA.",
+        cta: "Começar"
+      },
+      features: [
+        {
+          title: "Roteiros alimentados por IA",
+          description: "Gere roteiros de vídeo profissionais usando tecnologia avançada de IA adaptada às necessidades do seu negócio.",
+          icon: 'video'
+        },
+        {
+          title: "Múltiplos idiomas",
+          description: "Crie conteúdo em 6 idiomas diferentes para alcançar efetivamente um público global.",
+          icon: 'language'
+        },
+        {
+          title: "Conteúdo personalizado",
+          description: "Obtenha roteiros de vídeo personalizados que correspondam à voz da sua marca e objetivos de negócio.",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contato"
+    },
     companyName: {
-      label: "Nome da Empresa",
+      label: "Nome da empresa",
       placeholder: "Digite o nome da sua empresa"
     },
     websiteUrl: {
       label: "Site da empresa ou produto",
-      placeholder: "www.exemplo.com",
+      placeholder: "www.exemplo.com.br",
       analyzeButton: "Analisar web",
       analyzing: "Analisando página web..."
     },
@@ -318,7 +465,7 @@ export const translations = {
       label: "Idioma"
     },
     generateScripts: {
-      button: "GERAR PROPOSTAS",
+      button: "GERAR PROPOSTAS DE VÍDEO",
       analyzing: "Gerando títulos e briefings para seus vídeos..."
     },
     videoScripts: {
@@ -334,15 +481,6 @@ export const translations = {
       analyzingWebsite: "Analisando página web...",
       generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`
     },
-    checkout: {
-      title: "Seu pedido de vídeos",
-      total: "Total",
-      backButton: "VOLTAR",
-      purchaseButton: "COMPRAR",
-      purchaseSuccess: "Compra realizada com sucesso! Entraremos em contato em breve.",
-      processing: "Processando pagamento...",
-      processingPayment: "Preparando o pagamento. Você será redirecionado para a página de pagamento seguro..."
-    },
     errors: {
       websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",
       scriptGeneration: "Erro ao gerar propostas de vídeo. Por favor, tente novamente.",
@@ -350,7 +488,7 @@ export const translations = {
       missingInfo: "Complete o nome da empresa e a atividade.",
       invalidResponse: "Erro no formato da resposta. Tente novamente.",
       noVideosSelected: "Selecione pelo menos um vídeo para continuar.",
-      paymentFailed: "Processamento do pagamento falhou. Por favor, tente novamente."
+      paymentFailed: "Erro no processamento do pagamento. Por favor, tente novamente."
     }
   }
-}
+};

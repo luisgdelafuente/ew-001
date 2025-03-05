@@ -7,15 +7,22 @@ import LoadingModal from './components/LoadingModal';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
 import { config } from './config';
+import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
 
-const LANGUAGES = [
-  { code: 'es', name: 'Español' },
-  { code: 'en', name: 'English' },
-  { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'it', name: 'Italiano' },
-  { code: 'pt', name: 'Português' }
-];
+const openai = new OpenAI({
+  apiKey: config.openai.apiKey,
+  dangerouslyAllowBrowser: true
+});
+
+const getFeatureIcon = (iconName) => {
+  const icons = {
+    video: VideoIcon,
+    language: LanguageIcon,
+    content: ContentIcon
+  };
+  const Icon = icons[iconName];
+  return Icon ? <Icon /> : null;
+};
 
 const FeatureCard = ({ icon, title, description }) => (
   <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[#7B7EF4] transition-colors">
@@ -26,11 +33,6 @@ const FeatureCard = ({ icon, title, description }) => (
     <p className="text-gray-400">{description}</p>
   </div>
 );
-
-const openai = new OpenAI({
-  apiKey: config.openai.apiKey,
-  dangerouslyAllowBrowser: true
-});
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -77,7 +79,7 @@ function App() {
     showModal(t.processing.analyzingWebsite);
 
     try {
-      const analyzer = new WebsiteAnalyzer(config.openai.apiKey, language);
+      const analyzer = new WebsiteAnalyzer(language);
       const content = await analyzer.extractMainContent(url);
       const analysis = await analyzer.analyzeContent(content);
       
@@ -111,31 +113,7 @@ function App() {
         model: "gpt-4",
         messages: [{
           role: "system",
-          content: `You are a professional video marketing scriptwriter specializing in short-form video content. Your task is to create engaging video concepts that follow these strict guidelines:
-
-1. Video Duration:
-- All videos must be designed for short-form format (20-60 seconds)
-- If a topic requires more time, split it into multiple related videos
-- Indicate the recommended duration for each video in seconds
-
-2. Content Mix:
-- Create a balanced mix of:
-  a) Direct company-focused videos (showcasing products, services, team, etc.)
-  b) Indirect industry-related content (tips, trends, educational content)
-- Ensure each video has a clear value proposition for viewers
-
-3. Format Requirements:
-- Each video must be concise and focused on a single main point
-- Include visual suggestions that work well in vertical format
-- Consider the fast-paced nature of short-form content
-
-Format the response as a JSON array of objects with:
-- title: Catchy, SEO-friendly title
-- description: Brief concept explanation (2-3 sentences)
-- duration: Recommended duration in seconds
-- type: "direct" or "indirect" (company focus vs industry focus)
-
-All content MUST be in ${LANGUAGES.find(l => l.code === language).name}`
+          content: getSystemPrompts(language).scriptGeneration
         }, {
           role: "user",
           content: `Create ${videoCount} video concepts for this company:
@@ -150,7 +128,7 @@ Requirements:
 - Keep all videos between 20-60 seconds
 - Split longer topics into multiple related videos
 - Make titles catchy and SEO-friendly
-- Every title and description MUST be in ${LANGUAGES.find(l => l.code === language).name}`
+- Every title and description MUST be in ${language}`
         }],
         temperature: 0.8,
       });
@@ -204,22 +182,22 @@ Requirements:
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
         
         <div className="relative z-10">
-          <Header />
+          <Header language={language} setLanguage={setLanguage} />
           
           {/* Hero Section */}
           <div className="px-4 py-12 md:py-20">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-3xl sm:text-4xl font-medium mb-4">
-                Transform Your Business with AI-Powered Video Scripts
+                {t.landing.hero.title}
               </h1>
               <p className="text-lg sm:text-xl text-gray-300 mb-8">
-                Create engaging, professional video scripts tailored to your business in minutes using advanced AI technology.
+                {t.landing.hero.subtitle}
               </p>
               <button
                 onClick={() => setShowForm(true)}
                 className="bg-[#7B7EF4] text-white px-6 py-3 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium"
               >
-                Get Started
+                {t.landing.hero.cta}
               </button>
             </div>
           </div>
@@ -228,33 +206,14 @@ Requirements:
           <div className="px-4 py-12">
             <div className="max-w-3xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <FeatureCard
-                  icon={
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
-                    </svg>
-                  }
-                  title="AI-Powered Scripts"
-                  description="Generate professional video scripts using advanced AI technology tailored to your business needs."
-                />
-                <FeatureCard
-                  icon={
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
-                    </svg>
-                  }
-                  title="Multiple Languages"
-                  description="Create content in 6 different languages to reach a global audience effectively."
-                />
-                <FeatureCard
-                  icon={
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H6v-2h6v2zm4-4H6v-2h10v2zm0-4H6V7h10v2z"/>
-                    </svg>
-                  }
-                  title="Custom Content"
-                  description="Get personalized video scripts that match your brand voice and business objectives."
-                />
+                {t.landing.features.map((feature, index) => (
+                  <FeatureCard
+                    key={index}
+                    icon={getFeatureIcon(feature.icon)}
+                    title={feature.title}
+                    description={feature.description}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -262,7 +221,7 @@ Requirements:
           {/* Footer */}
           <div className="px-4 py-8 text-center">
             <p className="text-sm text-gray-400">
-              © 2025 <a href="https://epicaworks.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | contact: hello@epicaworks.com
+              © 2025 <a href={`https://epicaworks.com/${language}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | {t.footer.contact}: hello@epicaworks.com
             </p>
           </div>
         </div>
@@ -277,7 +236,7 @@ Requirements:
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
       <div className="relative z-10">
-        <Header showBackButton={true} onBack={handleBack} />
+        <Header showBackButton={true} onBack={handleBack} language={language} setLanguage={setLanguage} />
         
         <div className="px-4 py-8 md:py-12">
           <div className="max-w-3xl mx-auto">
@@ -289,22 +248,6 @@ Requirements:
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
                 <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
                   <div className="mb-8">
-                    <div className="mb-4">
-                      <label className="block text-base font-medium text-gray-300 mb-2">
-                        {t.language.label}
-                      </label>
-                      <select
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors"
-                        style={{ color: 'white', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
-                      >
-                        {LANGUAGES.map(({ code, name }) => (
-                          <option key={code} value={code} style={{ color: 'black' }}>{name}</option>
-                        ))}
-                      </select>
-                    </div>
-
                     <div className="mb-4">
                       <label className="block text-base font-medium text-gray-300 mb-2">
                         {t.websiteUrl.label}
@@ -451,7 +394,7 @@ Requirements:
             )}
             
             <div className="flex justify-between mt-6 text-xs text-gray-400">
-              <div>© 2025 <a href="https://epicaworks.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | contact: hello@epicaworks.com</div>
+              <div>© 2025 <a href={`https://epicaworks.com/${language}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | {t.footer.contact}: hello@epicaworks.com</div>
               <div>v.0.0.2</div>
             </div>
           </div>
