@@ -16,7 +16,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
 
   return (
     <header className="relative z-20 border-b border-white/10 bg-black/20 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             {showBackButton && (
