@@ -6,6 +6,7 @@ import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import { config } from './config';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
 
@@ -177,11 +178,11 @@ Requirements:
 
   if (!showForm) {
     return (
-      <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal">
+      <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
         <BackgroundIcons />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
         
-        <div className="relative z-10">
+        <div className="relative z-10 flex-1">
           <Header language={language} setLanguage={setLanguage} />
           
           {/* Hero Section */}
@@ -217,25 +218,20 @@ Requirements:
               </div>
             </div>
           </div>
-
-          {/* Footer */}
-          <div className="px-4 py-8 text-center">
-            <p className="text-sm text-gray-400">
-              © 2025 <a href={`https://epicaworks.com/${language}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | {t.footer.contact}: hello@epicaworks.com
-            </p>
-          </div>
         </div>
+        
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
       <LoadingModal isOpen={modalOpen} message={modalMessage} />
       <BackgroundIcons />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1">
         <Header showBackButton={true} onBack={handleBack} language={language} setLanguage={setLanguage} />
         
         <div className="px-4 py-8 md:py-12">
@@ -392,14 +388,11 @@ Requirements:
                 </div>
               </div>
             )}
-            
-            <div className="flex justify-between mt-6 text-xs text-gray-400">
-              <div>© 2025 <a href={`https://epicaworks.com/${language}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Epica Works</a> | {t.footer.contact}: hello@epicaworks.com</div>
-              <div>v.0.0.2</div>
-            </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

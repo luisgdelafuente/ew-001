@@ -8,24 +8,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Transforma tu Negocio con Guiones de Video Impulsados por IA",
-        subtitle: "Crea guiones de video profesionales y atractivos adaptados a tu negocio en minutos usando tecnología de IA avanzada.",
-        cta: "Comenzar"
+        title: "Generador de Vídeos Personalizados",
+        subtitle: "Genera los titulos y resúmenes de vídeos que tu empresa necesita publicar en YouTube Shorts y las redes",
+        cta: "COMENZAR"
       },
       features: [
         {
-          title: "Guiones Impulsados por IA",
-          description: "Genera guiones de video profesionales usando tecnología de IA avanzada adaptada a las necesidades de tu negocio.",
+          title: "Introduce la Web de tu Empresa",
+          description: "Analiza con IA tu Empresa para generar ideas de video personalizadas.",
           icon: 'video'
         },
         {
-          title: "Múltiples Idiomas",
-          description: "Crea contenido en 6 idiomas diferentes para llegar a una audiencia global de manera efectiva.",
+          title: "Genera Ideas en Varios Idiomas",
+          description: "Genera Ideas de Videos Cortos Adaptados a tu Negocio",
           icon: 'language'
         },
         {
-          title: "Contenido Personalizado",
-          description: "Obtén guiones de video personalizados que coincidan con la voz de tu marca y objetivos comerciales.",
+          title: "Elije tus Vídeos y Genera un Pedido",
+          description: "Selecciona tus Videos y Encarga tu Proyecto a Nuestros Creativos",
           icon: 'content'
         }
       ]
@@ -90,24 +90,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Transform Your Business with AI-Powered Video Scripts",
-        subtitle: "Create engaging, professional video scripts tailored to your business in minutes using advanced AI technology.",
+        title: "Custom Video Generator",
+        subtitle: "Generate titles and summaries for videos your company needs to publish on YouTube Shorts and social networks",
         cta: "Get Started"
       },
       features: [
         {
-          title: "AI-Powered Scripts",
-          description: "Generate professional video scripts using advanced AI technology tailored to your business needs.",
+          title: "Enter Your Company Website",
+          description: "Analyze your company with AI to generate personalized video ideas.",
           icon: 'video'
         },
         {
-          title: "Multiple Languages",
-          description: "Create content in 6 different languages to reach a global audience effectively.",
+          title: "Generate Ideas in Multiple Languages",
+          description: "Generate Short Video Ideas Adapted to Your Business",
           icon: 'language'
         },
         {
-          title: "Custom Content",
-          description: "Get personalized video scripts that match your brand voice and business objectives.",
+          title: "Choose Your Videos and Place an Order",
+          description: "Select Your Videos and Commission Your Project to Our Creatives",
           icon: 'content'
         }
       ]
@@ -172,24 +172,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Transformez votre entreprise avec des scripts vidéo alimentés par l'IA",
-        subtitle: "Créez des scripts vidéo professionnels et engageants adaptés à votre entreprise en quelques minutes grâce à la technologie IA avancée.",
+        title: "Générateur de Vidéos Personnalisées",
+        subtitle: "Générez les titres et résumés des vidéos dont votre entreprise a besoin pour YouTube Shorts et les réseaux sociaux",
         cta: "Commencer"
       },
       features: [
         {
-          title: "Scripts alimentés par l'IA",
-          description: "Générez des scripts vidéo professionnels en utilisant la technologie IA avancée adaptée aux besoins de votre entreprise.",
+          title: "Entrez le Site Web de Votre Entreprise",
+          description: "Analysez votre entreprise avec l'IA pour générer des idées de vidéos personnalisées.",
           icon: 'video'
         },
         {
-          title: "Langues multiples",
-          description: "Créez du contenu en 6 langues différentes pour atteindre efficacement une audience mondiale.",
+          title: "Générez des Idées en Plusieurs Langues",
+          description: "Générez des Idées de Vidéos Courtes Adaptées à Votre Entreprise",
           icon: 'language'
         },
         {
-          title: "Contenu personnalisé",
-          description: "Obtenez des scripts vidéo personnalisés qui correspondent à la voix de votre marque et à vos objectifs commerciaux.",
+          title: "Choisissez Vos Vidéos et Passez Commande",
+          description: "Sélectionnez Vos Vidéos et Confiez Votre Projet à Nos Créatifs",
           icon: 'content'
         }
       ]
@@ -254,24 +254,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Transformieren Sie Ihr Unternehmen mit KI-gestützten Video-Skripten",
-        subtitle: "Erstellen Sie professionelle und ansprechende Video-Skripte für Ihr Unternehmen in Minuten mit fortschrittlicher KI-Technologie.",
+        title: "Personalisierter Video-Generator",
+        subtitle: "Generieren Sie Titel und Zusammenfassungen für Videos, die Ihr Unternehmen auf YouTube Shorts und in sozialen Netzwerken veröffentlichen muss",
         cta: "Loslegen"
       },
       features: [
         {
-          title: "KI-gestützte Skripte",
-          description: "Generieren Sie professionelle Video-Skripte mit fortschrittlicher KI-Technologie, die auf die Bedürfnisse Ihres Unternehmens zugeschnitten ist.",
+          title: "Geben Sie Ihre Unternehmenswebsite Ein",
+          description: "Analysieren Sie Ihr Unternehmen mit KI, um personalisierte Video-Ideen zu generieren.",
           icon: 'video'
         },
         {
-          title: "Mehrere Sprachen",
-          description: "Erstellen Sie Inhalte in 6 verschiedenen Sprachen, um ein globales Publikum effektiv zu erreichen.",
+          title: "Generieren Sie Ideen in Mehreren Sprachen",
+          description: "Generieren Sie Kurzvideos-Ideen, Die an Ihr Unternehmen Angepasst Sind",
           icon: 'language'
         },
         {
-          title: "Maßgeschneiderter Inhalt",
-          description: "Erhalten Sie personalisierte Video-Skripte, die zu Ihrer Markenstimme und Ihren Geschäftszielen passen.",
+          title: "Wählen Sie Ihre Videos und Bestellen Sie",
+          description: "Wählen Sie Ihre Videos und Beauftragen Sie Unser Kreativteam",
           icon: 'content'
         }
       ]
@@ -336,24 +336,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Trasforma la tua azienda con script video basati su IA",
-        subtitle: "Crea script video professionali e coinvolgenti su misura per la tua azienda in pochi minuti utilizzando la tecnologia IA avanzata.",
+        title: "Generatore di Video Personalizzati",
+        subtitle: "Genera titoli e riassunti per i video che la tua azienda deve pubblicare su YouTube Shorts e sui social network",
         cta: "Inizia ora"
       },
       features: [
         {
-          title: "Script basati su IA",
-          description: "Genera script video professionali utilizzando la tecnologia IA avanzata adattata alle esigenze della tua azienda.",
+          title: "Inserisci il Sito Web della Tua Azienda",
+          description: "Analizza la tua azienda con l'IA per generare idee video personalizzate.",
           icon: 'video'
         },
         {
-          title: "Lingue multiple",
-          description: "Crea contenuti in 6 lingue diverse per raggiungere efficacemente un pubblico globale.",
+          title: "Genera Idee in Più Lingue",
+          description: "Genera Idee per Video Brevi Adattati alla Tua Attività",
           icon: 'language'
         },
         {
-          title: "Contenuto personalizzato",
-          description: "Ottieni script video personalizzati che si adattano alla voce del tuo brand e agli obiettivi aziendali.",
+          title: "Scegli i Tuoi Video e Effettua un Ordine",
+          description: "Seleziona i Tuoi Video e Affida il Tuo Progetto ai Nostri Creativi",
           icon: 'content'
         }
       ]
@@ -418,24 +418,24 @@ export const translations = {
     },
     landing: {
       hero: {
-        title: "Transforme seu negócio com roteiros de vídeo alimentados por IA",
-        subtitle: "Crie roteiros de vídeo profissionais e envolventes adaptados ao seu negócio em minutos usando tecnologia avançada de IA.",
+        title: "Gerador de Vídeos Personalizados",
+        subtitle: "Gere títulos e resumos para vídeos que sua empresa precisa publicar no YouTube Shorts e nas redes sociais",
         cta: "Começar"
       },
       features: [
         {
-          title: "Roteiros alimentados por IA",
-          description: "Gere roteiros de vídeo profissionais usando tecnologia avançada de IA adaptada às necessidades do seu negócio.",
+          title: "Insira o Site da Sua Empresa",
+          description: "Analise sua empresa com IA para gerar ideias de vídeo personalizadas.",
           icon: 'video'
         },
         {
-          title: "Múltiplos idiomas",
-          description: "Crie conteúdo em 6 idiomas diferentes para alcançar efetivamente um público global.",
+          title: "Gere Ideias em Vários Idiomas",
+          description: "Gere Ideias de Vídeos Curtos Adaptados ao Seu Negócio",
           icon: 'language'
         },
         {
-          title: "Conteúdo personalizado",
-          description: "Obtenha roteiros de vídeo personalizados que correspondam à voz da sua marca e objetivos de negócio.",
+          title: "Escolha seus Vídeos e Faça um Pedido",
+          description: "Selecione Seus Vídeos e Confie Seu Projeto aos Nossos Criativos",
           icon: 'content'
         }
       ]
