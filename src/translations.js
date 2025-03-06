@@ -1,6 +1,38 @@
 export const translations = {
   es: {
     title: "Asistente de guiones de video",
+    header: {
+      backButton: "Volver",
+      visitEpica: "Visitar Epica Works",
+      contact: "Contacto"
+    },
+    landing: {
+      hero: {
+        title: "Generador de Vídeos Personalizados",
+        subtitle: "Genera los titulos y resúmenes de vídeos que tu empresa necesita publicar en YouTube Shorts y las redes",
+        cta: "COMENZAR"
+      },
+      features: [
+        {
+          title: "Introduce la Web de tu Empresa",
+          description: "Analiza con IA tu Empresa para generar ideas de video personalizadas.",
+          icon: 'video'
+        },
+        {
+          title: "Genera Ideas en Varios Idiomas",
+          description: "Genera Ideas de Videos Cortos Adaptados a tu Negocio",
+          icon: 'language'
+        },
+        {
+          title: "Elije tus Vídeos y Genera un Pedido",
+          description: "Selecciona tus Videos y Encarga tu Proyecto a Nuestros Creativos",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contacto"
+    },
     companyName: {
       label: "Nombre de la Empresa",
       placeholder: "Introduce el nombre de tu empresa"
@@ -39,15 +71,6 @@ export const translations = {
       analyzingWebsite: "Analizando página web...",
       generatingScripts: (count) => `Generando ${count} propuestas de video...`
     },
-    checkout: {
-      title: "Tu pedido de vídeos",
-      total: "Total",
-      backButton: "VOLVER",
-      purchaseButton: "COMPRAR",
-      purchaseSuccess: "¡Compra realizada con éxito! Nos pondremos en contacto contigo pronto.",
-      processing: "Procesando pago...",
-      processingPayment: "Preparando el pago. Serás redirigido a la página de pago seguro..."
-    },
     errors: {
       websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
       scriptGeneration: "Error al generar propuestas de video. Por favor, inténtalo de nuevo.",
@@ -60,6 +83,38 @@ export const translations = {
   },
   en: {
     title: "Video Script Assistant",
+    header: {
+      backButton: "Back",
+      visitEpica: "Visit Epica Works",
+      contact: "Contact"
+    },
+    landing: {
+      hero: {
+        title: "Custom Video Generator",
+        subtitle: "Generate titles and summaries for videos your company needs to publish on YouTube Shorts and social networks",
+        cta: "Get Started"
+      },
+      features: [
+        {
+          title: "Enter Your Company Website",
+          description: "Analyze your company with AI to generate personalized video ideas.",
+          icon: 'video'
+        },
+        {
+          title: "Generate Ideas in Multiple Languages",
+          description: "Generate Short Video Ideas Adapted to Your Business",
+          icon: 'language'
+        },
+        {
+          title: "Choose Your Videos and Place an Order",
+          description: "Select Your Videos and Commission Your Project to Our Creatives",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contact"
+    },
     companyName: {
       label: "Company Name",
       placeholder: "Enter your company name"
@@ -98,15 +153,6 @@ export const translations = {
       analyzingWebsite: "Analyzing webpage...",
       generatingScripts: (count) => `Generating ${count} video proposals...`
     },
-    checkout: {
-      title: "Your video order",
-      total: "Total",
-      backButton: "BACK",
-      purchaseButton: "PURCHASE",
-      purchaseSuccess: "Purchase successful! We'll contact you soon.",
-      processing: "Processing payment...",
-      processingPayment: "Preparing payment. You'll be redirected to the secure payment page..."
-    },
     errors: {
       websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
       scriptGeneration: "Error generating video proposals. Please try again.",
@@ -119,6 +165,38 @@ export const translations = {
   },
   fr: {
     title: "Assistant de scénarios vidéo",
+    header: {
+      backButton: "Retour",
+      visitEpica: "Visiter Epica Works",
+      contact: "Contact"
+    },
+    landing: {
+      hero: {
+        title: "Générateur de Vidéos Personnalisées",
+        subtitle: "Générez les titres et résumés des vidéos dont votre entreprise a besoin pour YouTube Shorts et les réseaux sociaux",
+        cta: "Commencer"
+      },
+      features: [
+        {
+          title: "Entrez le Site Web de Votre Entreprise",
+          description: "Analysez votre entreprise avec l'IA pour générer des idées de vidéos personnalisées.",
+          icon: 'video'
+        },
+        {
+          title: "Générez des Idées en Plusieurs Langues",
+          description: "Générez des Idées de Vidéos Courtes Adaptées à Votre Entreprise",
+          icon: 'language'
+        },
+        {
+          title: "Choisissez Vos Vidéos et Passez Commande",
+          description: "Sélectionnez Vos Vidéos et Confiez Votre Projet à Nos Créatifs",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contact"
+    },
     companyName: {
       label: "Nom de l'entreprise",
       placeholder: "Entrez le nom de votre entreprise"
@@ -126,7 +204,7 @@ export const translations = {
     websiteUrl: {
       label: "Site web de l'entreprise ou du produit",
       placeholder: "www.exemple.com",
-      analyzeButton: "Analyser web",
+      analyzeButton: "Analyser le web",
       analyzing: "Analyse de la page web..."
     },
     activity: {
@@ -141,7 +219,7 @@ export const translations = {
       label: "Langue"
     },
     generateScripts: {
-      button: "GÉNÉRER DES PROPOSITIONS",
+      button: "GÉNÉRER DES PROPOSITIONS VIDÉO",
       analyzing: "Génération des titres et briefings pour vos vidéos..."
     },
     videoScripts: {
@@ -155,16 +233,7 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse de la page web...",
-      generatingScripts: (count) => `Génération de ${count} propositions de vidéo...`
-    },
-    checkout: {
-      title: "Votre commande de vidéos",
-      total: "Total",
-      backButton: "RETOUR",
-      purchaseButton: "ACHETER",
-      purchaseSuccess: "Achat réussi ! Nous vous contacterons bientôt.",
-      processing: "Traitement du paiement...",
-      processingPayment: "Préparation du paiement. Vous serez redirigé vers la page de paiement sécurisée..."
+      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`
     },
     errors: {
       websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
@@ -177,16 +246,48 @@ export const translations = {
     }
   },
   de: {
-    title: "Video-Drehbuch-Assistent",
+    title: "Video-Skript-Assistent",
+    header: {
+      backButton: "Zurück",
+      visitEpica: "Epica Works besuchen",
+      contact: "Kontakt"
+    },
+    landing: {
+      hero: {
+        title: "Personalisierter Video-Generator",
+        subtitle: "Generieren Sie Titel und Zusammenfassungen für Videos, die Ihr Unternehmen auf YouTube Shorts und in sozialen Netzwerken veröffentlichen muss",
+        cta: "Loslegen"
+      },
+      features: [
+        {
+          title: "Geben Sie Ihre Unternehmenswebsite Ein",
+          description: "Analysieren Sie Ihr Unternehmen mit KI, um personalisierte Video-Ideen zu generieren.",
+          icon: 'video'
+        },
+        {
+          title: "Generieren Sie Ideen in Mehreren Sprachen",
+          description: "Generieren Sie Kurzvideos-Ideen, Die an Ihr Unternehmen Angepasst Sind",
+          icon: 'language'
+        },
+        {
+          title: "Wählen Sie Ihre Videos und Bestellen Sie",
+          description: "Wählen Sie Ihre Videos und Beauftragen Sie Unser Kreativteam",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "Kontakt"
+    },
     companyName: {
       label: "Firmenname",
       placeholder: "Geben Sie Ihren Firmennamen ein"
     },
     websiteUrl: {
-      label: "Unternehmens- oder Produktwebsite",
-      placeholder: "www.beispiel.com",
+      label: "Unternehmens- oder Produkt-Website",
+      placeholder: "www.beispiel.de",
       analyzeButton: "Web analysieren",
-      analyzing: "Webseite wird analysiert..."
+      analyzing: "Analyse der Webseite..."
     },
     activity: {
       label: "Aktivität",
@@ -200,7 +301,7 @@ export const translations = {
       label: "Sprache"
     },
     generateScripts: {
-      button: "VORSCHLÄGE GENERIEREN",
+      button: "VIDEO-VORSCHLÄGE GENERIEREN",
       analyzing: "Generiere Titel und Briefings für Ihre Videos..."
     },
     videoScripts: {
@@ -213,21 +314,12 @@ export const translations = {
       indirect: "Indirekter Fokus"
     },
     processing: {
-      analyzingWebsite: "Webseite wird analysiert...",
+      analyzingWebsite: "Analyse der Webseite...",
       generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`
-    },
-    checkout: {
-      title: "Ihre Videobestellung",
-      total: "Gesamtsumme",
-      backButton: "ZURÜCK",
-      purchaseButton: "KAUFEN",
-      purchaseSuccess: "Kauf erfolgreich! Wir werden Sie bald kontaktieren.",
-      processing: "Zahlung wird verarbeitet...",
-      processingPayment: "Zahlung wird vorbereitet. Sie werden zur sicheren Zahlungsseite weitergeleitet..."
     },
     errors: {
       websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
-      scriptGeneration: "Fehler beim Generieren der Video-Vorschläge. Bitte versuchen Sie es erneut.",
+      scriptGeneration: "Fehler bei der Generierung der Video-Vorschläge. Bitte versuchen Sie es erneut.",
       noUrl: "Bitte geben Sie eine gültige URL ein.",
       missingInfo: "Bitte vervollständigen Sie den Firmennamen und die Aktivität.",
       invalidResponse: "Fehler im Antwortformat. Bitte versuchen Sie es erneut.",
@@ -236,14 +328,46 @@ export const translations = {
     }
   },
   it: {
-    title: "Assistente per sceneggiature video",
+    title: "Assistente per script video",
+    header: {
+      backButton: "Indietro",
+      visitEpica: "Visita Epica Works",
+      contact: "Contatto"
+    },
+    landing: {
+      hero: {
+        title: "Generatore di Video Personalizzati",
+        subtitle: "Genera titoli e riassunti per i video che la tua azienda deve pubblicare su YouTube Shorts e sui social network",
+        cta: "Inizia ora"
+      },
+      features: [
+        {
+          title: "Inserisci il Sito Web della Tua Azienda",
+          description: "Analizza la tua azienda con l'IA per generare idee video personalizzate.",
+          icon: 'video'
+        },
+        {
+          title: "Genera Idee in Più Lingue",
+          description: "Genera Idee per Video Brevi Adattati alla Tua Attività",
+          icon: 'language'
+        },
+        {
+          title: "Scegli i Tuoi Video e Effettua un Ordine",
+          description: "Seleziona i Tuoi Video e Affida il Tuo Progetto ai Nostri Creativi",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contatto"
+    },
     companyName: {
       label: "Nome dell'azienda",
       placeholder: "Inserisci il nome della tua azienda"
     },
     websiteUrl: {
       label: "Sito web aziendale o del prodotto",
-      placeholder: "www.esempio.com",
+      placeholder: "www.esempio.it",
       analyzeButton: "Analizza web",
       analyzing: "Analisi della pagina web..."
     },
@@ -259,7 +383,7 @@ export const translations = {
       label: "Lingua"
     },
     generateScripts: {
-      button: "GENERA PROPOSTE",
+      button: "GENERA PROPOSTE VIDEO",
       analyzing: "Generazione di titoli e briefing per i tuoi video..."
     },
     videoScripts: {
@@ -275,15 +399,6 @@ export const translations = {
       analyzingWebsite: "Analisi della pagina web...",
       generatingScripts: (count) => `Generazione di ${count} proposte video...`
     },
-    checkout: {
-      title: "Il tuo ordine di video",
-      total: "Totale",
-      backButton: "INDIETRO",
-      purchaseButton: "ACQUISTA",
-      purchaseSuccess: "Acquisto completato con successo! Ti contatteremo presto.",
-      processing: "Elaborazione del pagamento...",
-      processingPayment: "Preparazione del pagamento. Sarai reindirizzato alla pagina di pagamento sicuro..."
-    },
     errors: {
       websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
       scriptGeneration: "Errore durante la generazione delle proposte video. Riprova.",
@@ -291,18 +406,50 @@ export const translations = {
       missingInfo: "Completa il nome dell'azienda e l'attività.",
       invalidResponse: "Errore nel formato della risposta. Riprova.",
       noVideosSelected: "Seleziona almeno un video per continuare.",
-      paymentFailed: "Elaborazione del pagamento fallita. Riprova."
+      paymentFailed: "Errore durante l'elaborazione del pagamento. Riprova."
     }
   },
   pt: {
     title: "Assistente de roteiros de vídeo",
+    header: {
+      backButton: "Voltar",
+      visitEpica: "Visitar Epica Works",
+      contact: "Contato"
+    },
+    landing: {
+      hero: {
+        title: "Gerador de Vídeos Personalizados",
+        subtitle: "Gere títulos e resumos para vídeos que sua empresa precisa publicar no YouTube Shorts e nas redes sociais",
+        cta: "Começar"
+      },
+      features: [
+        {
+          title: "Insira o Site da Sua Empresa",
+          description: "Analise sua empresa com IA para gerar ideias de vídeo personalizadas.",
+          icon: 'video'
+        },
+        {
+          title: "Gere Ideias em Vários Idiomas",
+          description: "Gere Ideias de Vídeos Curtos Adaptados ao Seu Negócio",
+          icon: 'language'
+        },
+        {
+          title: "Escolha seus Vídeos e Faça um Pedido",
+          description: "Selecione Seus Vídeos e Confie Seu Projeto aos Nossos Criativos",
+          icon: 'content'
+        }
+      ]
+    },
+    footer: {
+      contact: "contato"
+    },
     companyName: {
-      label: "Nome da Empresa",
+      label: "Nome da empresa",
       placeholder: "Digite o nome da sua empresa"
     },
     websiteUrl: {
       label: "Site da empresa ou produto",
-      placeholder: "www.exemplo.com",
+      placeholder: "www.exemplo.com.br",
       analyzeButton: "Analisar web",
       analyzing: "Analisando página web..."
     },
@@ -318,7 +465,7 @@ export const translations = {
       label: "Idioma"
     },
     generateScripts: {
-      button: "GERAR PROPOSTAS",
+      button: "GERAR PROPOSTAS DE VÍDEO",
       analyzing: "Gerando títulos e briefings para seus vídeos..."
     },
     videoScripts: {
@@ -334,15 +481,6 @@ export const translations = {
       analyzingWebsite: "Analisando página web...",
       generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`
     },
-    checkout: {
-      title: "Seu pedido de vídeos",
-      total: "Total",
-      backButton: "VOLTAR",
-      purchaseButton: "COMPRAR",
-      purchaseSuccess: "Compra realizada com sucesso! Entraremos em contato em breve.",
-      processing: "Processando pagamento...",
-      processingPayment: "Preparando o pagamento. Você será redirecionado para a página de pagamento seguro..."
-    },
     errors: {
       websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",
       scriptGeneration: "Erro ao gerar propostas de vídeo. Por favor, tente novamente.",
@@ -350,7 +488,7 @@ export const translations = {
       missingInfo: "Complete o nome da empresa e a atividade.",
       invalidResponse: "Erro no formato da resposta. Tente novamente.",
       noVideosSelected: "Selecione pelo menos um vídeo para continuar.",
-      paymentFailed: "Processamento do pagamento falhou. Por favor, tente novamente."
+      paymentFailed: "Erro no processamento do pagamento. Por favor, tente novamente."
     }
   }
-}
+};
