@@ -8,7 +8,7 @@ function Cancel() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
       <div className="relative z-10 flex-1 px-4 py-12 flex items-center justify-center">
-        <div className="max-w-md w-full">
+        <div className="max-w-2xl w-full">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">

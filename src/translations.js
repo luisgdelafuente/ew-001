@@ -1,6 +1,7 @@
 export const translations = {
   es: {
     title: "Asistente de guiones de video",
+    formSubtitle: "Introduce información de tu negocio",
     header: {
       backButton: "Volver",
       visitEpica: "Visitar Epica Works",
@@ -60,6 +61,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Propuesta de videos",
+      subtitle: "Nuestra propuesta de vídeos para",
       backButton: "VOLVER AL FORMULARIO",
       orderButton: "CONTRATAR VIDEOS"
     },
@@ -83,6 +85,7 @@ export const translations = {
   },
   en: {
     title: "Video Script Assistant",
+    formSubtitle: "Enter your business information",
     header: {
       backButton: "Back",
       visitEpica: "Visit Epica Works",
@@ -142,6 +145,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Video Proposals",
+      subtitle: "Our video proposals for",
       backButton: "BACK TO FORM",
       orderButton: "ORDER VIDEOS"
     },
@@ -165,6 +169,7 @@ export const translations = {
   },
   fr: {
     title: "Assistant de scénarios vidéo",
+    formSubtitle: "Saisissez les informations de votre entreprise",
     header: {
       backButton: "Retour",
       visitEpica: "Visiter Epica Works",
@@ -224,6 +229,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Propositions de vidéos",
+      subtitle: "Nos propositions de vidéos pour",
       backButton: "RETOUR AU FORMULAIRE",
       orderButton: "COMMANDER DES VIDÉOS"
     },
@@ -247,6 +253,7 @@ export const translations = {
   },
   de: {
     title: "Video-Skript-Assistent",
+    formSubtitle: "Geben Sie Ihre Unternehmensinformationen ein",
     header: {
       backButton: "Zurück",
       visitEpica: "Epica Works besuchen",
@@ -306,6 +313,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Video-Vorschläge",
+      subtitle: "Unsere Videovorschläge für",
       backButton: "ZURÜCK ZUM FORMULAR",
       orderButton: "VIDEOS BESTELLEN"
     },
@@ -329,6 +337,7 @@ export const translations = {
   },
   it: {
     title: "Assistente per script video",
+    formSubtitle: "Inserisci le informazioni della tua azienda",
     header: {
       backButton: "Indietro",
       visitEpica: "Visita Epica Works",
@@ -388,6 +397,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Proposte video",
+      subtitle: "Le nostre proposte video per",
       backButton: "TORNA AL MODULO",
       orderButton: "ORDINA VIDEO"
     },
@@ -411,6 +421,7 @@ export const translations = {
   },
   pt: {
     title: "Assistente de roteiros de vídeo",
+    formSubtitle: "Insira as informações do seu negócio",
     header: {
       backButton: "Voltar",
       visitEpica: "Visitar Epica Works",
@@ -470,6 +481,7 @@ export const translations = {
     },
     videoScripts: {
       title: "Propostas de vídeo",
+      subtitle: "Nossas propostas de vídeo para",
       backButton: "VOLTAR AO FORMULÁRIO",
       orderButton: "CONTRATAR VÍDEOS"
     },
