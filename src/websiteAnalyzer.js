@@ -151,27 +151,26 @@ export class WebsiteAnalyzer {
       const prompts = getSystemPrompts(this.language);
       
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4", // Using GPT-4 for better analysis
+        model: "gpt-4o-mini",
         messages: [{
           role: "system",
-          content: prompts.websiteAnalysis
+          content: `Extract company information from the provided content and provide the description in ${this.language} language. Return a JSON object with:
+{
+  "companyName": "Just the company name, no additional text",
+  "activity": "3-4 sentences describing what they do in ${this.language} language"
+}`
         }, {
           role: "user",
-          content: `Analyze this website content and extract:
-1. The company name (if found)
-2. A detailed description (4-6 sentences) of the company's main activity, target audience, value proposition, and what makes them unique in their industry.
+          content: `Extract from this content and provide the description in ${this.language} language:
+1. Company name (just the name, no extra text)
+2. Brief company description in ${this.language} (3-4 sentences)
 
-Format the response as:
-{
-  "companyName": "Found company name or empty string if not found",
-  "activity": "Detailed company activity description that covers their business model, services/products, target audience, and unique selling points"
-}
-
-Website content to analyze:
-${content.substring(0, 4000)}`
+Website content:
+${content.substring(0, 2000)}`
         }],
-        temperature: 0.3,
+        temperature: 0.2,
         max_tokens: 500,
+        response_format: { type: "json_object" },
         presence_penalty: 0,
         frequency_penalty: 0
       });
@@ -179,22 +178,36 @@ ${content.substring(0, 4000)}`
       let result;
       try {
         result = JSON.parse(response.choices[0].message.content);
+        
+        // Clean up company name - extract just the name before any period or descriptive text
+        const cleanedName = result.companyName
+          .split(/[.:]|\s+-\s+/)[0]  // Split on period, colon, or dash
+          .replace(/^(la |el |las |los |l'|le |les |the |a |an )/i, '') // Remove articles
+          .trim();
+        
+        return {
+          companyName: cleanedName,
+          activity: result.activity.trim()
+        };
       } catch (error) {
-        console.error('Failed to parse OpenAI response:', error);
-        const text = response.choices[0].message.content;
-        const companyMatch = text.match(/company.*?name.*?:?\s*"?([^"\n]+)"?/i);
-        const activityMatch = text.match(/activity.*?:?\s*"?([^"\n]+)"?/i);
+        const lines = response.choices[0].message.content.split('\n');
+        const cleanedLines = lines.map(line => 
+          line.replace(/^[^a-zA-Z]*|company name:?\s*:?\s*|brief company description:?\s*:?\s*|description:?\s*:?\s*|\*\*/gi, '')
+            .trim()
+        ).filter(line => line);
+        
+        const [companyName = '', ...activityParts] = cleanedLines;
+        const cleanedName = companyName
+          .split(/[.:]|\s+-\s+/)[0]
+          .replace(/^(la |el |las |los |l'|le |les |the |a |an )/i, '')
+          .trim();
         
         result = {
-          companyName: companyMatch ? companyMatch[1].trim() : '',
-          activity: activityMatch ? activityMatch[1].trim() : text.substring(0, 400)
+          companyName: cleanedName,
+          activity: activityParts.join(' ').replace(/^:\s*/, '')
         };
+        return result;
       }
-
-      return {
-        companyName: (result.companyName || '').trim(),
-        activity: (result.activity || '').trim()
-      };
     } catch (error) {
       console.error('Error in content analysis:', error);
       throw new Error('Failed to analyze website content. Please try again or enter details manually.');

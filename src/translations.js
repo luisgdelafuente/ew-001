@@ -79,6 +79,7 @@ export const translations = {
       noUrl: "Por favor, introduce una URL válida.",
       missingInfo: "Por favor, completa el nombre de la empresa y la actividad.",
       invalidResponse: "Error en el formato de respuesta. Por favor, inténtalo de nuevo.",
+      noVideosGenerated: "No se pudieron generar videos. Por favor, inténtalo de nuevo.",
       noVideosSelected: "Por favor, selecciona al menos un vídeo para continuar.",
       paymentFailed: "Error al procesar el pago. Por favor, inténtalo de nuevo."
     }
@@ -163,6 +164,7 @@ export const translations = {
       noUrl: "Please enter a valid URL.",
       missingInfo: "Please complete both company name and activity.",
       invalidResponse: "Error in response format. Please try again.",
+      noVideosGenerated: "Could not generate videos. Please try again.",
       noVideosSelected: "Please select at least one video to continue.",
       paymentFailed: "Payment processing failed. Please try again."
     }

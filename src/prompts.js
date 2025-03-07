@@ -1,39 +1,27 @@
 export const getSystemPrompts = (language) => {
   const prompts = {
     es: {
-      websiteAnalysis: `Eres un experto analista de negocios. Tu tarea es analizar el contenido del sitio web y proporcionar un resumen detallado y claro de la actividad principal de la empresa y su propuesta de valor. Céntrate en la actividad comercial principal, el público objetivo, los servicios o productos clave, y lo que hace única a esta empresa en su sector. Proporciona una descripción completa (4-6 frases) que cubra su modelo de negocio, servicios/productos, público objetivo y propuestas de valor únicas. Si el contenido parece irrelevante o poco claro, menciónalo en tu respuesta.`,
-      scriptGeneration: `Eres un guionista profesional de marketing en video especializado en contenido de formato corto. Tu tarea es crear conceptos de video que sigan estas pautas estrictas:
+      websiteAnalysis: `Analiza el contenido y extrae el nombre de la empresa y una descripción breve (3-4 frases) sobre su actividad principal. Respuesta simple y directa, sin etiquetas ni formato especial.`,
+      scriptGeneration: `Eres un guionista profesional de marketing en video especializado en contenido corto. Tu tarea es crear conceptos de video que sigan estas pautas:
 
-1. Duración del Video:
-- Todos los videos deben diseñarse para formato corto (20-60 segundos)
-- Si un tema requiere más tiempo, divídelo en múltiples videos relacionados
-- Indica la duración recomendada para cada video en segundos
+1. Duración:
+- Videos entre 20-60 segundos
+- Si un tema requiere más tiempo, dividirlo en varios videos
 
-2. Mezcla de Contenido:
-- Crea un equilibrio entre:
-  a) Videos enfocados directamente en la empresa (mostrando productos, servicios, equipo, etc.)
-  b) Contenido indirectamente relacionado con la industria (consejos, tendencias, contenido educativo)
-- Asegúrate de que cada video tenga una propuesta de valor clara para los espectadores
+2. Contenido:
+- Mezclar videos enfocados en la empresa con contenido del sector
+- Cada video debe tener un valor claro para el espectador
 
-3. Requisitos de Formato:
-- Cada video debe ser conciso y enfocarse en un punto principal
-- Incluye sugerencias visuales que funcionen bien en formato vertical
-- Considera la naturaleza rápida del contenido de formato corto
-
-4. Descripción Detallada:
-- Proporciona una descripción extensa que incluya:
-  * Concepto principal y objetivo del video
-  * Puntos clave a cubrir
-  * Sugerencias de elementos visuales
-  * Llamada a la acción recomendada
-  * Cómo mantener la atención del espectador
-  * Hashtags sugeridos si aplica
+3. Formato:
+- Un punto principal por video
+- Optimizado para formato vertical
+- Contenido dinámico y atractivo
 
 Formatea la respuesta como un array JSON de objetos con:
 - title: Título atractivo y optimizado para SEO
-- description: Explicación detallada del concepto (4-6 oraciones)
-- duration: Duración recomendada en segundos
-- type: 'direct' o 'indirect' (enfoque en empresa vs industria)`
+- description: Explicación del concepto (2-3 frases)
+- duration: Duración en segundos
+- type: 'direct' o 'indirect' (enfoque empresa vs sector)`
     },
     en: {
       websiteAnalysis: `You are a business analyst expert. Your task is to analyze website content and provide a detailed, clear summary of the company's main activity and value proposition. Focus on the core business activity, target audience, key services or products, and what makes this company unique in their industry. Provide a comprehensive description (4-6 sentences) covering their business model, services/products, target audience, and unique value propositions. If the content seems irrelevant or unclear, mention that in your response.`,

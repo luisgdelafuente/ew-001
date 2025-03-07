@@ -111,46 +111,57 @@ function App() {
 
     try {
       const response = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         messages: [{
           role: "system",
           content: getSystemPrompts(language).scriptGeneration
         }, {
           role: "user",
-          content: `Create ${videoCount} video concepts for this company:
+          content: `Generate ${videoCount} video concepts for ${companyName}. Activity: ${activity}
 
-Company Information:
-Company: ${companyName}
-Activity: ${activity}
+Format each video as a JSON object with:
+- title: Catchy SEO-friendly title in ${language}
+- description: Clear 2-3 sentence description in ${language}
+- duration: Length in seconds (20-60)
+- type: Either 'direct' (about company) or 'indirect' (industry content)
 
-Requirements:
-- Create exactly ${videoCount} video concepts
-- Mix direct company content with indirect industry content
-- Keep all videos between 20-60 seconds
-- Split longer topics into multiple related videos
-- Make titles catchy and SEO-friendly
-- Every title and description MUST be in ${language}`
+Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
         }],
         temperature: 0.8,
+        response_format: { type: "json_object" }
       });
 
       let scripts;
       try {
-        scripts = JSON.parse(response.choices[0].message.content);
-        if (!Array.isArray(scripts)) {
-          throw new Error('Invalid response format');
+        const parsedResponse = JSON.parse(response.choices[0].message.content);
+        if (!parsedResponse.videos || !Array.isArray(parsedResponse.videos)) {
+          throw new Error('Invalid response format: missing videos array');
+        }
+        
+        scripts = parsedResponse.videos
+          .slice(0, videoCount)
+          .map((script, index) => ({
+            id: `video-${Date.now()}-${index}`,
+            title: script.title?.trim(),
+            description: script.description?.trim(),
+            duration: Math.min(Math.max(script.duration || 30, 20), 60),
+            type: ['direct', 'indirect'].includes(script.type) ? script.type : 'direct'
+          }))
+          .filter(script => script.title && script.description);
+
+        if (scripts.length !== videoCount) {
+          throw new Error(`Expected ${videoCount} videos but got ${scripts.length}`);
         }
       } catch (e) {
         console.error('Error parsing scripts:', e);
         throw new Error(t.errors.invalidResponse);
       }
 
-      const scriptsWithIds = scripts.slice(0, videoCount).map((script, index) => ({
-        ...script,
-        id: `video-${Date.now()}-${index}`
-      }));
+      if (!scripts || scripts.length === 0) {
+        throw new Error(t.errors.noVideosGenerated);
+      }
 
-      setVideoScripts(scriptsWithIds);
+      setVideoScripts(scripts);
       setStep(2);
       setError('');
     } catch (error) {
