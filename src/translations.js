@@ -62,8 +62,27 @@ export const translations = {
     videoScripts: {
       title: "Propuesta de videos",
       subtitle: "Nuestra propuesta de vídeos para",
+      buy: "AÑADIR",
+      buyTooltip: "Añadir a la cesta del pedido",
+      selected: "AÑADIDO",
+      selectedTooltip: "Añadido a la cesta del pedido",
       backButton: "VOLVER AL FORMULARIO",
-      orderButton: "CONTRATAR VIDEOS"
+      generateMore: "GENERAR MÁS IDEAS",
+      generatingMore: "Generando más ideas para tus videos..."
+    },
+    cart: {
+      title: "Cesta",
+      subtotal: "Subtotal",
+      discount: "Descuento",
+      total: "Total",
+      orderButton: "REALIZAR PEDIDO"
+    },
+    order: {
+      title: "Detalles del Pedido",
+      selectedVideos: "Videos Seleccionados",
+      summary: "Resumen del Pedido",
+      backButton: "VOLVER A LA SELECCIÓN",
+      downloadButton: "DESCARGAR PEDIDO (TXT)"
     },
     videoTypes: {
       direct: "Enfoque directo",
@@ -96,7 +115,7 @@ export const translations = {
       hero: {
         title: "Custom Video Generator",
         subtitle: "Generate titles and summaries for videos your company needs to publish on YouTube Shorts and social networks",
-        cta: "Get Started"
+        cta: "START"
       },
       features: [
         {
@@ -147,8 +166,27 @@ export const translations = {
     videoScripts: {
       title: "Video Proposals",
       subtitle: "Our video proposals for",
+      buy: "ADD",
+      buyTooltip: "Add to order cart",
+      selected: "SELECTED",
+      selectedTooltip: "Added to order cart",
       backButton: "BACK TO FORM",
-      orderButton: "ORDER VIDEOS"
+      generateMore: "GENERATE MORE IDEAS",
+      generatingMore: "Generating more ideas for your videos..."
+    },
+    cart: {
+      title: "Cart",
+      subtotal: "Subtotal",
+      discount: "Discount",
+      total: "Total",
+      orderButton: "PLACE ORDER"
+    },
+    order: {
+      title: "Order Details",
+      selectedVideos: "Selected Videos",
+      summary: "Order Summary",
+      backButton: "BACK TO SELECTION",
+      downloadButton: "DOWNLOAD ORDER (TXT)"
     },
     videoTypes: {
       direct: "Direct focus",
@@ -181,7 +219,7 @@ export const translations = {
       hero: {
         title: "Générateur de Vidéos Personnalisées",
         subtitle: "Générez les titres et résumés des vidéos dont votre entreprise a besoin pour YouTube Shorts et les réseaux sociaux",
-        cta: "Commencer"
+        cta: "COMMENCER"
       },
       features: [
         {
@@ -232,8 +270,13 @@ export const translations = {
     videoScripts: {
       title: "Propositions de vidéos",
       subtitle: "Nos propositions de vidéos pour",
+      buy: "AJOUTER",
+      buyTooltip: "Ajouter au panier",
+      selected: "AJOUTÉ",
+      selectedTooltip: "Ajouté au panier",
       backButton: "RETOUR AU FORMULAIRE",
-      orderButton: "COMMANDER DES VIDÉOS"
+      generateMore: "GÉNÉRER PLUS D'IDÉES",
+      generatingMore: "Génération de plus d'idées pour vos vidéos..."
     },
     videoTypes: {
       direct: "Focus direct",
@@ -265,7 +308,7 @@ export const translations = {
       hero: {
         title: "Personalisierter Video-Generator",
         subtitle: "Generieren Sie Titel und Zusammenfassungen für Videos, die Ihr Unternehmen auf YouTube Shorts und in sozialen Netzwerken veröffentlichen muss",
-        cta: "Loslegen"
+        cta: "LOSLEGEN"
       },
       features: [
         {
@@ -316,8 +359,13 @@ export const translations = {
     videoScripts: {
       title: "Video-Vorschläge",
       subtitle: "Unsere Videovorschläge für",
+      buy: "HINZUFÜGEN",
+      buyTooltip: "Zum Warenkorb hinzufügen",
+      selected: "HINZUGEFÜGT",
+      selectedTooltip: "Zum Warenkorb hinzugefügt",
       backButton: "ZURÜCK ZUM FORMULAR",
-      orderButton: "VIDEOS BESTELLEN"
+      generateMore: "MEHR IDEEN GENERIEREN",
+      generatingMore: "Generiere mehr Ideen für deine Videos..."
     },
     videoTypes: {
       direct: "Direkter Fokus",
@@ -349,7 +397,7 @@ export const translations = {
       hero: {
         title: "Generatore di Video Personalizzati",
         subtitle: "Genera titoli e riassunti per i video che la tua azienda deve pubblicare su YouTube Shorts e sui social network",
-        cta: "Inizia ora"
+        cta: "INIZIA ORA"
       },
       features: [
         {
@@ -400,8 +448,13 @@ export const translations = {
     videoScripts: {
       title: "Proposte video",
       subtitle: "Le nostre proposte video per",
+      buy: "AGGIUNGI",
+      buyTooltip: "Aggiungi al carrello",
+      selected: "AGGIUNTO",
+      selectedTooltip: "Aggiunto al carrello",
       backButton: "TORNA AL MODULO",
-      orderButton: "ORDINA VIDEO"
+      generateMore: "GENERA PIÙ IDEE",
+      generatingMore: "Generazione di più idee per i tuoi video..."
     },
     videoTypes: {
       direct: "Focus diretto",
@@ -433,7 +486,7 @@ export const translations = {
       hero: {
         title: "Gerador de Vídeos Personalizados",
         subtitle: "Gere títulos e resumos para vídeos que sua empresa precisa publicar no YouTube Shorts e nas redes sociais",
-        cta: "Começar"
+        cta: "COMEÇAR"
       },
       features: [
         {
@@ -484,8 +537,13 @@ export const translations = {
     videoScripts: {
       title: "Propostas de vídeo",
       subtitle: "Nossas propostas de vídeo para",
+      buy: "ADICIONAR",
+      buyTooltip: "Adicionar ao carrinho",
+      selected: "ADICIONADO",
+      selectedTooltip: "Adicionado ao carrinho",
       backButton: "VOLTAR AO FORMULÁRIO",
-      orderButton: "CONTRATAR VÍDEOS"
+      generateMore: "GERAR MAIS IDEIAS",
+      generatingMore: "Gerando mais ideias para seus vídeos..."
     },
     videoTypes: {
       direct: "Foco direto",

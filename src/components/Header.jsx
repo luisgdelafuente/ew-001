@@ -31,7 +31,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
               </button>
             )}
             <a 
-              href={`https://epicaworks.com/${language}`}
+              href="https://epicaworks.com"
               target="_blank"
               rel="noopener noreferrer" 
               className="flex items-center"
@@ -59,7 +59,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
               ))}
             </select>
             <a 
-              href={`https://epicaworks.com/${language}`}
+              href="https://epicaworks.com"
               target="_blank" 
               rel="noopener noreferrer"
               className="text-sm font-medium text-gray-300 hover:text-white transition-colors hidden sm:block"
