@@ -3,10 +3,9 @@ import { translations } from '../translations';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 const calculateDiscount = (count) => {
-  if (count < 2) return 0;
-  // Linear discount from 20% to 50% based on video count (2-10)
-  const percentage = 20 + ((count - 2) * (50 - 20) / (10 - 2));
-  return Math.min(50, Math.max(20, percentage));
+  // Linear discount from 10% to 40% based on video count (1-10)
+  const percentage = 10 + ((count - 1) * (40 - 10) / (10 - 1));
+  return Math.min(40, Math.max(10, percentage));
 };
 
 const formatPrice = (price, locale = 'es-ES') => {

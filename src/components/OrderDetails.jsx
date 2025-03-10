@@ -11,9 +11,8 @@ const formatPrice = (price, locale = 'es-ES') => {
 const OrderDetails = ({ selectedVideos, onBack, language }) => {
   const t = translations[language];
   const basePrice = 99;
-  const discount = selectedVideos.length >= 2 
-    ? 20 + ((selectedVideos.length - 2) * (50 - 20) / (10 - 2))
-    : 0;
+  // Linear discount from 10% to 40% based on video count (1-10)
+  const discount = 10 + ((selectedVideos.length - 1) * (40 - 10) / (10 - 1));
   const subtotal = basePrice * selectedVideos.length;
   const discountAmount = (subtotal * discount) / 100;
   const total = subtotal - discountAmount;

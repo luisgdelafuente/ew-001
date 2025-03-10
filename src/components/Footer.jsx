@@ -9,7 +9,7 @@ function Footer() {
             © 2025 Epica Works | contacto: hello@epicaworks.com
           </div>
           <div className="text-sm text-gray-400">
-            v.0.0.4
+            v.0.0.6
           </div>
         </div>
       </div>
