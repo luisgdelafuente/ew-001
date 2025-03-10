@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { config } from './config';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 const openai = new OpenAI({
   apiKey: config.openai.apiKey,
@@ -43,7 +44,7 @@ function App() {
   const [companyUrl, setCompanyUrl] = useState('');
   const [activity, setActivity] = useState('');
   const [language, setLanguage] = useState('es');
-  const [videoCount, setVideoCount] = useState(2);
+  const videoCount = 6;
   const [loading, setLoading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [videoScripts, setVideoScripts] = useState([]);
@@ -53,6 +54,7 @@ function App() {
   const [error, setError] = useState('');
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
+  const maxVideoIdeas = 30;
 
   const t = translations[language];
 
@@ -111,7 +113,6 @@ function App() {
 
     setError('');
     setLoading(true);
-    showModal(t.processing.generatingScripts(videoCount));
 
     try {
       const response = await openai.chat.completions.create({
@@ -165,7 +166,10 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
         throw new Error(t.errors.noVideosGenerated);
       }
 
-      setVideoScripts(scripts);
+      setVideoScripts(prevScripts => {
+        const newScripts = [...prevScripts, ...scripts];
+        return newScripts.slice(0, maxVideoIdeas);
+      });
       setStep(2);
       setError('');
     } catch (error) {
@@ -185,6 +189,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
   const handleBack = () => {
     if (step === 2) {
       setStep(1);
+      setVideoScripts([]);
+      setSelectedVideos([]);
     } else {
       setShowForm(false);
     }
@@ -336,22 +342,6 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                     </div>
                   </div>
 
-                  <div className="mb-8">
-                    <label className="block text-lg font-medium text-gray-300 mb-3">
-                      {t.videoCount.label}
-                    </label>
-                    <select
-                      value={videoCount}
-                      onChange={(e) => setVideoCount(Number(e.target.value))}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors"
-                      style={{ color: 'white', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
-                    >
-                      {[...Array(9)].map((_, i) => (
-                        <option key={i + 2} value={i + 2} style={{ color: 'black' }}>{i + 2}</option>
-                      ))}
-                    </select>
-                  </div>
-
                   <button
                     type="submit"
                     disabled={loading || !companyName.trim() || !activity.trim()}
@@ -391,10 +381,16 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                     {videoScripts.map((script, index) => (
                       <div
                         key={index}
-                        className="group bg-white/5 rounded-xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 hover:border-[#7B7EF4] flex flex-col h-full"
+                        className={`group rounded-xl p-4 sm:p-6 border flex flex-col h-full transition-all ${
+                          selectedVideos.some(v => v.id === script.id)
+                            ? 'bg-white/10 border-[#7B7EF4]'
+                            : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-[#7B7EF4]'
+                        }`}
                       >
                         <div className="flex-1">
-                          <h3 className="text-lg sm:text-xl font-medium mb-3 group-hover:text-[#7B7EF4] transition-colors">{script.title}</h3>
+                          <h3 className={`text-lg sm:text-xl font-medium mb-3 transition-colors ${
+                            selectedVideos.some(v => v.id === script.id) ? 'text-[#7B7EF4]' : 'group-hover:text-[#7B7EF4]'
+                          }`}>{script.title}</h3>
                           <p className="text-gray-400">{script.description}</p>
                         </div>
                         <div className="flex justify-between items-center text-gray-400 mt-4 pt-4 border-t border-white/10">
@@ -402,42 +398,77 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           <span className="text-[#7B7EF4]">{script.duration}s</span> • 
                           <span className="ml-2">{script.type === 'direct' ? t.videoTypes.direct : t.videoTypes.indirect}</span>
                           </p>
-                          <button
-                            onClick={() => {
-                              const isSelected = selectedVideos.some(v => v.id === script.id);
-                              setSelectedVideos(isSelected 
-                                ? selectedVideos.filter(v => v.id !== script.id)
-                                : [...selectedVideos, script]
-                              );
-                            }}
-                            className={`px-4 py-2 rounded-lg transition-colors font-medium ${
-                              selectedVideos.some(v => v.id === script.id)
-                                ? 'bg-[#7B7EF4] text-white'
-                                : 'bg-white/10 text-white hover:bg-[#7B7EF4]/20'
-                            }`}
-                          >
-                            {selectedVideos.some(v => v.id === script.id) ? t.videoScripts.selected : t.videoScripts.buy}
-                          </button>
+                          <Tooltip.Provider>
+                            <Tooltip.Root>
+                              <Tooltip.Trigger asChild>
+                                <button
+                                  onClick={() => {
+                                    const isSelected = selectedVideos.some(v => v.id === script.id);
+                                    setSelectedVideos(isSelected 
+                                      ? selectedVideos.filter(v => v.id !== script.id)
+                                      : [...selectedVideos, script]
+                                    );
+                                  }}
+                                  className={`px-4 py-2 rounded-lg transition-colors font-medium ${
+                                    selectedVideos.some(v => v.id === script.id)
+                                      ? 'bg-[#7B7EF4] text-white'
+                                      : 'bg-white/10 text-white hover:bg-[#7B7EF4]/20'
+                                  }`}
+                                >
+                                  {selectedVideos.some(v => v.id === script.id) ? t.videoScripts.selected : t.videoScripts.buy}
+                                </button>
+                              </Tooltip.Trigger>
+                              <Tooltip.Portal>
+                                <Tooltip.Content 
+                                  className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                                  sideOffset={5}>
+                                  {selectedVideos.some(v => v.id === script.id) ? t.videoScripts.selectedTooltip : t.videoScripts.buyTooltip}
+                                  <Tooltip.Arrow className="fill-black/90" />
+                                </Tooltip.Content>
+                              </Tooltip.Portal>
+                            </Tooltip.Root>
+                          </Tooltip.Provider>
                         </div>
                       </div>
                     ))}
                   </div>
+                  {videoScripts.length < maxVideoIdeas && (
+                    <div className="flex justify-center my-8">
+                      <button
+                        onClick={() => {
+                          getVideoScripts();
+                        }}
+                        disabled={loading}
+                        className="bg-[#7B7EF4] text-white py-3 px-8 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 transition-colors font-medium flex items-center gap-3"
+                      >
+                        {loading ? (
+                          <>
+                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            {t.videoScripts.generatingMore}
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            {t.videoScripts.generateMore}
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                   {selectedVideos.length > 0 && (
                     <ShoppingCart
                       selectedVideos={selectedVideos}
                       onRemoveVideo={(videoId) => setSelectedVideos(selectedVideos.filter(v => v.id !== videoId))}
                       onOrder={() => setShowOrder(true)}
                       language={language}
+                      onBack={handleBack}
                     />
                   )}
-                  <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
-                    <button
-                      onClick={handleBack}
-                      className="w-full bg-white/5 text-white py-3 px-4 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
-                    >
-                      {t.videoScripts.backButton}
-                    </button>
-                  </div>
                     </>
                   )}
                 </div>
@@ -452,4 +483,4 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
   );
 }
 
-export default App;
+export default App

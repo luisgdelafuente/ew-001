@@ -62,9 +62,13 @@ export const translations = {
     videoScripts: {
       title: "Propuesta de videos",
       subtitle: "Nuestra propuesta de vídeos para",
-      buy: "COMPRAR",
-      selected: "SELECCIONADO",
-      backButton: "VOLVER AL FORMULARIO"
+      buy: "AÑADIR",
+      buyTooltip: "Añadir a la cesta del pedido",
+      selected: "AÑADIDO",
+      selectedTooltip: "Añadido a la cesta del pedido",
+      backButton: "VOLVER AL FORMULARIO",
+      generateMore: "GENERAR MÁS IDEAS",
+      generatingMore: "Generando más ideas para tus videos..."
     },
     cart: {
       title: "Cesta",
@@ -78,7 +82,7 @@ export const translations = {
       selectedVideos: "Videos Seleccionados",
       summary: "Resumen del Pedido",
       backButton: "VOLVER A LA SELECCIÓN",
-      printButton: "IMPRIMIR PEDIDO"
+      downloadButton: "DESCARGAR PEDIDO (TXT)"
     },
     videoTypes: {
       direct: "Enfoque directo",
@@ -164,7 +168,8 @@ export const translations = {
       subtitle: "Our video proposals for",
       buy: "BUY",
       selected: "SELECTED",
-      backButton: "BACK TO FORM"
+      backButton: "BACK TO FORM",
+      generateMore: "GENERATE MORE IDEAS"
     },
     cart: {
       title: "Cart",
@@ -178,7 +183,7 @@ export const translations = {
       selectedVideos: "Selected Videos",
       summary: "Order Summary",
       backButton: "BACK TO SELECTION",
-      printButton: "PRINT ORDER"
+      downloadButton: "DOWNLOAD ORDER (TXT)"
     },
     videoTypes: {
       direct: "Direct focus",

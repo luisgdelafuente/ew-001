@@ -1,5 +1,6 @@
 import React from 'react';
 import { translations } from '../translations';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 const calculateDiscount = (count) => {
   if (count < 2) return 0;
@@ -15,7 +16,7 @@ const formatPrice = (price, locale = 'es-ES') => {
   }).format(price);
 };
 
-const ShoppingCart = ({ selectedVideos, onRemoveVideo, onOrder, language }) => {
+const ShoppingCart = ({ selectedVideos, onRemoveVideo, onOrder, onBack, language }) => {
   const t = translations[language];
   const basePrice = 99;
   const discount = calculateDiscount(selectedVideos.length);
@@ -63,12 +64,35 @@ const ShoppingCart = ({ selectedVideos, onRemoveVideo, onOrder, language }) => {
         </div>
       </div>
 
-      <button
-        className="w-full mt-6 bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] transition-colors font-medium"
-        onClick={onOrder}
-      >
-        {t.cart.orderButton}
-      </button>
+      <div className="flex justify-between items-center mt-6">
+        <Tooltip.Provider>
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <button
+                onClick={onBack}
+                className="bg-white/5 text-white py-3 px-8 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
+              >
+                {t.videoScripts.backButton}
+              </button>
+            </Tooltip.Trigger>
+            <Tooltip.Portal>
+              <Tooltip.Content 
+                className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                sideOffset={5}>
+                Empezar de nuevo (las ideas de videos se borrarán)
+                <Tooltip.Arrow className="fill-black/90" />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
+
+        <button 
+          onClick={onOrder}
+          className="bg-[#7B7EF4] text-white py-3 px-8 rounded-xl hover:bg-[#6B6EE4] transition-colors font-medium"
+        >
+          {t.cart.orderButton}
+        </button>
+      </div>
     </div>
   );
 };
