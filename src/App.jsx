@@ -4,6 +4,8 @@ import { WebsiteAnalyzer } from './websiteAnalyzer';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
+import OrderDetails from './components/OrderDetails';
+import ShoppingCart from './components/ShoppingCart';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -49,6 +51,8 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [error, setError] = useState('');
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [showOrder, setShowOrder] = useState(false);
 
   const t = translations[language];
 
@@ -370,6 +374,14 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
             {step === 2 && videoScripts.length > 0 && (
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
                 <div className="max-w-5xl mx-auto">
+                  {showOrder ? (
+                    <OrderDetails
+                      selectedVideos={selectedVideos}
+                      onBack={() => setShowOrder(false)}
+                      language={language}
+                    />
+                  ) : (
+                    <>
                   {error && (
                     <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
                       {error}
@@ -385,13 +397,39 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           <h3 className="text-lg sm:text-xl font-medium mb-3 group-hover:text-[#7B7EF4] transition-colors">{script.title}</h3>
                           <p className="text-gray-400">{script.description}</p>
                         </div>
-                        <p className="text-gray-400 mt-4 pt-4 border-t border-white/10">
+                        <div className="flex justify-between items-center text-gray-400 mt-4 pt-4 border-t border-white/10">
+                          <p>
                           <span className="text-[#7B7EF4]">{script.duration}s</span> • 
                           <span className="ml-2">{script.type === 'direct' ? t.videoTypes.direct : t.videoTypes.indirect}</span>
-                        </p>
+                          </p>
+                          <button
+                            onClick={() => {
+                              const isSelected = selectedVideos.some(v => v.id === script.id);
+                              setSelectedVideos(isSelected 
+                                ? selectedVideos.filter(v => v.id !== script.id)
+                                : [...selectedVideos, script]
+                              );
+                            }}
+                            className={`px-4 py-2 rounded-lg transition-colors font-medium ${
+                              selectedVideos.some(v => v.id === script.id)
+                                ? 'bg-[#7B7EF4] text-white'
+                                : 'bg-white/10 text-white hover:bg-[#7B7EF4]/20'
+                            }`}
+                          >
+                            {selectedVideos.some(v => v.id === script.id) ? t.videoScripts.selected : t.videoScripts.buy}
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
+                  {selectedVideos.length > 0 && (
+                    <ShoppingCart
+                      selectedVideos={selectedVideos}
+                      onRemoveVideo={(videoId) => setSelectedVideos(selectedVideos.filter(v => v.id !== videoId))}
+                      onOrder={() => setShowOrder(true)}
+                      language={language}
+                    />
+                  )}
                   <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
                     <button
                       onClick={handleBack}
@@ -400,6 +438,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       {t.videoScripts.backButton}
                     </button>
                   </div>
+                    </>
+                  )}
                 </div>
               </div>
             )}
