@@ -15,18 +15,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Introduce la Web de tu Empresa",
-          description: "Analiza con IA tu Empresa para generar ideas de video personalizadas.",
+          title: "Análisis",
+          description: "Introduce la web de tu empresa para conocer su actividad.",
           icon: 'video'
         },
         {
-          title: "Genera Ideas en Varios Idiomas",
-          description: "Genera Ideas de Videos Cortos Adaptados a tu Negocio",
+          title: "Vídeos",
+          description: "Consulta ideas de vídeos a medida para tu empresa.",
           icon: 'language'
         },
         {
-          title: "Elije tus Vídeos y Genera un Pedido",
-          description: "Selecciona tus Videos y Encarga tu Proyecto a Nuestros Creativos",
+          title: "Oferta",
+          description: "Selecciona tus favoritos y genera una oferta con ellos.",
           icon: 'content'
         }
       ]
@@ -126,18 +126,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Enter Your Company Website",
-          description: "Analyze your company with AI to generate personalized video ideas.",
+          title: "Analysis",
+          description: "Enter your company website to learn about its activity.",
           icon: 'video'
         },
         {
-          title: "Generate Ideas in Multiple Languages",
-          description: "Generate Short Video Ideas Adapted to Your Business",
+          title: "Videos",
+          description: "Check custom video ideas for your company.",
           icon: 'language'
         },
         {
-          title: "Choose Your Videos and Place an Order",
-          description: "Select Your Videos and Commission Your Project to Our Creatives",
+          title: "Quote",
+          description: "Select your favorites and generate a quote with them.",
           icon: 'content'
         }
       ]
@@ -235,18 +235,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Entrez le Site Web de Votre Entreprise",
-          description: "Analysez votre entreprise avec l'IA pour générer des idées de vidéos personnalisées.",
+          title: "Analyse",
+          description: "Entrez le site web de votre entreprise pour connaître son activité.",
           icon: 'video'
         },
         {
-          title: "Générez des Idées en Plusieurs Langues",
-          description: "Générez des Idées de Vidéos Courtes Adaptées à Votre Entreprise",
+          title: "Vidéos",
+          description: "Consultez des idées de vidéos personnalisées pour votre entreprise.",
           icon: 'language'
         },
         {
-          title: "Choisissez Vos Vidéos et Passez Commande",
-          description: "Sélectionnez Vos Vidéos et Confiez Votre Projet à Nos Créatifs",
+          title: "Devis",
+          description: "Sélectionnez vos favoris et générez un devis avec eux.",
           icon: 'content'
         }
       ]
@@ -329,18 +329,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Geben Sie Ihre Unternehmenswebsite Ein",
-          description: "Analysieren Sie Ihr Unternehmen mit KI, um personalisierte Video-Ideen zu generieren.",
+          title: "Analyse",
+          description: "Geben Sie Ihre Unternehmenswebsite ein, um ihre Aktivität kennenzulernen.",
           icon: 'video'
         },
         {
-          title: "Generieren Sie Ideen in Mehreren Sprachen",
-          description: "Generieren Sie Kurzvideos-Ideen, Die an Ihr Unternehmen Angepasst Sind",
+          title: "Videos",
+          description: "Sehen Sie sich maßgeschneiderte Video-Ideen für Ihr Unternehmen an.",
           icon: 'language'
         },
         {
-          title: "Wählen Sie Ihre Videos und Bestellen Sie",
-          description: "Wählen Sie Ihre Videos und Beauftragen Sie Unser Kreativteam",
+          title: "Angebot",
+          description: "Wählen Sie Ihre Favoriten aus und erstellen Sie ein Angebot.",
           icon: 'content'
         }
       ]
@@ -423,18 +423,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Inserisci il Sito Web della Tua Azienda",
-          description: "Analizza la tua azienda con l'IA per generare idee video personalizzate.",
+          title: "Analisi",
+          description: "Inserisci il sito web della tua azienda per conoscere la sua attività.",
           icon: 'video'
         },
         {
-          title: "Genera Idee in Più Lingue",
-          description: "Genera Idee per Video Brevi Adattati alla Tua Attività",
+          title: "Video",
+          description: "Consulta idee video personalizzate per la tua azienda.",
           icon: 'language'
         },
         {
-          title: "Scegli i Tuoi Video e Effettua un Ordine",
-          description: "Seleziona i Tuoi Video e Affida il Tuo Progetto ai Nostri Creativi",
+          title: "Preventivo",
+          description: "Seleziona i tuoi preferiti e genera un preventivo con essi.",
           icon: 'content'
         }
       ]
@@ -517,18 +517,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Insira o Site da Sua Empresa",
-          description: "Analise sua empresa com IA para gerar ideias de vídeo personalizadas.",
+          title: "Análise",
+          description: "Insira o site da sua empresa para conhecer sua atividade.",
           icon: 'video'
         },
         {
-          title: "Gere Ideias em Vários Idiomas",
-          description: "Gere Ideias de Vídeos Curtos Adaptados ao Seu Negócio",
+          title: "Vídeos",
+          description: "Consulte ideias de vídeos personalizados para sua empresa.",
           icon: 'language'
         },
         {
-          title: "Escolha seus Vídeos e Faça um Pedido",
-          description: "Selecione Seus Vídeos e Confie Seu Projeto aos Nossos Criativos",
+          title: "Orçamento",
+          description: "Selecione seus favoritos e gere um orçamento com eles.",
           icon: 'content'
         }
       ]

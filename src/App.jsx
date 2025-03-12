@@ -174,10 +174,10 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
           {!videoScripts.length > 0 ? (
             <>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-8">
-                {t.landing.hero.title}
+                Generador de Ideas para Vídeos
               </h1>
               <p className="text-xl sm:text-2xl text-gray-300 text-center mb-12 max-w-3xl mx-auto leading-relaxed">
-                {t.landing.hero.subtitle}
+                Genera títulos y resúmenes de vídeos a medida para tu empresa
               </p>
 
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10 mb-8">
@@ -229,8 +229,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Introduce tu Web</h3>
-                  <p className="text-gray-400">Revisaremos tu enlace para construir una propuesta de vídeos.</p>
+                  <h3 className="text-xl font-medium mb-2">{t.landing.features[0].title}</h3>
+                  <p className="text-gray-400">{t.landing.features[0].description}</p>
                 </div>
 
                 {/* Feature 2: Propuestas de Vídeos */}
@@ -240,8 +240,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Propuestas de Vídeos</h3>
-                  <p className="text-gray-400">Consulta ideas de vídeos cortos a medida para tu negocio.</p>
+                  <h3 className="text-xl font-medium mb-2">{t.landing.features[1].title}</h3>
+                  <p className="text-gray-400">{t.landing.features[1].description}</p>
                 </div>
 
                 {/* Feature 3: Oferta a Medida */}
@@ -251,8 +251,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">Oferta a Medida</h3>
-                  <p className="text-gray-400">Selecciona tus vídeos favoritos y genera una oferta a medida.</p>
+                  <h3 className="text-xl font-medium mb-2">{t.landing.features[2].title}</h3>
+                  <p className="text-gray-400">{t.landing.features[2].description}</p>
                 </div>
               </div>
             </>
