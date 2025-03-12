@@ -100,7 +100,7 @@ export const translations = {
       generatingIdeas: "Generando ideas..."
     },
     errors: {
-      websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
+      websiteAnalysis: "No hemos podido analizar el sitio web. Por favor verifica la URL y prueba otra vez.\n\nSi el problema persiste contacta con nosotros: hello@epicaworks.com",
       scriptGeneration: "Error al generar propuestas de video. Por favor, inténtalo de nuevo.",
       noUrl: "Por favor, introduce una URL válida.",
       missingInfo: "Por favor, completa el nombre de la empresa y la actividad.",
@@ -209,7 +209,7 @@ export const translations = {
       generatingIdeas: "Generating ideas..."
     },
     errors: {
-      websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
+      websiteAnalysis: "We couldn't analyze the website. Please verify the URL and try again.\n\nIf the problem persists, contact us at: hello@epicaworks.com",
       scriptGeneration: "Error generating video proposals. Please try again.",
       noUrl: "Please enter a valid URL.",
       missingInfo: "Please complete both company name and activity.",
@@ -304,7 +304,7 @@ export const translations = {
       generatingIdeas: "Génération d'idées..."
     },
     errors: {
-      websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
+      websiteAnalysis: "Nous n'avons pas pu analyser le site web. Veuillez vérifier l'URL et réessayer.\n\nSi le problème persiste, contactez-nous à : hello@epicaworks.com",
       scriptGeneration: "Erreur lors de la génération des propositions vidéo. Veuillez réessayer.",
       noUrl: "Veuillez entrer une URL valide.",
       missingInfo: "Veuillez compléter le nom de l'entreprise et l'activité.",
@@ -398,7 +398,7 @@ export const translations = {
       generatingIdeas: "Ideen werden generiert..."
     },
     errors: {
-      websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
+      websiteAnalysis: "Wir konnten die Website nicht analysieren. Bitte überprüfen Sie die URL und versuchen Sie es erneut.\n\nWenn das Problem weiterhin besteht, kontaktieren Sie uns unter: hello@epicaworks.com",
       scriptGeneration: "Fehler bei der Generierung der Video-Vorschläge. Bitte versuchen Sie es erneut.",
       noUrl: "Bitte geben Sie eine gültige URL ein.",
       missingInfo: "Bitte vervollständigen Sie den Firmennamen und die Aktivität.",
@@ -492,7 +492,7 @@ export const translations = {
       generatingIdeas: "Generazione di idee..."
     },
     errors: {
-      websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
+      websiteAnalysis: "Non siamo riusciti ad analizzare il sito web. Verifica l'URL e riprova.\n\nSe il problema persiste, contattaci a: hello@epicaworks.com",
       scriptGeneration: "Errore durante la generazione delle proposte video. Riprova.",
       noUrl: "Inserisci un URL valido.",
       missingInfo: "Completa il nome dell'azienda e l'attività.",
@@ -586,7 +586,7 @@ export const translations = {
       generatingIdeas: "Gerando ideias..."
     },
     errors: {
-      websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",
+      websiteAnalysis: "Não foi possível analisar o site. Por favor, verifique a URL e tente novamente.\n\nSe o problema persistir, entre em contato conosco: hello@epicaworks.com",
       scriptGeneration: "Erro ao gerar propostas de vídeo. Por favor, tente novamente.",
       noUrl: "Por favor, insira uma URL válida.",
       missingInfo: "Complete o nome da empresa e a atividade.",
