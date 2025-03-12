@@ -60,13 +60,15 @@ export const translations = {
       analyzing: "Generando propuesta de títulos y briefings para tus videos..."
     },
     videoScripts: {
-      title: "Propuesta de videos",
+      title: "Ideas de Vídeos para",
+      selectAndQuote: "Selecciona tus favoritos y genera un presupuesto",
+      generateQuote: "GENERAR PRESUPUESTO",
       subtitle: "Nuestra propuesta de vídeos para",
-      buy: "AÑADIR",
-      buyTooltip: "Añadir a la cesta del pedido",
-      selected: "AÑADIDO",
-      selectedTooltip: "Añadido a la cesta del pedido",
-      backButton: "VOLVER AL FORMULARIO",
+      buy: "SELECCIONAR",
+      buyTooltip: "Seleccionar este video",
+      selected: "SELECCIONADO",
+      selectedTooltip: "Video seleccionado",
+      backButton: "VOLVER A LA HOME",
       generateMore: "GENERAR MÁS IDEAS",
       generatingMore: "Generando más ideas para tus videos..."
     },
@@ -81,8 +83,10 @@ export const translations = {
       title: "Detalles del Pedido",
       selectedVideos: "Videos Seleccionados",
       summary: "Resumen del Pedido",
-      backButton: "VOLVER A LA SELECCIÓN",
-      downloadButton: "DESCARGAR PEDIDO (TXT)"
+      backButton: "VOLVER A SELECCIONAR",
+      downloadButton: "DESCARGAR PEDIDO (TXT)",
+      payButton: "PAGAR ONLINE",
+      paymentNotAvailable: "Esta opción todavía no está disponible"
     },
     videoTypes: {
       direct: "Enfoque directo",
@@ -90,7 +94,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analizando página web...",
-      generatingScripts: (count) => `Generando ${count} propuestas de video...`
+      generatingScripts: (count) => `Generando ${count} propuestas de video...`,
+      extractingInfo: "Extrayendo información...",
+      creatingProposals: "Creando propuestas de vídeo a medida",
+      generatingIdeas: "Generando ideas..."
     },
     errors: {
       websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
@@ -164,12 +171,14 @@ export const translations = {
       analyzing: "Generating titles and briefings for your videos..."
     },
     videoScripts: {
-      title: "Video Proposals",
+      title: "Video Ideas for",
+      selectAndQuote: "Select your favorites and generate a quote",
+      generateQuote: "GENERATE QUOTE",
       subtitle: "Our video proposals for",
-      buy: "ADD",
-      buyTooltip: "Add to order cart",
+      buy: "SELECT",
+      buyTooltip: "Select this video",
       selected: "SELECTED",
-      selectedTooltip: "Added to order cart",
+      selectedTooltip: "Video selected",
       backButton: "BACK TO FORM",
       generateMore: "GENERATE MORE IDEAS",
       generatingMore: "Generating more ideas for your videos..."
@@ -194,7 +203,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyzing webpage...",
-      generatingScripts: (count) => `Generating ${count} video proposals...`
+      generatingScripts: (count) => `Generating ${count} video proposals...`,
+      extractingInfo: "Extracting information...",
+      creatingProposals: "Creating custom video proposals",
+      generatingIdeas: "Generating ideas..."
     },
     errors: {
       websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
@@ -268,12 +280,14 @@ export const translations = {
       analyzing: "Génération des titres et briefings pour vos vidéos..."
     },
     videoScripts: {
-      title: "Propositions de vidéos",
+      title: "Idées de Vidéos pour",
+      selectAndQuote: "Sélectionnez vos favoris et générez un devis",
+      generateQuote: "GÉNÉRER UN DEVIS",
       subtitle: "Nos propositions de vidéos pour",
-      buy: "AJOUTER",
-      buyTooltip: "Ajouter au panier",
-      selected: "AJOUTÉ",
-      selectedTooltip: "Ajouté au panier",
+      buy: "SÉLECTIONNER",
+      buyTooltip: "Sélectionner cette vidéo",
+      selected: "SÉLECTIONNÉ",
+      selectedTooltip: "Vidéo sélectionnée",
       backButton: "RETOUR AU FORMULAIRE",
       generateMore: "GÉNÉRER PLUS D'IDÉES",
       generatingMore: "Génération de plus d'idées pour vos vidéos..."
@@ -284,7 +298,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse de la page web...",
-      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`
+      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`,
+      extractingInfo: "Extraction des informations...",
+      creatingProposals: "Création de propositions vidéo personnalisées",
+      generatingIdeas: "Génération d'idées..."
     },
     errors: {
       websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
@@ -357,12 +374,14 @@ export const translations = {
       analyzing: "Generiere Titel und Briefings für Ihre Videos..."
     },
     videoScripts: {
-      title: "Video-Vorschläge",
+      title: "Video-Ideen für",
+      selectAndQuote: "Wählen Sie Ihre Favoriten und erstellen Sie ein Angebot",
+      generateQuote: "ANGEBOT ERSTELLEN",
       subtitle: "Unsere Videovorschläge für",
-      buy: "HINZUFÜGEN",
-      buyTooltip: "Zum Warenkorb hinzufügen",
-      selected: "HINZUGEFÜGT",
-      selectedTooltip: "Zum Warenkorb hinzugefügt",
+      buy: "AUSWÄHLEN",
+      buyTooltip: "Dieses Video auswählen",
+      selected: "AUSGEWÄHLT",
+      selectedTooltip: "Video ausgewählt",
       backButton: "ZURÜCK ZUM FORMULAR",
       generateMore: "MEHR IDEEN GENERIEREN",
       generatingMore: "Generiere mehr Ideen für deine Videos..."
@@ -373,7 +392,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse der Webseite...",
-      generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`
+      generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`,
+      extractingInfo: "Informationen werden extrahiert...",
+      creatingProposals: "Erstellung maßgeschneiderter Videovorschläge",
+      generatingIdeas: "Ideen werden generiert..."
     },
     errors: {
       websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
@@ -446,12 +468,14 @@ export const translations = {
       analyzing: "Generazione di titoli e briefing per i tuoi video..."
     },
     videoScripts: {
-      title: "Proposte video",
+      title: "Idee Video per",
+      selectAndQuote: "Seleziona i tuoi preferiti e genera un preventivo",
+      generateQuote: "GENERA PREVENTIVO",
       subtitle: "Le nostre proposte video per",
-      buy: "AGGIUNGI",
-      buyTooltip: "Aggiungi al carrello",
-      selected: "AGGIUNTO",
-      selectedTooltip: "Aggiunto al carrello",
+      buy: "SELEZIONA",
+      buyTooltip: "Seleziona questo video",
+      selected: "SELEZIONATO",
+      selectedTooltip: "Video selezionato",
       backButton: "TORNA AL MODULO",
       generateMore: "GENERA PIÙ IDEE",
       generatingMore: "Generazione di più idee per i tuoi video..."
@@ -462,7 +486,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analisi della pagina web...",
-      generatingScripts: (count) => `Generazione di ${count} proposte video...`
+      generatingScripts: (count) => `Generazione di ${count} proposte video...`,
+      extractingInfo: "Estrazione delle informazioni...",
+      creatingProposals: "Creazione di proposte video personalizzate",
+      generatingIdeas: "Generazione di idee..."
     },
     errors: {
       websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
@@ -535,12 +562,14 @@ export const translations = {
       analyzing: "Gerando títulos e briefings para seus vídeos..."
     },
     videoScripts: {
-      title: "Propostas de vídeo",
+      title: "Ideias de Vídeo para",
+      selectAndQuote: "Selecione seus favoritos e gere um orçamento",
+      generateQuote: "GERAR ORÇAMENTO",
       subtitle: "Nossas propostas de vídeo para",
-      buy: "ADICIONAR",
-      buyTooltip: "Adicionar ao carrinho",
-      selected: "ADICIONADO",
-      selectedTooltip: "Adicionado ao carrinho",
+      buy: "SELECIONAR",
+      buyTooltip: "Selecionar este vídeo",
+      selected: "SELECIONADO",
+      selectedTooltip: "Vídeo selecionado",
       backButton: "VOLTAR AO FORMULÁRIO",
       generateMore: "GERAR MAIS IDEIAS",
       generatingMore: "Gerando mais ideias para seus vídeos..."
@@ -551,7 +580,10 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analisando página web...",
-      generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`
+      generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`,
+      extractingInfo: "Extraindo informações...",
+      creatingProposals: "Criando propostas de vídeo personalizadas",
+      generatingIdeas: "Gerando ideias..."
     },
     errors: {
       websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",
