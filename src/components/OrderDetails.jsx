@@ -1,5 +1,6 @@
 import React from 'react';
 import { translations } from '../translations';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 const formatPrice = (price, locale = 'es-ES') => {
   return new Intl.NumberFormat(locale, {
@@ -21,8 +22,8 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
     let content = '';
 
     // Add title and company info
-    content += `${t.order.title}\n`;
-    content += '='.repeat(t.order.title.length) + '\n\n';
+    content += 'Propuesta de Videos\n';
+    content += '='.repeat('Propuesta de Videos'.length) + '\n\n';
     content += 'Epica Works\n';
     content += 'hello@epicaworks.com\n\n';
 
@@ -37,8 +38,8 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
     });
 
     // Add price summary
-    content += `${t.order.summary}\n`;
-    content += '-'.repeat(t.order.summary.length) + '\n\n';
+    content += 'Resumen de la Oferta\n';
+    content += '-'.repeat('Resumen de la Oferta'.length) + '\n\n';
     content += `${t.cart.subtotal}: ${formatPrice(subtotal)}\n`;
     
     if (discount > 0) {
@@ -60,10 +61,8 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10">
+    <>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">{t.order.title}</h2>
-
         <div className="space-y-8">
           {/* Selected Videos */}
           <div>
@@ -107,22 +106,53 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-6">
+        <div className="flex flex-col sm:flex-row justify-stretch gap-4 mt-8 w-full">
           <button
             onClick={onBack}
-            className="bg-white/5 text-white py-3 px-8 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
+            className="flex-1 bg-[#5b9fd8] text-white px-4 py-2 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
           >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
             {t.order.backButton}
           </button>
+
           <button
             onClick={handleDownload}
-            className="bg-[#7B7EF4] text-white py-3 px-8 rounded-xl hover:bg-[#6B6EE4] transition-colors font-medium"
+            className="flex-1 bg-[#7b7ef4] text-white px-4 py-2 rounded-lg hover:bg-[#6a6de3] transition-colors font-medium flex items-center justify-center gap-2"
           >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
             {t.order.downloadButton}
           </button>
+
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button
+                  disabled
+                  className="flex-1 bg-[#b1c752] text-white px-4 py-2 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50 cursor-not-allowed"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {t.order.payButton}
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content 
+                  className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                  sideOffset={5}>
+                  {t.order.paymentNotAvailable}
+                  <Tooltip.Arrow className="fill-black/90" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

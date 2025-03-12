@@ -15,18 +15,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Introduce la Web de tu Empresa",
-          description: "Analiza con IA tu Empresa para generar ideas de video personalizadas.",
+          title: "Análisis",
+          description: "Introduce la web de tu empresa para conocer su actividad.",
           icon: 'video'
         },
         {
-          title: "Genera Ideas en Varios Idiomas",
-          description: "Genera Ideas de Videos Cortos Adaptados a tu Negocio",
+          title: "Vídeos",
+          description: "Consulta ideas de vídeos a medida para tu empresa.",
           icon: 'language'
         },
         {
-          title: "Elije tus Vídeos y Genera un Pedido",
-          description: "Selecciona tus Videos y Encarga tu Proyecto a Nuestros Creativos",
+          title: "Oferta",
+          description: "Selecciona tus favoritos y genera una oferta con ellos.",
           icon: 'content'
         }
       ]
@@ -60,13 +60,15 @@ export const translations = {
       analyzing: "Generando propuesta de títulos y briefings para tus videos..."
     },
     videoScripts: {
-      title: "Propuesta de videos",
+      title: "Ideas de Vídeos para",
+      selectAndQuote: "Selecciona tus favoritos y genera un presupuesto",
+      generateQuote: "GENERAR PRESUPUESTO",
       subtitle: "Nuestra propuesta de vídeos para",
-      buy: "AÑADIR",
-      buyTooltip: "Añadir a la cesta del pedido",
-      selected: "AÑADIDO",
-      selectedTooltip: "Añadido a la cesta del pedido",
-      backButton: "VOLVER AL FORMULARIO",
+      buy: "SELECCIONAR",
+      buyTooltip: "Seleccionar este video",
+      selected: "SELECCIONADO",
+      selectedTooltip: "Video seleccionado",
+      backButton: "VOLVER A LA HOME",
       generateMore: "GENERAR MÁS IDEAS",
       generatingMore: "Generando más ideas para tus videos..."
     },
@@ -81,8 +83,10 @@ export const translations = {
       title: "Detalles del Pedido",
       selectedVideos: "Videos Seleccionados",
       summary: "Resumen del Pedido",
-      backButton: "VOLVER A LA SELECCIÓN",
-      downloadButton: "DESCARGAR PEDIDO (TXT)"
+      backButton: "VOLVER A SELECCIONAR",
+      downloadButton: "DESCARGAR PEDIDO (TXT)",
+      payButton: "PAGAR ONLINE",
+      paymentNotAvailable: "Esta opción todavía no está disponible"
     },
     videoTypes: {
       direct: "Enfoque directo",
@@ -90,10 +94,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analizando página web...",
-      generatingScripts: (count) => `Generando ${count} propuestas de video...`
+      generatingScripts: (count) => `Generando ${count} propuestas de video...`,
+      extractingInfo: "Extrayendo información...",
+      creatingProposals: "Creando propuestas de vídeo a medida",
+      generatingIdeas: "Generando ideas..."
     },
     errors: {
-      websiteAnalysis: "No se pudo analizar el sitio web. Por favor, verifica la URL o introduce la actividad manualmente.",
+      websiteAnalysis: "No hemos podido analizar el sitio web. Por favor verifica la URL y prueba otra vez.\n\nSi el problema persiste contacta con nosotros: hello@epicaworks.com",
       scriptGeneration: "Error al generar propuestas de video. Por favor, inténtalo de nuevo.",
       noUrl: "Por favor, introduce una URL válida.",
       missingInfo: "Por favor, completa el nombre de la empresa y la actividad.",
@@ -119,18 +126,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Enter Your Company Website",
-          description: "Analyze your company with AI to generate personalized video ideas.",
+          title: "Analysis",
+          description: "Enter your company website to learn about its activity.",
           icon: 'video'
         },
         {
-          title: "Generate Ideas in Multiple Languages",
-          description: "Generate Short Video Ideas Adapted to Your Business",
+          title: "Videos",
+          description: "Check custom video ideas for your company.",
           icon: 'language'
         },
         {
-          title: "Choose Your Videos and Place an Order",
-          description: "Select Your Videos and Commission Your Project to Our Creatives",
+          title: "Quote",
+          description: "Select your favorites and generate a quote with them.",
           icon: 'content'
         }
       ]
@@ -164,12 +171,14 @@ export const translations = {
       analyzing: "Generating titles and briefings for your videos..."
     },
     videoScripts: {
-      title: "Video Proposals",
+      title: "Video Ideas for",
+      selectAndQuote: "Select your favorites and generate a quote",
+      generateQuote: "GENERATE QUOTE",
       subtitle: "Our video proposals for",
-      buy: "ADD",
-      buyTooltip: "Add to order cart",
+      buy: "SELECT",
+      buyTooltip: "Select this video",
       selected: "SELECTED",
-      selectedTooltip: "Added to order cart",
+      selectedTooltip: "Video selected",
       backButton: "BACK TO FORM",
       generateMore: "GENERATE MORE IDEAS",
       generatingMore: "Generating more ideas for your videos..."
@@ -194,10 +203,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyzing webpage...",
-      generatingScripts: (count) => `Generating ${count} video proposals...`
+      generatingScripts: (count) => `Generating ${count} video proposals...`,
+      extractingInfo: "Extracting information...",
+      creatingProposals: "Creating custom video proposals",
+      generatingIdeas: "Generating ideas..."
     },
     errors: {
-      websiteAnalysis: "Could not analyze the website. Please verify the URL or enter the activity manually.",
+      websiteAnalysis: "We couldn't analyze the website. Please verify the URL and try again.\n\nIf the problem persists, contact us at: hello@epicaworks.com",
       scriptGeneration: "Error generating video proposals. Please try again.",
       noUrl: "Please enter a valid URL.",
       missingInfo: "Please complete both company name and activity.",
@@ -223,18 +235,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Entrez le Site Web de Votre Entreprise",
-          description: "Analysez votre entreprise avec l'IA pour générer des idées de vidéos personnalisées.",
+          title: "Analyse",
+          description: "Entrez le site web de votre entreprise pour connaître son activité.",
           icon: 'video'
         },
         {
-          title: "Générez des Idées en Plusieurs Langues",
-          description: "Générez des Idées de Vidéos Courtes Adaptées à Votre Entreprise",
+          title: "Vidéos",
+          description: "Consultez des idées de vidéos personnalisées pour votre entreprise.",
           icon: 'language'
         },
         {
-          title: "Choisissez Vos Vidéos et Passez Commande",
-          description: "Sélectionnez Vos Vidéos et Confiez Votre Projet à Nos Créatifs",
+          title: "Devis",
+          description: "Sélectionnez vos favoris et générez un devis avec eux.",
           icon: 'content'
         }
       ]
@@ -268,12 +280,14 @@ export const translations = {
       analyzing: "Génération des titres et briefings pour vos vidéos..."
     },
     videoScripts: {
-      title: "Propositions de vidéos",
+      title: "Idées de Vidéos pour",
+      selectAndQuote: "Sélectionnez vos favoris et générez un devis",
+      generateQuote: "GÉNÉRER UN DEVIS",
       subtitle: "Nos propositions de vidéos pour",
-      buy: "AJOUTER",
-      buyTooltip: "Ajouter au panier",
-      selected: "AJOUTÉ",
-      selectedTooltip: "Ajouté au panier",
+      buy: "SÉLECTIONNER",
+      buyTooltip: "Sélectionner cette vidéo",
+      selected: "SÉLECTIONNÉ",
+      selectedTooltip: "Vidéo sélectionnée",
       backButton: "RETOUR AU FORMULAIRE",
       generateMore: "GÉNÉRER PLUS D'IDÉES",
       generatingMore: "Génération de plus d'idées pour vos vidéos..."
@@ -284,10 +298,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse de la page web...",
-      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`
+      generatingScripts: (count) => `Génération de ${count} propositions vidéo...`,
+      extractingInfo: "Extraction des informations...",
+      creatingProposals: "Création de propositions vidéo personnalisées",
+      generatingIdeas: "Génération d'idées..."
     },
     errors: {
-      websiteAnalysis: "Impossible d'analyser le site web. Veuillez vérifier l'URL ou saisir l'activité manuellement.",
+      websiteAnalysis: "Nous n'avons pas pu analyser le site web. Veuillez vérifier l'URL et réessayer.\n\nSi le problème persiste, contactez-nous à : hello@epicaworks.com",
       scriptGeneration: "Erreur lors de la génération des propositions vidéo. Veuillez réessayer.",
       noUrl: "Veuillez entrer une URL valide.",
       missingInfo: "Veuillez compléter le nom de l'entreprise et l'activité.",
@@ -312,18 +329,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Geben Sie Ihre Unternehmenswebsite Ein",
-          description: "Analysieren Sie Ihr Unternehmen mit KI, um personalisierte Video-Ideen zu generieren.",
+          title: "Analyse",
+          description: "Geben Sie Ihre Unternehmenswebsite ein, um ihre Aktivität kennenzulernen.",
           icon: 'video'
         },
         {
-          title: "Generieren Sie Ideen in Mehreren Sprachen",
-          description: "Generieren Sie Kurzvideos-Ideen, Die an Ihr Unternehmen Angepasst Sind",
+          title: "Videos",
+          description: "Sehen Sie sich maßgeschneiderte Video-Ideen für Ihr Unternehmen an.",
           icon: 'language'
         },
         {
-          title: "Wählen Sie Ihre Videos und Bestellen Sie",
-          description: "Wählen Sie Ihre Videos und Beauftragen Sie Unser Kreativteam",
+          title: "Angebot",
+          description: "Wählen Sie Ihre Favoriten aus und erstellen Sie ein Angebot.",
           icon: 'content'
         }
       ]
@@ -357,12 +374,14 @@ export const translations = {
       analyzing: "Generiere Titel und Briefings für Ihre Videos..."
     },
     videoScripts: {
-      title: "Video-Vorschläge",
+      title: "Video-Ideen für",
+      selectAndQuote: "Wählen Sie Ihre Favoriten und erstellen Sie ein Angebot",
+      generateQuote: "ANGEBOT ERSTELLEN",
       subtitle: "Unsere Videovorschläge für",
-      buy: "HINZUFÜGEN",
-      buyTooltip: "Zum Warenkorb hinzufügen",
-      selected: "HINZUGEFÜGT",
-      selectedTooltip: "Zum Warenkorb hinzugefügt",
+      buy: "AUSWÄHLEN",
+      buyTooltip: "Dieses Video auswählen",
+      selected: "AUSGEWÄHLT",
+      selectedTooltip: "Video ausgewählt",
       backButton: "ZURÜCK ZUM FORMULAR",
       generateMore: "MEHR IDEEN GENERIEREN",
       generatingMore: "Generiere mehr Ideen für deine Videos..."
@@ -373,10 +392,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analyse der Webseite...",
-      generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`
+      generatingScripts: (count) => `Generiere ${count} Video-Vorschläge...`,
+      extractingInfo: "Informationen werden extrahiert...",
+      creatingProposals: "Erstellung maßgeschneiderter Videovorschläge",
+      generatingIdeas: "Ideen werden generiert..."
     },
     errors: {
-      websiteAnalysis: "Website konnte nicht analysiert werden. Bitte überprüfen Sie die URL oder geben Sie die Aktivität manuell ein.",
+      websiteAnalysis: "Wir konnten die Website nicht analysieren. Bitte überprüfen Sie die URL und versuchen Sie es erneut.\n\nWenn das Problem weiterhin besteht, kontaktieren Sie uns unter: hello@epicaworks.com",
       scriptGeneration: "Fehler bei der Generierung der Video-Vorschläge. Bitte versuchen Sie es erneut.",
       noUrl: "Bitte geben Sie eine gültige URL ein.",
       missingInfo: "Bitte vervollständigen Sie den Firmennamen und die Aktivität.",
@@ -401,18 +423,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Inserisci il Sito Web della Tua Azienda",
-          description: "Analizza la tua azienda con l'IA per generare idee video personalizzate.",
+          title: "Analisi",
+          description: "Inserisci il sito web della tua azienda per conoscere la sua attività.",
           icon: 'video'
         },
         {
-          title: "Genera Idee in Più Lingue",
-          description: "Genera Idee per Video Brevi Adattati alla Tua Attività",
+          title: "Video",
+          description: "Consulta idee video personalizzate per la tua azienda.",
           icon: 'language'
         },
         {
-          title: "Scegli i Tuoi Video e Effettua un Ordine",
-          description: "Seleziona i Tuoi Video e Affida il Tuo Progetto ai Nostri Creativi",
+          title: "Preventivo",
+          description: "Seleziona i tuoi preferiti e genera un preventivo con essi.",
           icon: 'content'
         }
       ]
@@ -446,12 +468,14 @@ export const translations = {
       analyzing: "Generazione di titoli e briefing per i tuoi video..."
     },
     videoScripts: {
-      title: "Proposte video",
+      title: "Idee Video per",
+      selectAndQuote: "Seleziona i tuoi preferiti e genera un preventivo",
+      generateQuote: "GENERA PREVENTIVO",
       subtitle: "Le nostre proposte video per",
-      buy: "AGGIUNGI",
-      buyTooltip: "Aggiungi al carrello",
-      selected: "AGGIUNTO",
-      selectedTooltip: "Aggiunto al carrello",
+      buy: "SELEZIONA",
+      buyTooltip: "Seleziona questo video",
+      selected: "SELEZIONATO",
+      selectedTooltip: "Video selezionato",
       backButton: "TORNA AL MODULO",
       generateMore: "GENERA PIÙ IDEE",
       generatingMore: "Generazione di più idee per i tuoi video..."
@@ -462,10 +486,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analisi della pagina web...",
-      generatingScripts: (count) => `Generazione di ${count} proposte video...`
+      generatingScripts: (count) => `Generazione di ${count} proposte video...`,
+      extractingInfo: "Estrazione delle informazioni...",
+      creatingProposals: "Creazione di proposte video personalizzate",
+      generatingIdeas: "Generazione di idee..."
     },
     errors: {
-      websiteAnalysis: "Impossibile analizzare il sito web. Verifica l'URL o inserisci l'attività manualmente.",
+      websiteAnalysis: "Non siamo riusciti ad analizzare il sito web. Verifica l'URL e riprova.\n\nSe il problema persiste, contattaci a: hello@epicaworks.com",
       scriptGeneration: "Errore durante la generazione delle proposte video. Riprova.",
       noUrl: "Inserisci un URL valido.",
       missingInfo: "Completa il nome dell'azienda e l'attività.",
@@ -490,18 +517,18 @@ export const translations = {
       },
       features: [
         {
-          title: "Insira o Site da Sua Empresa",
-          description: "Analise sua empresa com IA para gerar ideias de vídeo personalizadas.",
+          title: "Análise",
+          description: "Insira o site da sua empresa para conhecer sua atividade.",
           icon: 'video'
         },
         {
-          title: "Gere Ideias em Vários Idiomas",
-          description: "Gere Ideias de Vídeos Curtos Adaptados ao Seu Negócio",
+          title: "Vídeos",
+          description: "Consulte ideias de vídeos personalizados para sua empresa.",
           icon: 'language'
         },
         {
-          title: "Escolha seus Vídeos e Faça um Pedido",
-          description: "Selecione Seus Vídeos e Confie Seu Projeto aos Nossos Criativos",
+          title: "Orçamento",
+          description: "Selecione seus favoritos e gere um orçamento com eles.",
           icon: 'content'
         }
       ]
@@ -535,12 +562,14 @@ export const translations = {
       analyzing: "Gerando títulos e briefings para seus vídeos..."
     },
     videoScripts: {
-      title: "Propostas de vídeo",
+      title: "Ideias de Vídeo para",
+      selectAndQuote: "Selecione seus favoritos e gere um orçamento",
+      generateQuote: "GERAR ORÇAMENTO",
       subtitle: "Nossas propostas de vídeo para",
-      buy: "ADICIONAR",
-      buyTooltip: "Adicionar ao carrinho",
-      selected: "ADICIONADO",
-      selectedTooltip: "Adicionado ao carrinho",
+      buy: "SELECIONAR",
+      buyTooltip: "Selecionar este vídeo",
+      selected: "SELECIONADO",
+      selectedTooltip: "Vídeo selecionado",
       backButton: "VOLTAR AO FORMULÁRIO",
       generateMore: "GERAR MAIS IDEIAS",
       generatingMore: "Gerando mais ideias para seus vídeos..."
@@ -551,10 +580,13 @@ export const translations = {
     },
     processing: {
       analyzingWebsite: "Analisando página web...",
-      generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`
+      generatingScripts: (count) => `Gerando ${count} propostas de vídeo...`,
+      extractingInfo: "Extraindo informações...",
+      creatingProposals: "Criando propostas de vídeo personalizadas",
+      generatingIdeas: "Gerando ideias..."
     },
     errors: {
-      websiteAnalysis: "Não foi possível analisar o site. Verifique a URL ou insira a atividade manualmente.",
+      websiteAnalysis: "Não foi possível analisar o site. Por favor, verifique a URL e tente novamente.\n\nSe o problema persistir, entre em contato conosco: hello@epicaworks.com",
       scriptGeneration: "Erro ao gerar propostas de vídeo. Por favor, tente novamente.",
       noUrl: "Por favor, insira uma URL válida.",
       missingInfo: "Complete o nome da empresa e a atividade.",
