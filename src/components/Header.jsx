@@ -59,14 +59,6 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
               ))}
             </select>
             <a 
-              href="https://epicaworks.com"
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-gray-300 hover:text-white transition-colors hidden sm:block"
-            >
-              {t.header.visitEpica}
-            </a>
-            <a 
               href="mailto:hello@epicaworks.com"
               className="bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium border border-white/10"
             >
