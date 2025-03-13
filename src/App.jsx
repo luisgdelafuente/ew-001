@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import OpenAI from 'openai';
-import { WebsiteAnalyzer } from './websiteAnalyzer';
+import { WebsiteAnalyzer } from './websiteAnalyzer.jsx';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
