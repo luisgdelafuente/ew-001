@@ -26,16 +26,20 @@ export class WebsiteAnalyzer {
 
     const formattedUrl = this.formatUrl(url);
     const corsProxies = [
+      'https://proxy.cors.sh/',
       'https://api.allorigins.win/raw?url=',
       'https://corsproxy.io/?',
-      'https://cors-anywhere.herokuapp.com/'
+      'https://cors-anywhere.herokuapp.com/',
+      'https://api.codetabs.com/v1/proxy?quest='
     ];
 
     let lastError = null;
+    const timeout = 10000; // 10 second timeout
 
     for (const proxy of corsProxies) {
       try {
         const response = await fetch(proxy + encodeURIComponent(formattedUrl), {
+          signal: AbortSignal.timeout(timeout),
           headers: {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
@@ -56,61 +60,69 @@ export class WebsiteAnalyzer {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
-        // Remove unwanted elements
-        ['script', 'style', 'iframe', 'noscript', 'link', 'meta'].forEach(tag => {
+        // Remove unwanted elements and common ad/tracking elements
+        ['script', 'style', 'iframe', 'noscript', 'link', 'meta', 'footer', 'header', 
+         'nav', 'aside', '[class*="cookie"]', '[class*="popup"]', '[class*="modal"]',
+         '[class*="banner"]', '[class*="ad-"]', '[class*="advertisement"]',
+         '[id*="cookie"]', '[id*="popup"]', '[id*="modal"]', '[id*="banner"]',
+         '[id*="ad-"]', '[id*="advertisement"]'].forEach(tag => {
           doc.querySelectorAll(tag).forEach(el => el.remove());
         });
 
         let content = '';
 
-        // Get meta information
-        const metaDesc = doc.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          content += metaDesc.getAttribute('content') + '\n\n';
-        }
-
-        // Get title
-        const title = doc.querySelector('title');
-        if (title) {
-          content += 'Page Title: ' + title.textContent.trim() + '\n\n';
-        }
-
-        // Get main content areas
+        // Prioritized content areas
         const mainSelectors = [
-          'main',
-          'article',
-          '[role="main"]',
-          'h1',
-          'h2',
-          '.about',
-          '#about',
-          'section',
-          '.company-info',
-          '#company-info',
-          '.hero',
-          '.header-content',
-          '[class*="about"]',
-          '[class*="company"]',
-          '[class*="description"]'
+          // About section selectors
+          '[class*="about"]:not(footer *)', '[id*="about"]:not(footer *)',
+          // Company info selectors
+          '[class*="company"]:not(footer *)', '[id*="company"]:not(footer *)',
+          // Main content selectors
+          'main:not(footer main)', 'article:not(footer article)',
+          '[role="main"]:not(footer [role="main"])',
+          // Hero/Header content
+          '.hero:not(footer *)', '#hero:not(footer *)',
+          // Important text sections
+          'h1:not(footer h1)', '.headline:not(footer *)',
+          // Description sections
+          '[class*="description"]:not(footer *)', '[id*="description"]:not(footer *)',
+          // Mission/Values sections
+          '[class*="mission"]:not(footer *)', '[id*="mission"]:not(footer *)',
+          '[class*="values"]:not(footer *)', '[id*="values"]:not(footer *)'
         ];
 
-        const contentElements = mainSelectors.flatMap(selector => 
-          Array.from(doc.querySelectorAll(selector))
-        );
-
-        // Extract text from elements
-        const processedTexts = new Set(); // To avoid duplicates
-        contentElements.forEach(element => {
-          const text = element.textContent
-            .trim()
-            .replace(/\s+/g, ' ')
-            .replace(/\n+/g, '\n');
-          
-          if (text && !processedTexts.has(text)) {
-            processedTexts.add(text);
-            content += text + '\n\n';
+        // Get meta information with priority
+        const metaDesc = doc.querySelector('meta[name="description"]');
+        if (metaDesc) {
+          const desc = metaDesc.getAttribute('content');
+          if (desc && desc.length > 50) { // Only include substantial descriptions
+            content += desc + '\n\n';
           }
-        });
+        }
+
+        // Process content by priority
+        const processedTexts = new Set(); // To avoid duplicates
+        for (const selector of mainSelectors) {
+          const elements = doc.querySelectorAll(selector);
+          for (const element of elements) {
+            // Skip if element is hidden
+            const style = window.getComputedStyle(element);
+            if (style.display === 'none' || style.visibility === 'hidden') {
+              continue;
+            }
+
+            let text = element.textContent
+              .trim()
+              .replace(/\s+/g, ' ')
+              .replace(/\n+/g, '\n');
+
+            // Only include substantial content
+            if (text.length > 20 && !processedTexts.has(text)) {
+              processedTexts.add(text);
+              content += text + '\n\n';
+            }
+          }
+        }
 
         // If still no content, try getting body text
         if (!content.trim() && doc.body) {
@@ -133,13 +145,17 @@ export class WebsiteAnalyzer {
 
         throw new Error('No content could be extracted');
       } catch (error) {
+        // Log specific error for debugging
         lastError = error;
-        console.warn(`Failed to fetch with proxy ${proxy}:`, error.message);
+        const errorType = error.name === 'TimeoutError' ? 'timeout' : 
+                         error.name === 'TypeError' ? 'network error' : 
+                         'unknown error';
+        console.warn(`Proxy ${proxy} failed (${errorType}):`, error.message);
         continue;
       }
     }
 
-    throw new Error(`Could not access the website: ${lastError?.message || 'Unknown error'}`);
+    throw new Error(`Failed to access website after trying ${corsProxies.length} proxies. Last error: ${lastError?.message || 'Unknown error'}`);
   }
 
   async analyzeContent(content) {

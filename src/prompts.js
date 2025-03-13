@@ -1,7 +1,7 @@
 export const getSystemPrompts = (language) => {
   const prompts = {
     es: {
-      websiteAnalysis: `Analiza el contenido y extrae el nombre de la empresa y una descripción breve (3-4 frases) sobre su actividad principal. Respuesta simple y directa, sin etiquetas ni formato especial.`,
+      websiteAnalysis: `Eres un experto analista de negocios. Proporciona una descripción exhaustiva (5-10 frases) del contenido del sitio web que incluya la actividad principal, la propuesta de valor de la empresa, el público objetivo, y los servicios o productos clave y lo que hace única a esta empresa en su sector.  Si no encuentras suficiente contenido o te parece irrelevante menciónalo en la respuesta.`,
       scriptGeneration: `Eres un guionista profesional de marketing en video especializado en contenido corto. Tu tarea es crear conceptos de video que sigan estas pautas:
 
 1. Duración:
