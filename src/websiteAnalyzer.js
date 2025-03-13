@@ -12,11 +12,38 @@ export class WebsiteAnalyzer {
   }
 
   formatUrl(url) {
-    if (!url) return '';
-    if (!url.match(/^https?:\/\//i)) {
-      url = 'https://' + url;
+    if (!url?.trim()) return '';
+    
+    // Keep original URL structure (www or non-www)
+    let formattedUrl = url.trim();
+    
+    // Add protocol if missing
+    if (!formattedUrl.match(/^https?:\/\//i)) {
+      formattedUrl = 'https://' + formattedUrl;
     }
-    return url;
+    
+    return formattedUrl;
+  }
+
+  generateUrlVariants(url) {
+    const urlObj = new URL(url);
+    const variants = [url]; // Original URL is first priority
+    
+    // Add www variant if not present
+    if (!urlObj.hostname.startsWith('www.')) {
+      const wwwUrl = new URL(url);
+      wwwUrl.hostname = 'www.' + urlObj.hostname;
+      variants.push(wwwUrl.toString());
+    }
+    
+    // Add non-www variant if www is present
+    if (urlObj.hostname.startsWith('www.')) {
+      const nonWwwUrl = new URL(url);
+      nonWwwUrl.hostname = urlObj.hostname.replace(/^www\./, '');
+      variants.push(nonWwwUrl.toString());
+    }
+    
+    return variants;
   }
 
   async extractMainContent(url) {
@@ -25,6 +52,7 @@ export class WebsiteAnalyzer {
     }
 
     const formattedUrl = this.formatUrl(url);
+    const urlVariants = this.generateUrlVariants(formattedUrl);
     const corsProxies = [
       'https://proxy.cors.sh/',
       'https://api.allorigins.win/raw?url=',
@@ -36,9 +64,11 @@ export class WebsiteAnalyzer {
     let lastError = null;
     const timeout = 10000; // 10 second timeout
 
-    for (const proxy of corsProxies) {
-      try {
-        const response = await fetch(proxy + encodeURIComponent(formattedUrl), {
+    // Try each URL variant with each proxy
+    for (const urlVariant of urlVariants) {
+      for (const proxy of corsProxies) {
+        try {
+          const response = await fetch(proxy + encodeURIComponent(urlVariant), {
           signal: AbortSignal.timeout(timeout),
           headers: {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -47,15 +77,15 @@ export class WebsiteAnalyzer {
           }
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+          if (!response.ok) {
+            continue; // Try next proxy or URL variant
+          }
 
-        const html = await response.text();
+          const html = await response.text();
         
-        if (!html || html.trim().length === 0) {
-          throw new Error('Empty response received');
-        }
+          if (!html || html.trim().length === 0) {
+            continue; // Try next proxy or URL variant
+          }
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
@@ -143,19 +173,15 @@ export class WebsiteAnalyzer {
           return content;
         }
 
-        throw new Error('No content could be extracted');
+        continue; // Try next proxy or URL variant
       } catch (error) {
-        // Log specific error for debugging
         lastError = error;
-        const errorType = error.name === 'TimeoutError' ? 'timeout' : 
-                         error.name === 'TypeError' ? 'network error' : 
-                         'unknown error';
-        console.warn(`Proxy ${proxy} failed (${errorType}):`, error.message);
-        continue;
+        continue; // Try next proxy or URL variant
       }
     }
 
-    throw new Error(`Failed to access website after trying ${corsProxies.length} proxies. Last error: ${lastError?.message || 'Unknown error'}`);
+    // Only throw error if all attempts failed
+    throw new Error('Failed to access website content');
   }
 
   async analyzeContent(content) {
