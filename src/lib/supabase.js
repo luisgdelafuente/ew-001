@@ -39,7 +39,7 @@ export async function createShare(companyName, videos, selectedVideos, activity)
       throw new Error('Could not generate unique client number');
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('video_shares')
       .insert({
         id: clientNumber,
@@ -47,9 +47,7 @@ export async function createShare(companyName, videos, selectedVideos, activity)
         videos: videos,
         selected_videos: selectedVideos || [],
         activity: activity
-      })
-      .select()
-      .single();
+      });
 
     if (error) {
       console.error('Supabase error:', error);

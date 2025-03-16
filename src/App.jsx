@@ -4,7 +4,7 @@ import { WebsiteAnalyzer } from './websiteAnalyzer.jsx';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import OrderDetails from './components/OrderDetails';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
@@ -40,10 +40,13 @@ function App() {
   useEffect(() => {
     if (clientNumber) {
       const loadShare = async () => {
+        setLoading(true);
         try {
           const share = await getShare(clientNumber);
           if (!share) {
-            throw new Error('Share not found');
+            setError(t.errors.loadShareError);
+            navigate('/');
+            return;
           }
           
           setCompanyName(share.companyName || '');
@@ -52,7 +55,10 @@ function App() {
           setActivity(share.activity || '');
         } catch (error) {
           console.error('Error loading shared data:', error);
-          setError(t.errors.loadShareError || 'Error loading shared data');
+          setError(t.errors.loadShareError);
+          navigate('/');
+        } finally {
+          setLoading(false);
         }
       };
       loadShare();
@@ -114,7 +120,6 @@ function App() {
         setActivity(analysis.activity);
       }
 
-      // Automatically generate video scripts after analysis
       await getVideoScripts(analysis.companyName, analysis.activity);
     } catch (error) {
       console.error('Error analyzing website:', error);

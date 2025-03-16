@@ -1,30 +1,27 @@
-import { supabase } from './lib/supabase.js';
+import { getShare } from './lib/supabase.js';
 
-async function getTestShare() {
+async function testShare() {
+  const testId = '200786';
+  
+  console.log(`Testing share URL with ID: ${testId}`);
+  
   try {
-    const { data, error } = await supabase
-      .from('video_shares')
-      .select('*')
-      .maybeSingle();
-
-    if (error) {
-      console.error('Error fetching share:', error);
+    const share = await getShare(testId);
+    
+    if (!share) {
+      console.log('Share not found');
       return;
     }
-
-    if (data) {
-      console.log('Share data found:');
-      console.log('Share ID:', data.id);
-      console.log('Share URL:', `http://localhost:5173/${data.id}`);
-      console.log('Company:', data.company_name);
-      console.log('Videos:', data.videos.length);
-      console.log('Selected:', data.selected_videos.length);
-    } else {
-      console.log('No share data found');
-    }
+    
+    console.log('Share data found:');
+    console.log('Company:', share.companyName);
+    console.log('Activity:', share.activity);
+    console.log('Videos:', share.videos.length);
+    console.log('Selected Videos:', share.selectedVideos.length);
+    
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error testing share:', error);
   }
 }
 
-getTestShare();
+testShare();
