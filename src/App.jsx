@@ -23,7 +23,7 @@ function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyUrl, setCompanyUrl] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
+  const { clientNumber } = useParams();
   const [activity, setActivity] = useState('');
   const [language, setLanguage] = useState('es');
   const videoCount = 6;
@@ -38,8 +38,7 @@ function App() {
   
   // Handle shared URLs
   useEffect(() => {
-    const clientNumber = location.pathname.substring(1);
-    if (clientNumber && /^\d+$/.test(clientNumber)) {
+    if (clientNumber) {
       const loadShare = async () => {
         try {
           const share = await getShare(clientNumber);
@@ -58,7 +57,7 @@ function App() {
       };
       loadShare();
     }
-  }, [location.pathname]);
+  }, [clientNumber]);
 
   const shareResults = async () => {
     try {
@@ -356,6 +355,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           onClick={() => {
                             setVideoScripts([]);
                             setSelectedVideos([]);
+                            navigate('/');
                           }}
                           className="flex-1 bg-[#5b9fd8] text-white px-4 py-2 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                         >
