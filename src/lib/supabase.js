@@ -1,12 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://funoizveymfycxbfvukw.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bm9penZleW1meWN4YmZ2dWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxNTI5MzMsImV4cCI6MjA1NzcyODkzM30.9v7wUOollCCAkp01FWH6VyIAoByt7_F2pbou2eVzEZE';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://funoizveymfycxbfvukw.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bm9penZleW1meWN4YmZ2dWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxNTI5MzMsImV4cCI6MjA1NzcyODkzM30.9v7wUOollCCAkp01FWH6VyIAoByt7_F2pbou2eVzEZE';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function generateClientNumber() {
-  // Generate a 6-digit number
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
@@ -16,7 +15,6 @@ export async function createShare(companyName, videos, selectedVideos, activity)
   }
 
   try {
-    // Try to generate a unique client number
     let clientNumber;
     let attempts = 0;
     const maxAttempts = 5;
@@ -24,7 +22,6 @@ export async function createShare(companyName, videos, selectedVideos, activity)
     while (attempts < maxAttempts) {
       clientNumber = generateClientNumber();
       
-      // Check if the number is already in use
       const { data: existing } = await supabase
         .from('video_shares')
         .select('id')
@@ -32,7 +29,7 @@ export async function createShare(companyName, videos, selectedVideos, activity)
         .maybeSingle();
 
       if (!existing) {
-        break; // Found an unused number
+        break;
       }
       
       attempts++;
@@ -51,7 +48,7 @@ export async function createShare(companyName, videos, selectedVideos, activity)
         selected_videos: selectedVideos || [],
         activity: activity
       })
-      .select('id')
+      .select()
       .single();
 
     if (error) {
@@ -59,11 +56,7 @@ export async function createShare(companyName, videos, selectedVideos, activity)
       throw new Error('Failed to create share');
     }
 
-    if (!data?.id) {
-      throw new Error('No ID returned from share creation');
-    }
-
-    return data.id;
+    return clientNumber;
   } catch (error) {
     console.error('Error creating share:', error);
     throw error;
@@ -76,7 +69,6 @@ export async function getShare(id) {
   }
 
   try {
-    // Use maybeSingle() instead of single() to handle no results gracefully
     const { data, error } = await supabase
       .from('video_shares')
       .select('company_name, videos, selected_videos, activity')
@@ -89,7 +81,7 @@ export async function getShare(id) {
     }
 
     if (!data) {
-      throw new Error('Share not found');
+      return null;
     }
 
     return {

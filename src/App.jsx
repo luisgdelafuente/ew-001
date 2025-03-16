@@ -4,7 +4,7 @@ import { WebsiteAnalyzer } from './websiteAnalyzer.jsx';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import OrderDetails from './components/OrderDetails';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
@@ -22,7 +22,6 @@ const openai = new OpenAI({
 function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyUrl, setCompanyUrl] = useState('');
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [activity, setActivity] = useState('');
@@ -40,7 +39,7 @@ function App() {
   // Handle shared URLs
   useEffect(() => {
     const clientNumber = location.pathname.substring(1);
-    if (clientNumber && clientNumber.length === 6) {
+    if (clientNumber && /^\d+$/.test(clientNumber)) {
       const loadShare = async () => {
         try {
           const share = await getShare(clientNumber);
