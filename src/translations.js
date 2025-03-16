@@ -92,6 +92,12 @@ export const translations = {
       direct: "Enfoque directo",
       indirect: "Enfoque indirecto"
     },
+    sharing: {
+      shareButton: "COMPARTIR",
+      copied: "¡URL copiada al portapapeles!",
+      copyError: "No se pudo copiar la URL. Por favor, inténtalo de nuevo.",
+      loadShareError: "No se pudo cargar el contenido compartido. El enlace puede haber expirado."
+    },
     processing: {
       analyzingWebsite: "Analizando página web...",
       generatingScripts: (count) => `Generando ${count} propuestas de video...`,
@@ -200,6 +206,12 @@ export const translations = {
     videoTypes: {
       direct: "Direct focus",
       indirect: "Indirect focus"
+    },
+    sharing: {
+      shareButton: "SHARE",
+      copied: "URL copied to clipboard!",
+      copyError: "Could not copy URL. Please try again.",
+      loadShareError: "Could not load shared content. The link may have expired."
     },
     processing: {
       analyzingWebsite: "Analyzing webpage...",
