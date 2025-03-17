@@ -85,15 +85,33 @@ export default function App() {
           setSelectedVideos(share.selectedVideos || []);
           setActivity(share.activity || '');
           
-          // Update metadata if provided in share
+          // Always update all meta tags with share data
+          const title = share.shareTitle || `Videos para ${share.companyName}`;
+          const description = share.shareDescription || 
+            `Propuesta de ${share.videos.length} videos para ${share.companyName}. ${share.activity || ''}`;
+          
+          // Update document title
           if (share.shareTitle) {
             document.title = share.shareTitle;
           }
-          if (share.shareDescription) {
-            const metaDescription = document.querySelector('meta[name="description"]');
-            if (metaDescription) {
-              metaDescription.setAttribute('content', share.shareDescription);
-            }
+          
+          // Update all meta tags
+          const metaDescription = document.querySelector('meta[name="description"]');
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          const ogDescription = document.querySelector('meta[property="og:description"]');
+          const ogUrl = document.querySelector('meta[property="og:url"]');
+          
+          if (metaDescription) {
+            metaDescription.setAttribute('content', description);
+          }
+          if (ogTitle) {
+            ogTitle.setAttribute('content', title);
+          }
+          if (ogDescription) {
+            ogDescription.setAttribute('content', description);
+          }
+          if (ogUrl) {
+            ogUrl.setAttribute('content', window.location.href);
           }
         } catch (error) {
           console.error('Error loading shared data:', error);
@@ -109,12 +127,36 @@ export default function App() {
 
   const shareResults = async () => {
     try {
+      // Create share metadata
+      const shareTitle = `Videos para ${companyName}`;
+      const shareDescription = `Propuesta de ${videoScripts.length} videos para ${companyName}. ${activity || ''}`;
+      
       const clientNumber = await createShare(companyName, videoScripts, selectedVideos, activity);
       if (!clientNumber) {
         throw new Error('No client number returned');
       }
       
       const shareUrl = `${window.location.origin}/${clientNumber}`;
+      
+      // Update meta tags immediately after creating share
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      
+      if (metaDescription) {
+        metaDescription.setAttribute('content', shareDescription);
+      }
+      if (ogTitle) {
+        ogTitle.setAttribute('content', shareTitle);
+      }
+      if (ogDescription) {
+        ogDescription.setAttribute('content', shareDescription);
+      }
+      if (ogUrl) {
+        ogUrl.setAttribute('content', shareUrl);
+      }
+      
       await navigator.clipboard.writeText(shareUrl);
       alert(t.sharing.copied);
     } catch (error) {
