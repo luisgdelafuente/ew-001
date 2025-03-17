@@ -2,19 +2,21 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+export const handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
-    const { videos, companyName } = req.body;
+    const { videos, companyName } = JSON.parse(event.body);
     
-    if (!videos || !videos.length) {
-      return res.status(400).json({ error: 'No videos selected' });
+    if (!videos?.length) {
+      return { 
+        statusCode: 400, 
+        body: JSON.stringify({ error: 'No videos selected' })
+      };
     }
 
-    // Create line items for Stripe
     const lineItems = videos.map(video => ({
       price_data: {
         currency: 'eur',
@@ -32,21 +34,26 @@ export default async function handler(req, res) {
       quantity: 1,
     }));
 
-    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin}/cancel`,
+      success_url: `${event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${event.headers.host}/cancel`,
       metadata: {
         companyName,
       },
     });
 
-    res.status(200).json({ id: session.id });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ id: session.id })
+    };
   } catch (error) {
-    console.error('Error creating checkout session:', error);
-    res.status(500).json({ error: 'Failed to create checkout session' });
+    console.error('Error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Failed to create checkout session' })
+    };
   }
-}
+};

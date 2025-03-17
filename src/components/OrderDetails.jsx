@@ -1,6 +1,7 @@
 import React from 'react';
 import { translations } from '../translations';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { createCheckoutSession, redirectToCheckout } from '../lib/stripe';
 
 const formatPrice = (price, locale = 'es-ES') => {
   return new Intl.NumberFormat(locale, {
@@ -17,6 +18,16 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
   const subtotal = basePrice * selectedVideos.length;
   const discountAmount = (subtotal * discount) / 100;
   const total = subtotal - discountAmount;
+
+  const handlePayment = async () => {
+    try {
+      const sessionId = await createCheckoutSession(selectedVideos, companyName);
+      await redirectToCheckout(sessionId);
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert(t.errors.paymentFailed);
+    }
+  };
 
   const handleDownload = () => {
     let content = '';
@@ -131,8 +142,8 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <button
-                  disabled
-                  className="flex-1 bg-[#b1c752] text-white px-4 py-4 h-[75px] rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50 cursor-not-allowed"
+                  onClick={handlePayment}
+                  className="flex-1 bg-[#b1c752] text-white px-4 py-4 h-[75px] rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -140,14 +151,6 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
                   {t.order.payButton}
                 </button>
               </Tooltip.Trigger>
-              <Tooltip.Portal>
-                <Tooltip.Content 
-                  className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
-                  sideOffset={5}>
-                  {t.order.paymentNotAvailable}
-                  <Tooltip.Arrow className="fill-black/90" />
-                </Tooltip.Content>
-              </Tooltip.Portal>
             </Tooltip.Root>
           </Tooltip.Provider>
         </div>
