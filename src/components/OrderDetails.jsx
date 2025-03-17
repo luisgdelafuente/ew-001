@@ -106,10 +106,10 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-stretch gap-4 mt-8 w-full">
+        <div className="flex flex-col sm:flex-row justify-stretch gap-4 mt-8 w-full py-4">
           <button
             onClick={onBack}
-            className="flex-1 bg-[#5b9fd8] text-white px-4 py-2 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+            className="flex-1 bg-[#5b9fd8] text-white px-4 py-4 h-[75px] rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -119,7 +119,7 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
 
           <button
             onClick={handleDownload}
-            className="flex-1 bg-[#7b7ef4] text-white px-4 py-2 rounded-lg hover:bg-[#6a6de3] transition-colors font-medium flex items-center justify-center gap-2"
+            className="flex-1 bg-[#7b7ef4] text-white px-4 py-4 h-[75px] rounded-lg hover:bg-[#6a6de3] transition-colors font-medium flex items-center justify-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -132,7 +132,7 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
               <Tooltip.Trigger asChild>
                 <button
                   disabled
-                  className="flex-1 bg-[#b1c752] text-white px-4 py-2 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50 cursor-not-allowed"
+                  className="flex-1 bg-[#b1c752] text-white px-4 py-4 h-[75px] rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50 cursor-not-allowed"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />

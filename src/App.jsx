@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OpenAI from 'openai';
 import { WebsiteAnalyzer } from './websiteAnalyzer.jsx';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
+import { useNavigate, useParams } from 'react-router-dom';
 import OrderDetails from './components/OrderDetails';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
@@ -11,15 +12,18 @@ import Footer from './components/Footer';
 import { config } from './config';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { createShare, getShare } from './lib/supabase';
 
 const openai = new OpenAI({
   apiKey: config.openai.apiKey,
   dangerouslyAllowBrowser: true
 });
 
-function App() {
+export default function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyUrl, setCompanyUrl] = useState('');
+  const navigate = useNavigate();
+  const { clientNumber } = useParams();
   const [activity, setActivity] = useState('');
   const [language, setLanguage] = useState('es');
   const videoCount = 6;
@@ -27,22 +31,149 @@ function App() {
   const [analyzing, setAnalyzing] = useState(false);
   const [videoScripts, setVideoScripts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMode, setModalMode] = useState('full');
   const [error, setError] = useState('');
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
   const maxVideoIdeas = 30;
+  
+  // Update document metadata when share data loads
+  useEffect(() => {
+    if (clientNumber && companyName) {
+      document.title = `Videos para ${companyName}`;
+      
+      // Update meta tags
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      
+      const title = `Videos para ${companyName}`;
+      const description = `Propuesta de ${videoScripts.length} videos para ${companyName}. ${activity || ''}`;
+      const currentUrl = window.location.href;
+      
+      if (metaDescription) {
+        metaDescription.setAttribute('content', description);
+      }
+      if (ogTitle) {
+        ogTitle.setAttribute('content', title);
+      }
+      if (ogDescription) {
+        ogDescription.setAttribute('content', description);
+      }
+      if (ogUrl) {
+        ogUrl.setAttribute('content', currentUrl);
+      }
+    }
+  }, [clientNumber, companyName, videoScripts.length, activity]);
+
+  // Handle shared URLs
+  useEffect(() => {
+    if (clientNumber) {
+      const loadShare = async () => {
+        setLoading(true);
+        try {
+          const share = await getShare(clientNumber);
+          if (!share) {
+            setError(t.errors.loadShareError);
+            navigate('/');
+            return;
+          }
+          
+          setCompanyName(share.companyName || '');
+          setVideoScripts(share.videos || []);
+          setSelectedVideos(share.selectedVideos || []);
+          setActivity(share.activity || '');
+          
+          // Always update all meta tags with share data
+          const title = share.shareTitle || `Videos para ${share.companyName}`;
+          const description = share.shareDescription || 
+            `Propuesta de ${share.videos.length} videos para ${share.companyName}. ${share.activity || ''}`;
+          
+          // Update document title
+          if (share.shareTitle) {
+            document.title = share.shareTitle;
+          }
+          
+          // Update all meta tags
+          const metaDescription = document.querySelector('meta[name="description"]');
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          const ogDescription = document.querySelector('meta[property="og:description"]');
+          const ogUrl = document.querySelector('meta[property="og:url"]');
+          
+          if (metaDescription) {
+            metaDescription.setAttribute('content', description);
+          }
+          if (ogTitle) {
+            ogTitle.setAttribute('content', title);
+          }
+          if (ogDescription) {
+            ogDescription.setAttribute('content', description);
+          }
+          if (ogUrl) {
+            ogUrl.setAttribute('content', window.location.href);
+          }
+        } catch (error) {
+          console.error('Error loading shared data:', error);
+          setError(t.errors.loadShareError);
+          navigate('/');
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadShare();
+    }
+  }, [clientNumber]);
+
+  const shareResults = async () => {
+    try {
+      // Create share metadata
+      const shareTitle = `Videos para ${companyName}`;
+      const shareDescription = `Propuesta de ${videoScripts.length} videos para ${companyName}. ${activity || ''}`;
+      
+      const clientNumber = await createShare(companyName, videoScripts, selectedVideos, activity);
+      if (!clientNumber) {
+        throw new Error('No client number returned');
+      }
+      
+      const shareUrl = `${window.location.origin}/${clientNumber}`;
+      
+      // Update meta tags immediately after creating share
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      
+      if (metaDescription) {
+        metaDescription.setAttribute('content', shareDescription);
+      }
+      if (ogTitle) {
+        ogTitle.setAttribute('content', shareTitle);
+      }
+      if (ogDescription) {
+        ogDescription.setAttribute('content', shareDescription);
+      }
+      if (ogUrl) {
+        ogUrl.setAttribute('content', shareUrl);
+      }
+      
+      await navigator.clipboard.writeText(shareUrl);
+      alert(t.sharing.copied);
+    } catch (error) {
+      console.error('Error sharing results:', error);
+      alert(error.message || t.sharing.copyError);
+    }
+  };
 
   const t = translations[language];
 
-  const showModal = (message) => {
-    setModalMessage(message);
+  const showModal = () => {
     setModalOpen(true);
+    setModalMode('full');
   };
 
   const hideModal = () => {
     setModalOpen(false);
-    setModalMessage('');
   };
 
   const handleUrlChange = (e) => {
@@ -59,8 +190,9 @@ function App() {
     }
 
     setError('');
+    showModal();
+    setModalMode('full');
     setAnalyzing(true);
-    showModal(t.processing.analyzingWebsite);
 
     try {
       const analyzer = new WebsiteAnalyzer(language);
@@ -74,7 +206,6 @@ function App() {
         setActivity(analysis.activity);
       }
 
-      // Automatically generate video scripts after analysis
       await getVideoScripts(analysis.companyName, analysis.activity);
     } catch (error) {
       console.error('Error analyzing website:', error);
@@ -93,7 +224,8 @@ function App() {
 
     setError('');
     setLoading(true);
-    showModal(t.processing.generatingScripts(videoCount));
+    setModalOpen(true);
+    setModalMode('more');
 
     try {
       const response = await openai.chat.completions.create({
@@ -163,7 +295,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
-      <LoadingModal isOpen={modalOpen} message={modalMessage} language={language} />
+      <LoadingModal isOpen={modalOpen} mode={modalMode} language={language} />
       <BackgroundIcons />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
@@ -174,10 +306,10 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
           {!videoScripts.length > 0 ? (
             <>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-8">
-                Generador de Ideas para Vídeos
+                {t.landing.hero.title}
               </h1>
               <p className="text-xl sm:text-2xl text-gray-300 text-center mb-12 max-w-3xl mx-auto leading-relaxed">
-                Genera títulos y resúmenes de vídeos a medida para tu empresa
+                {t.landing.hero.subtitle}
               </p>
 
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-8 border border-white/10 mb-8">
@@ -222,38 +354,17 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                {/* Feature 1: Introduce tu Web */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <div className="w-12 h-12 bg-[#7B7EF4]/20 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                {t.landing.features.map((feature, index) => (
+                  <div key={index} className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                    <div className="w-12 h-12 bg-[#7B7EF4]/20 rounded-lg flex items-center justify-center mb-4">
+                      {feature.icon === 'video' && <VideoIcon />}
+                      {feature.icon === 'language' && <LanguageIcon />}
+                      {feature.icon === 'content' && <ContentIcon />}
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
+                    <p className="text-gray-400">{feature.description}</p>
                   </div>
-                  <h3 className="text-xl font-medium mb-2">{t.landing.features[0].title}</h3>
-                  <p className="text-gray-400">{t.landing.features[0].description}</p>
-                </div>
-
-                {/* Feature 2: Propuestas de Vídeos */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <div className="w-12 h-12 bg-[#7B7EF4]/20 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-medium mb-2">{t.landing.features[1].title}</h3>
-                  <p className="text-gray-400">{t.landing.features[1].description}</p>
-                </div>
-
-                {/* Feature 3: Oferta a Medida */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <div className="w-12 h-12 bg-[#7B7EF4]/20 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-[#7B7EF4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-medium mb-2">{t.landing.features[2].title}</h3>
-                  <p className="text-gray-400">{t.landing.features[2].description}</p>
-                </div>
+                ))}
               </div>
             </>
           ) : (
@@ -336,8 +447,9 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           onClick={() => {
                             setVideoScripts([]);
                             setSelectedVideos([]);
+                            navigate('/');
                           }}
-                          className="flex-1 bg-[#5b9fd8] text-white px-4 py-2 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+                          className="flex-1 bg-[#5b9fd8] text-white px-4 py-3 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -347,8 +459,8 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
 
                         <button
                           onClick={() => getVideoScripts(companyName, activity)}
-                          disabled={loading || videoScripts.length >= maxVideoIdeas}
-                          className="flex-1 bg-[#7B7EF4] text-white px-4 py-2 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                          disabled={loading || videoScripts.length >= maxVideoIdeas || !activity}
+                          className="flex-1 bg-[#7B7EF4] text-white px-4 py-3 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {loading ? (
                             <>
@@ -361,17 +473,41 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           ) : (
                             <>
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                               </svg>
                               {t.videoScripts.generateMore}
                             </>
                           )}
                         </button>
 
+                        <Tooltip.Provider>
+                          <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                              <button
+                                onClick={shareResults}
+                                className="flex-1 bg-[#c83d89] text-white px-4 py-3 rounded-lg hover:bg-[#b73580] transition-colors font-medium flex items-center justify-center gap-2"
+                              >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                                {t.sharing.shareButton}
+                              </button>
+                            </Tooltip.Trigger>
+                            <Tooltip.Portal>
+                              <Tooltip.Content 
+                                className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                                sideOffset={5}>
+                                {t.sharing.shareTooltip}
+                                <Tooltip.Arrow className="fill-black/90" />
+                              </Tooltip.Content>
+                            </Tooltip.Portal>
+                          </Tooltip.Root>
+                        </Tooltip.Provider>
+
                         <button
                           onClick={() => setShowOrder(true)}
                           disabled={selectedVideos.length === 0}
-                          className="flex-1 bg-[#b1c752] text-white px-4 py-2 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="flex-1 bg-[#b1c752] text-white px-4 py-3 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
@@ -392,5 +528,3 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
     </div>
   );
 }
-
-export default App;

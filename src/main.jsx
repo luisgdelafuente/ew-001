@@ -9,6 +9,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/:clientNumber" element={<App />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
