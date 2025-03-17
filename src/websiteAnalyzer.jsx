@@ -47,6 +47,13 @@ export class WebsiteAnalyzer {
       throw new Error('Please provide a valid URL');
     }
 
+    // Check for common error page indicators
+    const errorPageIndicators = [
+      'Error 404', 'Page Not Found', '404 Not Found', 
+      'Domain Default page', 'Parked Domain', 'Website Coming Soon',
+      'Account Suspended', 'This domain is not configured'
+    ];
+
     const formattedUrl = this.formatUrl(url);
     const urlVariants = this.generateUrlVariants(formattedUrl);
     const corsProxies = [
@@ -79,7 +86,14 @@ export class WebsiteAnalyzer {
 
           // Create a temporary div to parse HTML
           const div = document.createElement('div');
-          div.innerHTML = html;
+          div.innerHTML = html.trim();
+
+          // Check for error pages
+          const pageText = div.textContent.trim();
+          if (errorPageIndicators.some(indicator => 
+              pageText.toLowerCase().includes(indicator.toLowerCase()))) {
+            throw new Error('This appears to be an error page or parked domain');
+          }
 
           // Remove unwanted elements
           const unwantedSelectors = [
@@ -97,14 +111,31 @@ export class WebsiteAnalyzer {
           let content = '';
 
           // Get meta description
-          const metaDesc = div.querySelector('meta[name="description"]');
-          if (metaDesc?.getAttribute('content')?.length > 50) {
-            content += metaDesc.getAttribute('content') + '\n\n';
+          // Extract metadata with priority
+          const metaTags = {
+            companyName: div.querySelector('meta[property="og:site_name"]')?.getAttribute('content') ||
+                        div.querySelector('meta[name="application-name"]')?.getAttribute('content'),
+            description: div.querySelector('meta[property="og:description"]')?.getAttribute('content') ||
+                        div.querySelector('meta[name="description"]')?.getAttribute('content'),
+            title: div.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
+                   div.querySelector('title')?.textContent
+          };
+
+          if (metaTags.description?.length > 50) {
+            content += metaTags.description + '\n\n';
           }
 
           // Prioritized content areas
           const mainSelectors = [
+            // Brand/Company identifiers
+            '.brand', '.logo-text', '.company-name', '#company-name',
+            '[class*="brand"]', '[class*="logo"]', '[id*="brand"]',
+            // About section with high priority
             '[class*="about"]:not(footer *)', '[id*="about"]:not(footer *)',
+            // Products/Services sections
+            '[class*="products"]:not(footer *)', '[id*="products"]:not(footer *)',
+            '[class*="services"]:not(footer *)', '[id*="services"]:not(footer *)',
+            // Main content areas
             '[class*="company"]:not(footer *)', '[id*="company"]:not(footer *)',
             'main:not(footer main)', 'article:not(footer article)',
             '[role="main"]:not(footer [role="main"])',
@@ -118,18 +149,36 @@ export class WebsiteAnalyzer {
           const processedTexts = new Set();
           
           mainSelectors.forEach(selector => {
-            div.querySelectorAll(selector).forEach(element => {
+            Array.from(div.querySelectorAll(selector)).forEach(element => {
+              // Skip if element is hidden
+              const style = window.getComputedStyle(element);
+              if (style.display === 'none' || style.visibility === 'hidden') {
+                return;
+              }
+
               const text = element.textContent
                 ?.trim()
                 .replace(/\s+/g, ' ')
                 .replace(/\n+/g, '\n');
 
-              if (text?.length > 20 && !processedTexts.has(text)) {
+              if (text?.length > 15 && !processedTexts.has(text)) {
                 processedTexts.add(text);
                 content += text + '\n\n';
               }
             });
           });
+
+          // Try to extract links to important pages for additional context
+          const importantLinks = Array.from(div.querySelectorAll('a'))
+            .filter(link => {
+              const href = link.getAttribute('href');
+              const text = link.textContent.toLowerCase();
+              return href && !href.startsWith('#') && 
+                     (text.includes('about') || text.includes('products') || 
+                      text.includes('services') || text.includes('company'));
+            })
+            .map(link => new URL(link.href, url).href)
+            .slice(0, 3); // Limit to 3 important pages
 
           if (!content.trim() && div.textContent) {
             content = div.textContent
@@ -144,7 +193,13 @@ export class WebsiteAnalyzer {
             .replace(/\s+/g, ' ')
             .replace(/\n +/g, '\n');
 
-          if (content.length > 0) return content;
+          if (content.length > 0) {
+            return {
+              content,
+              metadata: metaTags,
+              importantLinks
+            };
+          }
         } catch (error) {
           lastError = error;
           continue;
@@ -156,30 +211,53 @@ export class WebsiteAnalyzer {
   }
 
   async analyzeContent(content) {
-    if (!content?.trim()) {
+    if (!content?.content?.trim()) {
       throw new Error('No content provided for analysis');
     }
 
     try {
       const prompts = getSystemPrompts(this.language);
+      const metadata = content.metadata || {};
       
       const response = await this.openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [{
           role: "system",
-          content: `Extract company information from the provided content and provide the description in ${this.language} language. Return a JSON object with:
-{
-  "companyName": "Just the company name, no additional text",
-  "activity": "3-4 sentences describing what they do in ${this.language} language"
-}`
+          content: `You are a business analyst specializing in company identification and analysis.
+Task: Extract accurate company information from website content and metadata.
+
+Guidelines for company name extraction:
+1. Prioritize official sources in this order:
+   - meta[property="og:site_name"]
+   - meta[name="application-name"]
+   - Brand name in logo/header
+   - Company name mentioned in about section
+2. Remove legal entities (Inc, Ltd, etc)
+3. Clean up any extra text or descriptions
+4. If multiple variations exist, choose the most commonly used one
+
+Guidelines for activity analysis:
+1. Focus on core business activities and value proposition
+2. Include main products/services offered
+3. Identify target market/audience
+4. Note any unique selling points or specializations
+5. If content seems incomplete, indicate what information is missing
+
+Return a JSON object with:
+- companyName: Clean, accurate company name
+- activity: Comprehensive 3-4 sentence description in ${this.language}`
         }, {
           role: "user",
-          content: `Extract from this content and provide the description in ${this.language} language:
-1. Company name (just the name, no extra text)
-2. Brief company description in ${this.language} (3-4 sentences)
+          content: `Analyze this website content and metadata:
 
-Website content:
-${content.substring(0, 2000)}`
+Metadata:
+${JSON.stringify(metadata, null, 2)}
+
+Main Content:
+${content.content.substring(0, 2000)}
+
+Important Links Found:
+${content.importantLinks?.join('\n') || 'No additional pages found'}`
         }],
         temperature: 0.2,
         max_tokens: 500,
