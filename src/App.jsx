@@ -41,11 +41,28 @@ export default function App() {
   useEffect(() => {
     if (clientNumber && companyName) {
       document.title = `Videos para ${companyName}`;
+      
+      // Update meta tags
       const metaDescription = document.querySelector('meta[name="description"]');
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      
+      const title = `Videos para ${companyName}`;
+      const description = `Propuesta de ${videoScripts.length} videos para ${companyName}. ${activity || ''}`;
+      const currentUrl = window.location.href;
+      
       if (metaDescription) {
-        metaDescription.setAttribute('content', 
-          `Propuesta de ${videoScripts.length} ideas de videos para ${companyName}. ${activity || ''}`
-        );
+        metaDescription.setAttribute('content', description);
+      }
+      if (ogTitle) {
+        ogTitle.setAttribute('content', title);
+      }
+      if (ogDescription) {
+        ogDescription.setAttribute('content', description);
+      }
+      if (ogUrl) {
+        ogUrl.setAttribute('content', currentUrl);
       }
     }
   }, [clientNumber, companyName, videoScripts.length, activity]);
@@ -131,8 +148,9 @@ export default function App() {
     }
 
     setError('');
-    setAnalyzing(true);
     showModal();
+    setModalMode('full');
+    setAnalyzing(true);
 
     try {
       const analyzer = new WebsiteAnalyzer(language);
