@@ -11,28 +11,35 @@ export const handler = async (event) => {
     const { videos, companyName } = JSON.parse(event.body);
     
     if (!videos?.length) {
-      return { 
-        statusCode: 400, 
+      return {
+        statusCode: 400,
         body: JSON.stringify({ error: 'No videos selected' })
       };
     }
 
-    const lineItems = videos.map(video => ({
+    // Calculate total with discount
+    const basePrice = 9900; // 99 EUR in cents
+    const discount = 10 + ((videos.length - 1) * (40 - 10) / (10 - 1));
+    const subtotal = basePrice * videos.length;
+    const discountAmount = Math.round((subtotal * discount) / 100);
+    const total = subtotal - discountAmount;
+
+    // Create a single line item with all videos included
+    const lineItems = [{
       price_data: {
         currency: 'eur',
         product_data: {
-          name: video.title,
-          description: `${video.duration}s video - ${video.type === 'direct' ? 'Direct focus' : 'Indirect focus'}`,
+          name: `Video Package - ${videos.length} Videos`,
+          description: `Complete video package for ${companyName}\n\nIncludes:\n${videos.map(v => `- ${v.title}`).join('\n')}`,
           metadata: {
-            videoId: video.id,
-            duration: video.duration,
-            type: video.type
-          },
+            videoCount: videos.length.toString(),
+            videos: JSON.stringify(videos.map(v => v.id))
+          }
         },
-        unit_amount: 9900, // 99 EUR in cents
+        unit_amount: total / videos.length, // Distribute total amount across videos
       },
-      quantity: 1,
-    }));
+      quantity: videos.length,
+    }];
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
