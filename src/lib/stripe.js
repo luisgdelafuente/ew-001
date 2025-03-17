@@ -15,6 +15,11 @@ export const createCheckoutSession = async (selectedVideos, companyName) => {
       }),
     });
 
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Error creating checkout session');
+    }
+
     const { id: sessionId } = await response.json();
     return sessionId;
   } catch (error) {

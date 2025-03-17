@@ -383,6 +383,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       selectedVideos={selectedVideos}
                       onBack={() => setShowOrder(false)}
                       language={language}
+                      companyName={companyName}
                     />
                   ) : (
                     <>

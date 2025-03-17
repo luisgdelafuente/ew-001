@@ -10,7 +10,7 @@ const formatPrice = (price, locale = 'es-ES') => {
   }).format(price);
 };
 
-const OrderDetails = ({ selectedVideos, onBack, language }) => {
+const OrderDetails = ({ selectedVideos, onBack, language, companyName }) => {
   const t = translations[language];
   const basePrice = 99;
   // Linear discount from 10% to 40% based on video count (1-10)
@@ -22,10 +22,13 @@ const OrderDetails = ({ selectedVideos, onBack, language }) => {
   const handlePayment = async () => {
     try {
       const sessionId = await createCheckoutSession(selectedVideos, companyName);
+      if (!sessionId) {
+        throw new Error('No session ID returned');
+      }
       await redirectToCheckout(sessionId);
     } catch (error) {
       console.error('Payment error:', error);
-      alert(t.errors.paymentFailed);
+      alert(error.message || t.errors.paymentFailed);
     }
   };
 

@@ -38,8 +38,8 @@ export const handler = async (event) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${event.headers.host}/cancel`,
+      success_url: `${process.env.URL || event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.URL || event.headers.host}/cancel`,
       metadata: {
         companyName,
       },
