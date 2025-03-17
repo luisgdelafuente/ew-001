@@ -1,11 +1,10 @@
 import OpenAI from 'openai';
 import { getSystemPrompts } from './prompts';
-import { config } from './config';
 
 export class WebsiteAnalyzer {
   constructor(language = 'en') {
     this.openai = new OpenAI({
-      apiKey: config.openai.apiKey,
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true
     });
     this.language = language;
@@ -69,13 +68,13 @@ export class WebsiteAnalyzer {
       for (const proxy of corsProxies) {
         try {
           const response = await fetch(proxy + encodeURIComponent(urlVariant), {
-          signal: AbortSignal.timeout(timeout),
-          headers: {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-          }
-        });
+            signal: AbortSignal.timeout(timeout),
+            headers: {
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+              'Accept-Language': 'en-US,en;q=0.5',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+          });
 
           if (!response.ok) {
             continue; // Try next proxy or URL variant
@@ -87,96 +86,96 @@ export class WebsiteAnalyzer {
             continue; // Try next proxy or URL variant
           }
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
 
-        // Remove unwanted elements and common ad/tracking elements
-        ['script', 'style', 'iframe', 'noscript', 'link', 'meta', 'footer', 'header', 
-         'nav', 'aside', '[class*="cookie"]', '[class*="popup"]', '[class*="modal"]',
-         '[class*="banner"]', '[class*="ad-"]', '[class*="advertisement"]',
-         '[id*="cookie"]', '[id*="popup"]', '[id*="modal"]', '[id*="banner"]',
-         '[id*="ad-"]', '[id*="advertisement"]'].forEach(tag => {
-          doc.querySelectorAll(tag).forEach(el => el.remove());
-        });
+          // Remove unwanted elements and common ad/tracking elements
+          ['script', 'style', 'iframe', 'noscript', 'link', 'meta', 'footer', 'header', 
+           'nav', 'aside', '[class*="cookie"]', '[class*="popup"]', '[class*="modal"]',
+           '[class*="banner"]', '[class*="ad-"]', '[class*="advertisement"]',
+           '[id*="cookie"]', '[id*="popup"]', '[id*="modal"]', '[id*="banner"]',
+           '[id*="ad-"]', '[id*="advertisement"]'].forEach(tag => {
+            doc.querySelectorAll(tag).forEach(el => el.remove());
+          });
 
-        let content = '';
+          let content = '';
 
-        // Prioritized content areas
-        const mainSelectors = [
-          // About section selectors
-          '[class*="about"]:not(footer *)', '[id*="about"]:not(footer *)',
-          // Company info selectors
-          '[class*="company"]:not(footer *)', '[id*="company"]:not(footer *)',
-          // Main content selectors
-          'main:not(footer main)', 'article:not(footer article)',
-          '[role="main"]:not(footer [role="main"])',
-          // Hero/Header content
-          '.hero:not(footer *)', '#hero:not(footer *)',
-          // Important text sections
-          'h1:not(footer h1)', '.headline:not(footer *)',
-          // Description sections
-          '[class*="description"]:not(footer *)', '[id*="description"]:not(footer *)',
-          // Mission/Values sections
-          '[class*="mission"]:not(footer *)', '[id*="mission"]:not(footer *)',
-          '[class*="values"]:not(footer *)', '[id*="values"]:not(footer *)'
-        ];
+          // Prioritized content areas
+          const mainSelectors = [
+            // About section selectors
+            '[class*="about"]:not(footer *)', '[id*="about"]:not(footer *)',
+            // Company info selectors
+            '[class*="company"]:not(footer *)', '[id*="company"]:not(footer *)',
+            // Main content selectors
+            'main:not(footer main)', 'article:not(footer article)',
+            '[role="main"]:not(footer [role="main"])',
+            // Hero/Header content
+            '.hero:not(footer *)', '#hero:not(footer *)',
+            // Important text sections
+            'h1:not(footer h1)', '.headline:not(footer *)',
+            // Description sections
+            '[class*="description"]:not(footer *)', '[id*="description"]:not(footer *)',
+            // Mission/Values sections
+            '[class*="mission"]:not(footer *)', '[id*="mission"]:not(footer *)',
+            '[class*="values"]:not(footer *)', '[id*="values"]:not(footer *)'];
 
-        // Get meta information with priority
-        const metaDesc = doc.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          const desc = metaDesc.getAttribute('content');
-          if (desc && desc.length > 50) { // Only include substantial descriptions
-            content += desc + '\n\n';
-          }
-        }
-
-        // Process content by priority
-        const processedTexts = new Set(); // To avoid duplicates
-        for (const selector of mainSelectors) {
-          const elements = doc.querySelectorAll(selector);
-          for (const element of elements) {
-            // Skip if element is hidden
-            const style = window.getComputedStyle(element);
-            if (style.display === 'none' || style.visibility === 'hidden') {
-              continue;
+          // Get meta information with priority
+          const metaDesc = doc.querySelector('meta[name="description"]');
+          if (metaDesc) {
+            const desc = metaDesc.getAttribute('content');
+            if (desc && desc.length > 50) { // Only include substantial descriptions
+              content += desc + '\n\n';
             }
+          }
 
-            let text = element.textContent
+          // Process content by priority
+          const processedTexts = new Set(); // To avoid duplicates
+          for (const selector of mainSelectors) {
+            const elements = doc.querySelectorAll(selector);
+            for (const element of elements) {
+              // Skip if element is hidden
+              const style = window.getComputedStyle(element);
+              if (style.display === 'none' || style.visibility === 'hidden') {
+                continue;
+              }
+
+              let text = element.textContent
+                .trim()
+                .replace(/\s+/g, ' ')
+                .replace(/\n+/g, '\n');
+
+              // Only include substantial content
+              if (text.length > 20 && !processedTexts.has(text)) {
+                processedTexts.add(text);
+                content += text + '\n\n';
+              }
+            }
+          }
+
+          // If still no content, try getting body text
+          if (!content.trim() && doc.body) {
+            content = doc.body.textContent
               .trim()
               .replace(/\s+/g, ' ')
               .replace(/\n+/g, '\n');
-
-            // Only include substantial content
-            if (text.length > 20 && !processedTexts.has(text)) {
-              processedTexts.add(text);
-              content += text + '\n\n';
-            }
           }
-        }
 
-        // If still no content, try getting body text
-        if (!content.trim() && doc.body) {
-          content = doc.body.textContent
+          // Final content cleanup
+          content = content
             .trim()
+            .replace(/\n{3,}/g, '\n\n')
             .replace(/\s+/g, ' ')
-            .replace(/\n+/g, '\n');
+            .replace(/\n +/g, '\n');
+
+          if (content.length > 0) {
+            return content;
+          }
+
+          continue; // Try next proxy or URL variant
+        } catch (error) {
+          lastError = error;
+          continue; // Try next proxy or URL variant
         }
-
-        // Final content cleanup
-        content = content
-          .trim()
-          .replace(/\n{3,}/g, '\n\n')
-          .replace(/\s+/g, ' ')
-          .replace(/\n +/g, '\n');
-
-        if (content.length > 0) {
-          return content;
-        }
-
-        continue; // Try next proxy or URL variant
-      } catch (error) {
-        lastError = error;
-        continue; // Try next proxy or URL variant
       }
     }
 

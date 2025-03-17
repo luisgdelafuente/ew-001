@@ -9,13 +9,13 @@ import OrderDetails from './components/OrderDetails';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { config } from './config';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { createShare, getShare } from './lib/supabase';
 
+// Initialize OpenAI client with API key from environment variable
 const openai = new OpenAI({
-  apiKey: config.openai.apiKey,
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
   dangerouslyAllowBrowser: true
 });
 

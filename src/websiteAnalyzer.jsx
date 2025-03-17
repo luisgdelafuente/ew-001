@@ -1,11 +1,10 @@
 import OpenAI from 'openai';
 import { getSystemPrompts } from './prompts';
-import { config } from './config';
 
 export class WebsiteAnalyzer {
   constructor(language = 'en') {
     this.openai = new OpenAI({
-      apiKey: config.openai.apiKey,
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true
     });
     this.language = language;
