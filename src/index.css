@@ -50,6 +50,18 @@
   animation: floatReverse 7s ease-in-out infinite;
 }
 
+@keyframes loading {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 90%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
 .font-montreal {
   font-family: 'Neue Montreal', sans-serif;
 }

@@ -14,6 +14,10 @@ export async function createShare(companyName, videos, selectedVideos, activity)
     throw new Error('Missing required parameters');
   }
 
+  // Generate share metadata
+  const shareTitle = `Videos para ${companyName}`;
+  const shareDescription = `Propuesta de ${videos.length} ideas de videos para ${companyName}. ${activity || ''}`.trim();
+
   try {
     let clientNumber;
     let attempts = 0;
@@ -46,7 +50,9 @@ export async function createShare(companyName, videos, selectedVideos, activity)
         company_name: companyName,
         videos: videos,
         selected_videos: selectedVideos || [],
-        activity: activity
+        activity: activity,
+        share_title: shareTitle,
+        share_description: shareDescription
       });
 
     if (error) {
@@ -69,7 +75,7 @@ export async function getShare(id) {
   try {
     const { data, error } = await supabase
       .from('video_shares')
-      .select('company_name, videos, selected_videos, activity')
+      .select('company_name, videos, selected_videos, activity, share_title, share_description')
       .eq('id', id)
       .maybeSingle();
 
@@ -86,7 +92,9 @@ export async function getShare(id) {
       companyName: data.company_name,
       videos: data.videos,
       selectedVideos: data.selected_videos,
-      activity: data.activity
+      activity: data.activity,
+      shareTitle: data.share_title,
+      shareDescription: data.share_description
     };
   } catch (error) {
     console.error('Error getting share:', error);

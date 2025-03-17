@@ -19,7 +19,7 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true
 });
 
-function App() {
+export default function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyUrl, setCompanyUrl] = useState('');
   const navigate = useNavigate();
@@ -31,11 +31,25 @@ function App() {
   const [analyzing, setAnalyzing] = useState(false);
   const [videoScripts, setVideoScripts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('full');
   const [error, setError] = useState('');
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
   const maxVideoIdeas = 30;
   
+  // Update document metadata when share data loads
+  useEffect(() => {
+    if (clientNumber && companyName) {
+      document.title = `Videos para ${companyName}`;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 
+          `Propuesta de ${videoScripts.length} ideas de videos para ${companyName}. ${activity || ''}`
+        );
+      }
+    }
+  }, [clientNumber, companyName, videoScripts.length, activity]);
+
   // Handle shared URLs
   useEffect(() => {
     if (clientNumber) {
@@ -53,6 +67,17 @@ function App() {
           setVideoScripts(share.videos || []);
           setSelectedVideos(share.selectedVideos || []);
           setActivity(share.activity || '');
+          
+          // Update metadata if provided in share
+          if (share.shareTitle) {
+            document.title = share.shareTitle;
+          }
+          if (share.shareDescription) {
+            const metaDescription = document.querySelector('meta[name="description"]');
+            if (metaDescription) {
+              metaDescription.setAttribute('content', share.shareDescription);
+            }
+          }
         } catch (error) {
           console.error('Error loading shared data:', error);
           setError(t.errors.loadShareError);
@@ -85,6 +110,7 @@ function App() {
 
   const showModal = () => {
     setModalOpen(true);
+    setModalMode('full');
   };
 
   const hideModal = () => {
@@ -138,7 +164,8 @@ function App() {
 
     setError('');
     setLoading(true);
-    showModal();
+    setModalOpen(true);
+    setModalMode('more');
 
     try {
       const response = await openai.chat.completions.create({
@@ -208,7 +235,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
-      <LoadingModal isOpen={modalOpen} language={language} />
+      <LoadingModal isOpen={modalOpen} mode={modalMode} language={language} />
       <BackgroundIcons />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
@@ -362,7 +389,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                             setSelectedVideos([]);
                             navigate('/');
                           }}
-                          className="flex-1 bg-[#5b9fd8] text-white px-4 py-2 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+                          className="flex-1 bg-[#5b9fd8] text-white px-4 py-3 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -373,7 +400,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         <button
                           onClick={() => getVideoScripts(companyName, activity)}
                           disabled={loading || videoScripts.length >= maxVideoIdeas || !activity}
-                          className="flex-1 bg-[#7B7EF4] text-white px-4 py-2 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="flex-1 bg-[#7B7EF4] text-white px-4 py-3 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {loading ? (
                             <>
@@ -386,27 +413,41 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                           ) : (
                             <>
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                               </svg>
                               {t.videoScripts.generateMore}
                             </>
                           )}
                         </button>
 
-                        <button
-                          onClick={shareResults}
-                          className="flex-1 bg-[#5d7ce5] text-white px-4 py-2 rounded-lg hover:bg-[#4c6bd4] transition-colors font-medium flex items-center justify-center gap-2"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                          </svg>
-                          {t.sharing.shareButton}
-                        </button>
+                        <Tooltip.Provider>
+                          <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                              <button
+                                onClick={shareResults}
+                                className="flex-1 bg-[#c83d89] text-white px-4 py-3 rounded-lg hover:bg-[#b73580] transition-colors font-medium flex items-center justify-center gap-2"
+                              >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                                {t.sharing.shareButton}
+                              </button>
+                            </Tooltip.Trigger>
+                            <Tooltip.Portal>
+                              <Tooltip.Content 
+                                className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                                sideOffset={5}>
+                                {t.sharing.shareTooltip}
+                                <Tooltip.Arrow className="fill-black/90" />
+                              </Tooltip.Content>
+                            </Tooltip.Portal>
+                          </Tooltip.Root>
+                        </Tooltip.Provider>
 
                         <button
                           onClick={() => setShowOrder(true)}
                           disabled={selectedVideos.length === 0}
-                          className="flex-1 bg-[#b1c752] text-white px-4 py-2 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="flex-1 bg-[#b1c752] text-white px-4 py-3 rounded-lg hover:bg-[#a0b641] transition-colors font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
@@ -427,5 +468,3 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
     </div>
   );
 }
-
-export default App;
