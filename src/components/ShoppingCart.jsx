@@ -3,9 +3,11 @@ import { translations } from '../translations';
 import * as Tooltip from '@radix-ui/react-tooltip';
 
 const calculateDiscount = (count) => {
-  // Linear discount from 10% to 40% based on video count (1-10)
-  const percentage = 10 + ((count - 1) * (40 - 10) / (10 - 1));
-  return Math.min(40, Math.max(10, percentage));
+  if (count <= 1) return 0;
+  if (count === 2) return 10;
+  if (count === 3) return 20;
+  if (count === 4) return 30;
+  return 40;
 };
 
 const formatPrice = (price, locale = 'es-ES') => {
@@ -69,7 +71,7 @@ const ShoppingCart = ({ selectedVideos, onRemoveVideo, onOrder, onBack, language
             <Tooltip.Trigger asChild>
               <button
                 onClick={onBack}
-                className="bg-white/5 text-white py-3 px-8 rounded-xl hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
+                className="bg-white/5 text-white h-14 px-6 rounded-lg hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors border border-white/10 font-medium"
               >
                 {t.videoScripts.backButton}
               </button>
@@ -87,7 +89,7 @@ const ShoppingCart = ({ selectedVideos, onRemoveVideo, onOrder, onBack, language
 
         <button 
           onClick={onOrder}
-          className="bg-[#7B7EF4] text-white py-3 px-8 rounded-xl hover:bg-[#6B6EE4] transition-colors font-medium"
+          className="bg-[#7B7EF4] text-white h-14 px-6 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium"
         >
           {t.cart.orderButton}
         </button>

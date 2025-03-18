@@ -17,9 +17,17 @@ export const handler = async (event) => {
       };
     }
 
-    // Calculate total with discount
+    // Calculate discount based on number of videos
+    const getDiscount = (count) => {
+      if (count <= 1) return 0;
+      if (count === 2) return 10;
+      if (count === 3) return 20;
+      if (count === 4) return 30;
+      return 40;
+    };
+
     const basePrice = 9900; // 99 EUR in cents
-    const discount = 10 + ((videos.length - 1) * (40 - 10) / (10 - 1));
+    const discount = getDiscount(videos.length);
     const subtotal = basePrice * videos.length;
     const discountAmount = Math.round((subtotal * discount) / 100);
     const total = subtotal - discountAmount;
