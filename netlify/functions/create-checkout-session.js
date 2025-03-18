@@ -1,6 +1,9 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+  maxNetworkRetries: 2
+});
 
 export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -44,12 +47,15 @@ export const handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
-      mode: 'payment',
+      mode: 'payment', 
+      payment_intent_data: {
+        setup_future_usage: null
+      },
       success_url: `${process.env.URL || event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.URL || event.headers.host}/cancel`,
       metadata: {
         companyName,
-      },
+      }
     });
 
     return {
