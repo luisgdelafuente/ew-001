@@ -4,7 +4,7 @@ import { WebsiteAnalyzer } from './websiteAnalyzer.jsx';
 import { translations } from './translations';
 import { getSystemPrompts } from './prompts';
 import LoadingModal from './components/LoadingModal';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import OrderDetails from './components/OrderDetails';
 import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
@@ -23,6 +23,7 @@ export default function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyUrl, setCompanyUrl] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
   const { clientNumber } = useParams();
   const [activity, setActivity] = useState('');
   const [language, setLanguage] = useState('es');
@@ -36,6 +37,13 @@ export default function App() {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
   const maxVideoIdeas = 30;
+
+  // Handle return from cancelled payment
+  useEffect(() => {
+    if (location.state?.returnToOrder && videoScripts.length > 0) {
+      setShowOrder(true);
+    }
+  }, [location.state]);
   
   // Update document metadata when share data loads
   useEffect(() => {

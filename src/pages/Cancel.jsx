@@ -1,9 +1,14 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 function Cancel() {
   const navigate = useNavigate();
+
+  const handleReturn = () => {
+    // Navigate to the root path but preserve the state
+    navigate('/', { replace: true, state: { returnToOrder: true } });
+  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
@@ -25,7 +30,7 @@ function Cancel() {
             
             <div className="flex flex-col gap-4">
               <button
-                onClick={() => navigate(-1)}
+                onClick={handleReturn}
                 className="w-full bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium text-center"
               >
                 Return to Order
