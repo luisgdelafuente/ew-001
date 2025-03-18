@@ -1,7 +1,7 @@
 import React from 'react';
 import { translations } from '../translations';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { createCheckoutSession, redirectToCheckout } from '../lib/stripe';
+import { createCheckoutSession, redirectToCheckout } from '../lib/stripe'; 
 
 const formatPrice = (price, locale = 'es-ES') => {
   return new Intl.NumberFormat(locale, {
@@ -32,19 +32,7 @@ const OrderDetails = ({ selectedVideos, onBack, language, companyName }) => {
       if (!sessionId) {
         throw new Error('No session ID returned');
       }
-      // Open in new tab
-      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-      const { error } = await stripe.redirectToCheckout({
-        sessionId,
-        mode: 'payment',
-        billingAddressCollection: 'auto',
-        submitType: 'pay',
-        locale: 'auto'
-      });
-      
-      if (error) {
-        throw error;
-      }
+      await redirectToCheckout(sessionId);
     } catch (error) {
       console.error('Payment error:', error);
       alert(error.message || t.errors.paymentFailed);
