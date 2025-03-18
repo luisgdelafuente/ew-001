@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 function Cancel() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden font-montreal flex flex-col">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
@@ -22,9 +24,12 @@ function Cancel() {
             <p className="text-gray-300 text-center mb-6">Your payment was cancelled. No charges were made.</p>
             
             <div className="flex flex-col gap-4">
-              <Link to="/" className="block w-full bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium text-center">
-                Return to Home
-              </Link>
+              <button
+                onClick={() => navigate(-1)}
+                className="w-full bg-[#7B7EF4] text-white py-3 px-4 rounded-xl hover:bg-[#6B6EE4] focus:outline-none focus:ring-2 focus:ring-[#7B7EF4] focus:ring-offset-2 focus:ring-offset-black transition-colors font-medium text-center"
+              >
+                Return to Order
+              </button>
             </div>
           </div>
         </div>
