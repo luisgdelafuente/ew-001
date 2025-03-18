@@ -316,7 +316,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-8">
                 {t.landing.hero.title}
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-300 text-center mb-12 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl sm:text-2xl text-gray-300 text-center mb-12 max-w-3xl mx-auto leading-relaxed" data-testid="hero-subtitle">
                 {t.landing.hero.subtitle}
               </p>
 
