@@ -299,7 +299,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
       <BackgroundIcons />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"></div>
       
-      <div className="relative z-10 flex-1">
+      <div className="relative z-10 flex-1 pt-16 sm:pt-20 pb-12 sm:pb-16">
         <Header language={language} setLanguage={setLanguage} />
         
         <div className="container mx-auto px-4 py-8 md:py-12 max-w-5xl">
@@ -323,7 +323,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         type="text"
                         value={companyUrl}
                         onChange={handleUrlChange}
-                        className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors"
+                        className="flex-1 px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors text-sm sm:text-base"
                         placeholder={t.websiteUrl.placeholder}
                       />
                       <button
