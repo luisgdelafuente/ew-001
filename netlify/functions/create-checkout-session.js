@@ -31,15 +31,15 @@ export const handler = async (event) => {
     const lineItems = [{
       price_data: {
         currency: 'eur',
+        unit_amount: Math.round(total / videos.length), // Round to avoid floating point issues
         product_data: {
           name: `Video Package - ${videos.length} Videos`,
           description: `Complete video package for ${companyName}\n\nIncludes:\n${videos.map(v => `- ${v.title}`).join('\n')}`,
           metadata: {
             videoCount: videos.length.toString(),
-            videos: JSON.stringify(videos.map(v => v.id))
+            videos: videos.map(v => v.id).join(',') // Simplify metadata to avoid potential size issues
           }
-        },
-        unit_amount: total / videos.length, // Distribute total amount across videos
+        }
       },
       quantity: videos.length,
     }];
@@ -47,14 +47,11 @@ export const handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
-      mode: 'payment', 
-      payment_intent_data: {
-        setup_future_usage: null
-      },
-      success_url: `${process.env.URL || event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.URL || event.headers.host}/cancel`,
+      mode: 'payment',
+      success_url: `${event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${event.headers.host}/cancel`,
       metadata: {
-        companyName,
+        companyName: companyName || ''
       }
     });
 
@@ -66,7 +63,10 @@ export const handler = async (event) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to create checkout session' })
+      body: JSON.stringify({ 
+        error: 'Failed to create checkout session',
+        details: error.message 
+      })
     };
   }
 };

@@ -8,6 +8,7 @@ export const createCheckoutSession = async (selectedVideos, companyName) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Origin': window.location.origin
       },
       body: JSON.stringify({
         videos: selectedVideos,
