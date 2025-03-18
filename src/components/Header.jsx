@@ -16,7 +16,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/20 backdrop-blur-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 max-w-5xl">
         <div className="h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             {showBackButton && (
@@ -50,7 +50,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-white/5 border-white/10 rounded-lg text-xs sm:text-sm font-medium text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors cursor-pointer hover:bg-white/10 py-1.5 sm:py-2"
+              className="bg-white/5 border-white/10 rounded-lg text-xs sm:text-sm font-medium text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors cursor-pointer hover:bg-white/10 py-1.5 px-2 sm:px-3"
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
             >
               {LANGUAGES.map(({ code, name }) => (
