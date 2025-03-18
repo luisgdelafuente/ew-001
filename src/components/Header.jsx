@@ -15,9 +15,9 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
   const t = translations[language];
 
   return (
-    <header className="relative z-20 border-b border-white/10 bg-black/20 backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/20 backdrop-blur-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-20 flex items-center justify-between">
+        <div className="h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             {showBackButton && (
               <button
@@ -31,15 +31,16 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
               </button>
             )}
             <a 
-              href="https://epicaworks.com"
+              href="https://app.epicaworks.com"
               target="_blank"
               rel="noopener noreferrer" 
               className="flex items-center"
+              aria-label="Epica Works Homepage"
             >
               <img 
                 src="https://epicaworks.com/es/wp-content/uploads/sites/7/2025/03/epica-logo-280px.png" 
                 alt="Epica Logo" 
-                className="h-10"
+                className="h-10 sm:h-12"
                 style={{ maxWidth: '160px', objectFit: 'contain' }}
               />
             </a>
@@ -49,7 +50,7 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-white/5 border-white/10 rounded-lg text-sm font-medium text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors cursor-pointer hover:bg-white/10"
+              className="bg-white/5 border-white/10 rounded-lg text-xs sm:text-sm font-medium text-white focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors cursor-pointer hover:bg-white/10 py-1.5 sm:py-2"
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
             >
               {LANGUAGES.map(({ code, name }) => (
@@ -58,12 +59,6 @@ function Header({ showBackButton = false, onBack, language, setLanguage }) {
                 </option>
               ))}
             </select>
-            <a 
-              href="mailto:hello@epicaworks.com"
-              className="bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium border border-white/10"
-            >
-              {t.header.contact}
-            </a>
           </div>
         </div>
       </div>

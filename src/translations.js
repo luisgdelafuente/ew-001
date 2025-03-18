@@ -85,7 +85,7 @@ export const translations = {
       summary: "Resumen del Pedido",
       backButton: "VOLVER A SELECCIONAR",
       downloadButton: "DESCARGAR PEDIDO (TXT)",
-      payButton: "PAGAR ONLINE",
+      payButton: "PAGAR PEDIDO",
       paymentNotAvailable: "Esta opción todavía no está disponible"
     },
     videoTypes: {

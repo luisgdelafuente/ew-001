@@ -10,6 +10,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@supabase/supabase-js": "^2.39.3",
+    "@stripe/stripe-js": "^2.4.0",
     "autoprefixer": "^10.4.17",
     "node-fetch": "^3.3.2",
     "openai": "^4.28.0",
@@ -18,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "stripe": "^14.17.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
