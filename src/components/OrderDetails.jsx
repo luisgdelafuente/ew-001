@@ -32,7 +32,19 @@ const OrderDetails = ({ selectedVideos, onBack, language, companyName }) => {
       if (!sessionId) {
         throw new Error('No session ID returned');
       }
-      await redirectToCheckout(sessionId);
+      // Open in new tab
+      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+      const { error } = await stripe.redirectToCheckout({
+        sessionId,
+        mode: 'payment',
+        billingAddressCollection: 'auto',
+        submitType: 'pay',
+        locale: 'auto'
+      });
+      
+      if (error) {
+        throw error;
+      }
     } catch (error) {
       console.error('Payment error:', error);
       alert(error.message || t.errors.paymentFailed);

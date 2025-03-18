@@ -31,7 +31,13 @@ export const createCheckoutSession = async (selectedVideos, companyName) => {
 export const redirectToCheckout = async (sessionId) => {
   try {
     const stripe = await stripePromise;
-    const { error } = await stripe.redirectToCheckout({ sessionId });
+    const { error } = await stripe.redirectToCheckout({ 
+      sessionId,
+      mode: 'payment',
+      billingAddressCollection: 'auto',
+      submitType: 'pay',
+      locale: 'auto'
+    });
     
     if (error) {
       throw error;
