@@ -1,7 +1,7 @@
 import React from 'react';
 import { translations } from '../translations';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { createCheckoutSession, redirectToCheckout } from '../lib/stripe'; 
+import { createCheckoutSession, redirectToCheckout } from '../lib/stripe';
 
 const formatPrice = (price, locale = 'es-ES') => {
   return new Intl.NumberFormat(locale, {
