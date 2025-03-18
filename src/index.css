@@ -65,3 +65,11 @@
 .font-montreal {
   font-family: 'Neue Montreal', sans-serif;
 }
+
+.analyze-button {
+  @apply w-40 bg-[#7B7EF4] text-white h-14 px-6 rounded-lg hover:bg-[#6B6EE4] transition-colors font-medium flex items-center justify-center gap-3 whitespace-nowrap uppercase;
+}
+
+.back-home-button {
+  @apply flex-1 bg-[#5b9fd8] text-white h-14 px-4 rounded-lg hover:bg-[#4a8fc8] transition-colors font-medium flex items-center justify-center gap-2 whitespace-nowrap uppercase;
+}
