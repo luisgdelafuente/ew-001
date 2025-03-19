@@ -516,7 +516,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         <button
                           onClick={() => setShowOrder(true)}
                           disabled={selectedVideos.length === 0}
-                          className="flex-1 bg-[#b1c752] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#a0b641] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="flex-1 bg-[#b1c752] text-white h-16 px-3 py-4 rounded-lg hover:bg-[#a0b641] transition-colors flex items-center justify-center gap-1 disabled:opacity-50"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
