@@ -26,6 +26,35 @@ const OrderDetails = ({ selectedVideos, onBack, language, companyName }) => {
   const discountAmount = (subtotal * discount) / 100;
   const total = subtotal - discountAmount;
 
+  const handleSaveOrder = async () => {
+    try {
+      const orderDetails = {
+        basePrice,
+        total,
+        discountAmount
+      };
+      
+      const clientNumber = await createPurchaseOrder(
+        companyName,
+        selectedVideos,
+        selectedVideos,
+        activity,
+        orderDetails
+      );
+      
+      if (!clientNumber) {
+        throw new Error('No client number returned');
+      }
+      
+      const shareUrl = `${window.location.origin}/${clientNumber}`;
+      await navigator.clipboard.writeText(shareUrl);
+      alert(t.sharing.copied);
+    } catch (error) {
+      console.error('Error saving order:', error);
+      alert(error.message || t.sharing.copyError);
+    }
+  };
+
   const handlePayment = async () => {
     try {
       const sessionId = await createCheckoutSession(selectedVideos, companyName);
@@ -137,16 +166,30 @@ const OrderDetails = ({ selectedVideos, onBack, language, companyName }) => {
             </svg>
             {t.order.backButton}
           </button>
-
-          <button
-            onClick={handleDownload}
-            className="flex-1 bg-[#7b7ef4] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#6a6de3] transition-colors flex items-center justify-center gap-2"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-            </svg>
-            {t.order.downloadButton}
-          </button>
+          
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button
+                  onClick={handleSaveOrder}
+                  className="flex-1 bg-[#7b7ef4] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#6a6de3] transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                  </svg>
+                  {t.order.saveButton}
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content 
+                  className="relative z-50 bg-black/90 text-white px-3 py-2 rounded-lg text-sm"
+                  sideOffset={5}>
+                  {t.sharing.shareTooltip}
+                  <Tooltip.Arrow className="fill-black/90" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
 
           <button
             onClick={handlePayment}

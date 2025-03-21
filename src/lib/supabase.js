@@ -13,6 +13,67 @@ function generateClientNumber() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+export async function createPurchaseOrder(companyName, videos, selectedVideos, activity, orderDetails) {
+  if (!companyName || !selectedVideos?.length) {
+    throw new Error('Missing required parameters');
+  }
+
+  try {
+    let clientNumber;
+    let attempts = 0;
+    const maxAttempts = 5;
+
+    while (attempts < maxAttempts) {
+      clientNumber = generateClientNumber();
+      
+      const { data: existing } = await supabase
+        .from('video_shares')
+        .select('id')
+        .eq('id', clientNumber)
+        .maybeSingle();
+
+      if (!existing) {
+        break;
+      }
+      
+      attempts++;
+    }
+
+    if (attempts >= maxAttempts) {
+      throw new Error('Could not generate unique client number');
+    }
+
+    const shareTitle = `Pedido de videos para ${companyName}`;
+    const shareDescription = `Pedido de ${selectedVideos.length} videos para ${companyName}. ${activity || ''}`.trim();
+
+    const { error } = await supabase
+      .from('video_shares')
+      .insert({
+        id: clientNumber,
+        company_name: companyName,
+        videos: videos,
+        selected_videos: selectedVideos,
+        activity: activity,
+        share_title: shareTitle,
+        share_description: shareDescription,
+        type: 'order',
+        total_amount: orderDetails.total,
+        discount_amount: orderDetails.discountAmount,
+        base_price: orderDetails.basePrice
+      });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw new Error('Failed to create purchase order');
+    }
+
+    return clientNumber;
+  } catch (error) {
+    console.error('Error creating purchase order:', error);
+    throw error;
+  }
+}
+
 export async function createShare(companyName, videos, selectedVideos, activity) {
   if (!companyName || !videos) {
     throw new Error('Missing required parameters');
@@ -56,7 +117,8 @@ export async function createShare(companyName, videos, selectedVideos, activity)
         selected_videos: selectedVideos || [],
         activity: activity,
         share_title: shareTitle,
-        share_description: shareDescription
+        share_description: shareDescription,
+        type: 'proposal'
       });
 
     if (error) {
