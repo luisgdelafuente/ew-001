@@ -16,8 +16,7 @@ export const createCheckoutSession = async (selectedVideos, companyName) => {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Error creating checkout session');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const { id: sessionId } = await response.json();
@@ -34,7 +33,7 @@ export const redirectToCheckout = async (sessionId) => {
     const { error } = await stripe.redirectToCheckout({ sessionId });
     
     if (error) {
-      throw error;
+      throw new Error(error.message || 'Error redirecting to checkout');
     }
   } catch (error) {
     console.error('Error redirecting to checkout:', error);
