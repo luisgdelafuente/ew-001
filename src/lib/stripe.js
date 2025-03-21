@@ -4,7 +4,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export const createCheckoutSession = async (selectedVideos, companyName) => {
   try {
-    const response = await fetch('/.netlify/functions/create-checkout-session', {
+    const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -16,8 +16,7 @@ export const createCheckoutSession = async (selectedVideos, companyName) => {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Error creating checkout session');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const { id: sessionId } = await response.json();
@@ -34,7 +33,7 @@ export const redirectToCheckout = async (sessionId) => {
     const { error } = await stripe.redirectToCheckout({ sessionId });
     
     if (error) {
-      throw error;
+      throw new Error(error.message || 'Error redirecting to checkout');
     }
   } catch (error) {
     console.error('Error redirecting to checkout:', error);

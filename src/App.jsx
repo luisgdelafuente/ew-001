@@ -331,7 +331,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         type="text"
                         value={companyUrl}
                         onChange={handleUrlChange}
-                        className="flex-1 h-14 px-6 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors text-sm sm:text-base"
+                        className="flex-1 h-16 px-6 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-[#7B7EF4] focus:ring-1 focus:ring-[#7B7EF4] transition-colors text-sm sm:text-base"
                         placeholder={t.websiteUrl.placeholder}
                       />
                       <button

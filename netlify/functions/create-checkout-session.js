@@ -3,8 +3,28 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const handler = async (event) => {
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { 
+      statusCode: 405, 
+      headers,
+      body: JSON.stringify({ error: 'Method Not Allowed' })
+    };
   }
 
   try {
@@ -13,6 +33,7 @@ export const handler = async (event) => {
     if (!videos?.length) {
       return {
         statusCode: 400,
+        headers,
         body: JSON.stringify({ error: 'No videos selected' })
       };
     }
@@ -53,21 +74,24 @@ export const handler = async (event) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.URL || event.headers.host}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.URL || event.headers.host}/cancel`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       metadata: {
         companyName,
+        videoCount: videos.length.toString()
       },
     });
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ id: session.id })
     };
   } catch (error) {
     console.error('Error:', error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: 'Failed to create checkout session' })
     };
   }
