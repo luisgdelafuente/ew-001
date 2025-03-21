@@ -4,7 +4,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export const createCheckoutSession = async (selectedVideos, companyName) => {
   try {
-    const response = await fetch('/api/create-checkout-session', {
+    const response = await fetch('/.netlify/functions/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

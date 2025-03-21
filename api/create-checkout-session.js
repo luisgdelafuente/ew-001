@@ -2,51 +2,97 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+export const handler = async (event) => {
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return { 
+      statusCode: 405, 
+      headers,
+      body: JSON.stringify({ error: 'Method Not Allowed' })
+    };
   }
 
   try {
-    const { videos, companyName } = req.body;
+    const { videos, companyName } = JSON.parse(event.body);
     
-    if (!videos || !videos.length) {
-      return res.status(400).json({ error: 'No videos selected' });
+    if (!videos?.length) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'No videos selected' })
+      };
     }
 
-    // Create line items for Stripe
-    const lineItems = videos.map(video => ({
+    // Calculate discount based on number of videos
+    const getDiscount = (count) => {
+      if (count <= 1) return 0;
+      if (count === 2) return 10;
+      if (count === 3) return 20;
+      if (count === 4) return 30;
+      return 40;
+    };
+
+    const basePrice = 9900; // 99 EUR in cents
+    const discount = getDiscount(videos.length);
+    const subtotal = basePrice * videos.length;
+    const discountAmount = Math.round((subtotal * discount) / 100);
+    const total = subtotal - discountAmount;
+
+    // Create a single line item with all videos included
+    const lineItems = [{
       price_data: {
         currency: 'eur',
         product_data: {
-          name: video.title,
-          description: `${video.duration}s video - ${video.type === 'direct' ? 'Direct focus' : 'Indirect focus'}`,
+          name: `Video Package - ${videos.length} Videos`,
+          description: `Complete video package for ${companyName}\n\nIncludes:\n${videos.map(v => `- ${v.title}`).join('\n')}`,
           metadata: {
-            videoId: video.id,
-            duration: video.duration,
-            type: video.type
-          },
+            videoCount: videos.length.toString(),
+            videos: JSON.stringify(videos.map(v => v.id))
+          }
         },
-        unit_amount: 9900, // 99 EUR in cents
+        unit_amount: total / videos.length, // Distribute total amount across videos
       },
-      quantity: 1,
-    }));
+      quantity: videos.length,
+    }];
 
-    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin}/cancel`,
+      success_url: `${process.env.URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.URL || 'http://localhost:5173'}/cancel`,
       metadata: {
         companyName,
+        videoCount: videos.length.toString()
       },
     });
 
-    res.status(200).json({ id: session.id });
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ id: session.id })
+    };
   } catch (error) {
-    console.error('Error creating checkout session:', error);
-    res.status(500).json({ error: 'Failed to create checkout session' });
+    console.error('Error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Failed to create checkout session' })
+    };
   }
-}
+};
