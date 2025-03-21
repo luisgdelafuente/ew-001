@@ -84,7 +84,7 @@ export const translations = {
       selectedVideos: "Videos Seleccionados",
       summary: "Resumen del Pedido",
       backButton: "VOLVER A SELECCIONAR",
-      saveButton: "GUARDAR PEDIDO",
+      downloadButton: "DESCARGAR PEDIDO (TXT)",
       payButton: "PAGAR PEDIDO",
       paymentNotAvailable: "Esta opción todavía no está disponible"
     },
@@ -202,7 +202,7 @@ export const translations = {
       selectedVideos: "Selected Videos",
       summary: "Order Summary",
       backButton: "BACK TO SELECTION",
-      saveButton: "SAVE ORDER",
+      downloadButton: "DOWNLOAD ORDER (TXT)",
       payButton: "PAY ORDER",
       paymentNotAvailable: "This option is not available yet"
     },
