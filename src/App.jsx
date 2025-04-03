@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { createShare, getShare } from './lib/supabase';
+import { roundDuration } from './utils/duration';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -270,7 +271,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
             id: `video-${Date.now()}-${index}`,
             title: script.title?.trim(),
             description: script.description?.trim(),
-            duration: Math.min(Math.max(script.duration || 30, 20), 60),
+            duration: roundDuration(script.duration || 30),
             type: ['direct', 'indirect'].includes(script.type) ? script.type : 'direct'
           }))
           .filter(script => script.title && script.description);
@@ -452,13 +453,13 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                       </div>
 
                       <div className="flex flex-col sm:flex-row justify-stretch gap-3 mt-8 w-full">
-                        <button
-                          onClick={() => {
+                        <button 
+                          onClick={() => { 
                             setVideoScripts([]);
                             setSelectedVideos([]);
                             navigate('/');
                           }}
-                          className="flex-1 bg-[#5b9fd8] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#4a8fc8] transition-colors flex items-center justify-center gap-2 whitespace-nowrap uppercase"
+                          className="w-full sm:w-1/4 bg-[#5b9fd8] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#4a8fc8] transition-colors flex items-center justify-center gap-2 whitespace-nowrap uppercase"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -469,7 +470,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         <button
                           onClick={() => getVideoScripts(companyName, activity)}
                           disabled={loading || videoScripts.length >= maxVideoIdeas || !activity}
-                          className="flex-1 bg-[#7B7EF4] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#6B6EE4] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                          className="w-full sm:w-1/4 bg-[#7B7EF4] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#6B6EE4] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {loading ? (
                             <>
@@ -494,7 +495,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                             <Tooltip.Trigger asChild>
                               <button
                                 onClick={shareResults}
-                                className="flex-1 bg-[#c83d89] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#b73580] transition-colors flex items-center justify-center gap-2"
+                                className="w-full sm:w-1/4 bg-[#c83d89] text-white h-16 px-8 py-4 rounded-lg hover:bg-[#b73580] transition-colors flex items-center justify-center gap-2"
                               >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
@@ -516,7 +517,7 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                         <button
                           onClick={() => setShowOrder(true)}
                           disabled={selectedVideos.length === 0}
-                          className="flex-1 bg-[#b1c752] text-white h-16 px-3 py-4 rounded-lg hover:bg-[#a0b641] transition-colors flex items-center justify-center gap-1 disabled:opacity-50"
+                          className="w-full sm:w-1/4 bg-[#b1c752] text-white h-16 px-3 py-4 rounded-lg hover:bg-[#a0b641] transition-colors flex items-center justify-center gap-1 disabled:opacity-50"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>

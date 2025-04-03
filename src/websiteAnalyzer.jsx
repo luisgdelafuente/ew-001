@@ -57,9 +57,7 @@ export class WebsiteAnalyzer {
     const urlVariants = this.generateUrlVariants(formattedUrl);
     const corsProxies = [
       'https://proxy.cors.sh/',
-      'https://api.allorigins.win/raw?url=',
       'https://corsproxy.io/?',
-      'https://cors-anywhere.herokuapp.com/',
       'https://api.codetabs.com/v1/proxy?quest='
     ];
 
