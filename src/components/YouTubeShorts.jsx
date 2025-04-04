@@ -146,8 +146,8 @@ const YouTubeShorts = ({ language = 'es' }) => {
           ))}
         </div>
         
-        {/* Mobile view - Grid instead of horizontal scroll */}
-        <div className="md:hidden grid grid-cols-2 gap-3">
+        {/* Mobile view - Single column grid without text */}
+        <div className="md:hidden grid grid-cols-1 gap-4">
           {shorts.map(short => (
             <a 
               key={short.id}
@@ -157,20 +157,12 @@ const YouTubeShorts = ({ language = 'es' }) => {
               className="relative aspect-video rounded-xl overflow-hidden bg-black/20"
             >
               <img 
-                src={short.thumbnail} 
+                src={short.thumbnail}
+
                 alt={short.title}
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-2">
-                <p className="text-white text-xs font-medium line-clamp-1">{short.title}</p>
-                <div className="flex items-center mt-1 space-x-1">
-                  <svg className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                  </svg>
-                  <span className="text-xs text-white/80">{t.watchOn}</span>
-                </div>
-              </div>
             </a>
           ))}
         </div>
