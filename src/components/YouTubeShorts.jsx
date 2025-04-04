@@ -8,14 +8,14 @@ const YouTubeShorts = ({ language = 'es' }) => {
   // Translations for the section
   const translations = {
     es: {
-      title: "Últimos Vídeos",
+      title: "ÚLTIMAS ENTREGAS",
       error: "No se pudieron cargar los vídeos",
       loading: "Cargando vídeos...",
       watchOn: "Ver en YouTube",
       configError: "Configuración de YouTube incompleta"
     },
     en: {
-      title: "Latest Videos",
+      title: "LATEST DELIVERIES",
       error: "Could not load videos",
       loading: "Loading videos...",
       watchOn: "Watch on YouTube",
@@ -84,13 +84,15 @@ const YouTubeShorts = ({ language = 'es' }) => {
 
   if (loading) {
     return (
-      <div className="w-full flex items-center justify-center py-10">
-        <div className="flex items-center space-x-2">
-          <svg className="animate-spin h-5 w-5 text-[#7B7EF4]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span className="text-white">{t.loading}</span>
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-8 mt-16">
+        <div className="w-full flex items-center justify-center py-10">
+          <div className="flex items-center space-x-2">
+            <svg className="animate-spin h-5 w-5 text-[#7B7EF4]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span className="text-white">{t.loading}</span>
+          </div>
         </div>
       </div>
     );
@@ -98,8 +100,10 @@ const YouTubeShorts = ({ language = 'es' }) => {
 
   if (error) {
     return (
-      <div className="w-full text-center py-10">
-        <p className="text-red-400">{t.error}: {error}</p>
+      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-8 mt-16">
+        <div className="w-full text-center py-10">
+          <p className="text-red-400">{t.error}: {error}</p>
+        </div>
       </div>
     );
   }
@@ -109,8 +113,8 @@ const YouTubeShorts = ({ language = 'es' }) => {
   }
 
   return (
-    <div className="w-full py-8 md:py-12">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">{t.title}</h2>
+    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-8 mt-16">
+      <h2 className="text-xl sm:text-2xl font-medium text-center mb-6">{t.title}</h2>
       
       <div className="relative">
         {/* Desktop view - Grid */}
@@ -142,15 +146,15 @@ const YouTubeShorts = ({ language = 'es' }) => {
           ))}
         </div>
         
-        {/* Mobile view - Horizontal scroll */}
-        <div className="md:hidden flex overflow-x-auto space-x-4 pb-4 snap-x snap-mandatory">
+        {/* Mobile view - Grid instead of horizontal scroll */}
+        <div className="md:hidden grid grid-cols-2 gap-3">
           {shorts.map(short => (
             <a 
               key={short.id}
               href={`https://www.youtube.com/watch?v=${short.id}`}
               target="_blank"
               rel="nofollow noopener noreferrer"
-              className="snap-start flex-shrink-0 w-48 relative aspect-video rounded-xl overflow-hidden bg-black/20"
+              className="relative aspect-video rounded-xl overflow-hidden bg-black/20"
             >
               <img 
                 src={short.thumbnail} 
@@ -158,10 +162,10 @@ const YouTubeShorts = ({ language = 'es' }) => {
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-3">
-                <p className="text-white text-sm font-medium line-clamp-2">{short.title}</p>
-                <div className="flex items-center mt-2 space-x-1">
-                  <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-2">
+                <p className="text-white text-xs font-medium line-clamp-1">{short.title}</p>
+                <div className="flex items-center mt-1 space-x-1">
+                  <svg className="w-3 h-3 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                   </svg>
                   <span className="text-xs text-white/80">{t.watchOn}</span>
