@@ -10,6 +10,7 @@ import BackgroundIcons from './components/BackgroundIcons';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { VideoIcon, LanguageIcon, ContentIcon } from './components/FeatureIcons';
+import YouTubeShorts from './components/YouTubeShorts';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { createShare, getShare } from './lib/supabase';
 import { roundDuration } from './utils/duration';
@@ -375,6 +376,9 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                   </div>
                 ))}
               </div>
+              
+              {/* YouTube Shorts Section - Now placed below the features */}
+              <YouTubeShorts language={language} />
             </>
           ) : (
             <>
