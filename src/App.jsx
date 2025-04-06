@@ -376,9 +376,6 @@ Return array of exactly ${videoCount} objects. Mix direct/indirect focus.`
                   </div>
                 ))}
               </div>
-              
-              {/* YouTube Shorts Section - Now placed below the features */}
-              <YouTubeShorts language={language} />
             </>
           ) : (
             <>
