@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ children, requiredRole }) => {
+const ProtectedRoute = ({ children, requiredRole = null }) => {
   const { user, loading, hasRole } = useAuth();
   const location = useLocation();
 
@@ -14,13 +14,11 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     );
   }
 
-  // If user is not authenticated, redirect to login
   if (!user) {
     return <Navigate to="/admin/login" state={{ from: location }} replace />;
   }
 
-  // If a role is required but the user doesn't have it
-  if (requiredRole && !hasRole(requiredRole)) {
+  if (requiredRole && typeof hasRole === 'function' && !hasRole(requiredRole)) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center">
         <h1 className="text-2xl font-bold text-red-500 mb-4">Access Denied</h1>

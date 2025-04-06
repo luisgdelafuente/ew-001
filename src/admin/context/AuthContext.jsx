@@ -12,11 +12,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Debug logging function
-  const logDebug = (message, data = {}) => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`[Auth Debug] ${message}`, data);
-    }
+  const logDebug = (message, data) => {
+    console.log(`[Auth Debug] ${message}:`, data);
   };
 
   // Error logging function
@@ -72,28 +69,25 @@ export const AuthProvider = ({ children }) => {
     const getSession = async () => {
       setLoading(true);
       try {
-        logDebug('Fetching session');
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) throw error;
         
         if (session?.user) {
-          logDebug('Session found', { userId: session.user.id });
           setSession(session);
           setUser(session.user);
           
           // Ensure user exists and get role
           const userData = await ensureUserExists(session.user);
           setUserRole(userData.role);
-          logDebug('User data', { user: session.user, role: userData.role });
         } else {
-          logDebug('No session found');
           setSession(null);
           setUser(null);
           setUserRole(null);
         }
       } catch (error) {
-        logError('Error getting session', error);
+        console.error('Error getting session:', error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -101,30 +95,25 @@ export const AuthProvider = ({ children }) => {
     
     getSession();
     
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      logDebug('Auth state changed', { event });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       
       if (session?.user) {
         setSession(session);
         setUser(session.user);
         
-        // Ensure user exists and get role
         const userData = await ensureUserExists(session.user);
         setUserRole(userData.role);
-        logDebug('Auth state user data', { user: session.user, role: userData.role });
       } else {
         setSession(null);
         setUser(null);
         setUserRole(null);
-        logDebug('User signed out');
       }
       
       setLoading(false);
     });
     
     return () => {
-      logDebug('Cleaning up auth listener');
-      authListener?.subscription?.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
   
