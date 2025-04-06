@@ -25,47 +25,72 @@ export const AuthProvider = ({ children }) => {
     setError(error.message || 'An unknown error occurred');
   };
 
+  // Function to ensure user exists in public.users table
+  const ensureUserExists = async (authUser) => {
+    try {
+      logDebug('Ensuring user exists', { userId: authUser.id });
+      
+      // Check if user exists in public.users
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('id, email, role')
+        .eq('id', authUser.id)
+        .maybeSingle();
+
+      if (checkError) throw checkError;
+
+      if (!existingUser) {
+        logDebug('User not found in public.users, creating new record');
+        
+        // Create new user record with default role
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .insert({
+            id: authUser.id,
+            email: authUser.email,
+            role: authUser.email === 'admin@epicaworks.com' ? 'admin' : 'editor',
+            created_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+        
+        logDebug('New user created', { role: newUser.role });
+        return newUser;
+      }
+
+      logDebug('Existing user found', { role: existingUser.role });
+      return existingUser;
+    } catch (error) {
+      logError('Error ensuring user exists', error);
+      return { role: 'editor' }; // Fallback to default role
+    }
+  };
+
   useEffect(() => {
     const getSession = async () => {
       setLoading(true);
       try {
         logDebug('Fetching session');
-        const { data, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
         
-        if (data?.session) {
-          logDebug('Session found', { userId: data.session.user.id });
-          setSession(data.session);
-          setUser(data.session.user);
+        if (session?.user) {
+          logDebug('Session found', { userId: session.user.id });
+          setSession(session);
+          setUser(session.user);
           
-          try {
-            logDebug('Fetching user role', { userId: data.session.user.id });
-            const { data: userData, error: userError } = await supabase
-              .from('users')
-              .select('role')
-              .eq('id', data.session.user.id)
-              .single();
-            
-            if (userError) {
-              throw userError;
-            }
-            
-            if (userData) {
-              logDebug('User role found', { role: userData.role });
-              setUserRole(userData.role);
-            } else {
-              logDebug('No user role found, using default');
-              setUserRole('editor'); // Default fallback
-            }
-          } catch (error) {
-            logError('Error fetching user role', error);
-            setUserRole('editor'); // Default fallback
-          }
+          // Ensure user exists and get role
+          const userData = await ensureUserExists(session.user);
+          setUserRole(userData.role);
+          logDebug('User data', { user: session.user, role: userData.role });
         } else {
           logDebug('No session found');
+          setSession(null);
+          setUser(null);
+          setUserRole(null);
         }
       } catch (error) {
         logError('Error getting session', error);
@@ -78,36 +103,20 @@ export const AuthProvider = ({ children }) => {
     
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       logDebug('Auth state changed', { event });
-      setSession(session);
-      setUser(session?.user ?? null);
       
       if (session?.user) {
-        try {
-          logDebug('Fetching user role after auth change', { userId: session.user.id });
-          const { data: userData, error: userError } = await supabase
-            .from('users')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-          
-          if (userError) {
-            throw userError;
-          }
-          
-          if (userData) {
-            logDebug('User role updated', { role: userData.role });
-            setUserRole(userData.role);
-          } else {
-            logDebug('No user role found after auth change, using default');
-            setUserRole('editor'); // Default fallback
-          }
-        } catch (error) {
-          logError('Error updating user role', error);
-          setUserRole('editor'); // Default fallback
-        }
+        setSession(session);
+        setUser(session.user);
+        
+        // Ensure user exists and get role
+        const userData = await ensureUserExists(session.user);
+        setUserRole(userData.role);
+        logDebug('Auth state user data', { user: session.user, role: userData.role });
       } else {
-        logDebug('Clearing user role');
+        setSession(null);
+        setUser(null);
         setUserRole(null);
+        logDebug('User signed out');
       }
       
       setLoading(false);
@@ -115,9 +124,7 @@ export const AuthProvider = ({ children }) => {
     
     return () => {
       logDebug('Cleaning up auth listener');
-      if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe();
-      }
+      authListener?.subscription?.unsubscribe();
     };
   }, []);
   
@@ -129,11 +136,14 @@ export const AuthProvider = ({ children }) => {
         password
       });
       
-      if (error) {
-        throw error;
+      if (error) throw error;
+      
+      // Ensure user exists in public.users table
+      if (data.user) {
+        const userData = await ensureUserExists(data.user);
+        logDebug('Sign in successful', { user: data.user, role: userData.role });
       }
       
-      logDebug('Sign in successful');
       return data;
     } catch (error) {
       logError('Error signing in', error);
@@ -146,9 +156,7 @@ export const AuthProvider = ({ children }) => {
       logDebug('Attempting sign out');
       const { error } = await supabase.auth.signOut();
       
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
       
       logDebug('Sign out successful');
     } catch (error) {
@@ -158,6 +166,8 @@ export const AuthProvider = ({ children }) => {
   };
   
   const hasRole = (requiredRole) => {
+    logDebug('Checking role', { userRole, requiredRole });
+    
     if (!userRole) return false;
     
     if (requiredRole === 'admin') {
@@ -171,6 +181,7 @@ export const AuthProvider = ({ children }) => {
     return false;
   };
   
+  // Session timeout handling
   useEffect(() => {
     let inactivityTimer;
     

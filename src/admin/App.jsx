@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -14,7 +14,6 @@ import EditArticle from './pages/EditArticle';
 import MediaManager from './pages/MediaManager';
 import UserManager from './pages/UserManager';
 import Settings from './pages/Settings';
-import Analytics from './pages/Analytics';
 
 const AdminApp = () => {
   return (
@@ -22,8 +21,8 @@ const AdminApp = () => {
       <Routes>
         <Route path="login" element={<Login />} />
         
-        <Route 
-          path="/" 
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Layout>
@@ -122,17 +121,6 @@ const AdminApp = () => {
         />
         
         <Route 
-          path="analytics" 
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Analytics />
-              </Layout>
-            </ProtectedRoute>
-          } 
-        />
-        
-        <Route 
           path="settings" 
           element={
             <ProtectedRoute requiredRole="admin">
@@ -144,7 +132,7 @@ const AdminApp = () => {
         />
         
         {/* Redirect to admin dashboard for any other admin routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
       </Routes>
     </AuthProvider>
   );

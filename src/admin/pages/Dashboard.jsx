@@ -2,34 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import {
+  ClockIcon,
   DocumentTextIcon,
   NewspaperIcon,
   PhotoIcon,
-  UsersIcon,
-  ClockIcon,
+  UsersIcon
 } from '@heroicons/react/24/outline';
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -139,45 +117,6 @@ const Dashboard = () => {
 
     fetchDashboardData();
   }, []);
-
-  // Chart data
-  const chartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Page Views',
-        data: [1200, 1900, 3000, 5000, 4000, 6000, 7000],
-        borderColor: 'rgb(79, 70, 229)',
-        backgroundColor: 'rgba(79, 70, 229, 0.1)',
-        tension: 0.4,
-      },
-      {
-        label: 'Unique Visitors',
-        data: [800, 1200, 1800, 3000, 2500, 4000, 4500],
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Website Traffic',
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
 
   if (isLoading) {
     return (
@@ -326,14 +265,7 @@ const Dashboard = () => {
       </div>
       
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Traffic Overview</h2>
-          <div className="h-80">
-            <Line options={chartOptions} data={chartData} />
-          </div>
-        </div>
-        
+      <div className="grid grid-cols-1 gap-5">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
           <div className="p-6">
             <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Recent Activity</h2>

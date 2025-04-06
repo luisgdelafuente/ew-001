@@ -9,7 +9,6 @@ import {
   DocumentTextIcon,
   UsersIcon,
   PhotoIcon,
-  ChartBarIcon,
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
   MoonIcon,
@@ -54,7 +53,6 @@ const Layout = ({ children }) => {
     { name: 'News', href: '/admin/news', icon: NewspaperIcon },
     { name: 'Media', href: '/admin/media', icon: PhotoIcon },
     { name: 'Users', href: '/admin/users', icon: UsersIcon },
-    { name: 'Analytics', href: '/admin/analytics', icon: ChartBarIcon },
     { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
   ];
 
